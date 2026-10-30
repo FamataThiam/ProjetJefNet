@@ -14,4 +14,10 @@ class Domaine extends Model
     {
         return $this->hasMany(Service::class);
     }
+
+    // Un domaine est concerné par plusieurs demandes
+public function demandes(): HasMany
+{
+    return $this->hasMany(DemandeService::class);
+}
 }

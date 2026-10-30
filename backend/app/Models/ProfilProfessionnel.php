@@ -42,9 +42,15 @@ class ProfilProfessionnel extends Model
         return $this->belongsTo(CodeList::class, 'statut_certification_id');
     }
 
-            // Un prestataire propose plusieurs services
+            
         public function services(): HasMany
         {
             return $this->hasMany(Service::class);
+        }
+
+                
+        public function disponibilites(): HasMany
+        {
+            return $this->hasMany(Disponibilite::class);
         }
 }

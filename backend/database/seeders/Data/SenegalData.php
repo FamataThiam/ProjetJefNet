@@ -23,7 +23,7 @@ class SenegalData
         'Badji', 'Camara', 'Touré', 'Niang', 'Mbengue', 'Wade', 'Samb', 'Dieng',
     ];
 
-    // Ville => quartiers / localités
+    
     public const VILLES = [
         'Dakar'       => ['Médina', 'Plateau', 'Parcelles Assainies', 'Liberté 6', 'Sacré-Cœur', 'Ouakam', 'Grand Yoff', 'HLM', 'Point E', 'Almadies'],
         'Pikine'      => ['Thiaroye', 'Guinaw Rails', 'Keur Massar', 'Dalifort'],
@@ -73,7 +73,7 @@ class SenegalData
     }
 
 
-        // Domaine => services possibles : [nom, prix min, prix max, durée en minutes, unité de tarif]
+        
     public const CATALOGUE = [
         'Coiffure & beauté' => [
             ['Tresses africaines', 10000, 25000, 240, 'forfait'],
@@ -133,7 +133,7 @@ class SenegalData
         ],
     ];
 
-    // Retrouve le domaine à partir d'un titre, ex : "Tresseuse" → "Coiffure & beauté"
+
     public static function domaineDuTitre(string $titre): ?string
     {
         foreach (self::METIERS as $domaine => $paires) {
@@ -145,4 +145,66 @@ class SenegalData
         }
         return null;
     }
+
+
+        // Coordonnées GPS approximatives du centre de chaque quartier [latitude, longitude]
+    public const COORDONNEES = [
+        'Médina' => [14.6837, -17.4467], 'Plateau' => [14.6680, -17.4320], 'Parcelles Assainies' => [14.7639, -17.4417],
+        'Liberté 6' => [14.7270, -17.4600], 'Sacré-Cœur' => [14.7205, -17.4690], 'Ouakam' => [14.7240, -17.4900],
+        'Grand Yoff' => [14.7420, -17.4520], 'HLM' => [14.7110, -17.4450], 'Point E' => [14.6950, -17.4640],
+        'Almadies' => [14.7440, -17.5150],
+        'Thiaroye' => [14.7470, -17.3800], 'Guinaw Rails' => [14.7420, -17.4000], 'Keur Massar' => [14.7830, -17.3150], 'Dalifort' => [14.7330, -17.4180],
+        'Golf Sud' => [14.7760, -17.3900], 'Sam Notaire' => [14.7880, -17.3980], 'Wakhinane' => [14.7800, -17.4050],
+        'Keur Ndiaye Lô' => [14.7350, -17.2600], 'Diokoul' => [14.7160, -17.2780], 'Bargny' => [14.6960, -17.2280],
+        'Thiès Nord' => [14.8000, -16.9300], 'Randoulène' => [14.7850, -16.9200], 'Médina Fall' => [14.7950, -16.9400],
+        'Sor' => [16.0270, -16.4950], 'Guet Ndar' => [16.0280, -16.5110], 'Ndar Toute' => [16.0350, -16.5050],
+        'Darou Marnane' => [14.8650, -15.8800], 'Ndamatou' => [14.8600, -15.8700], 'Gouye Mbind' => [14.8550, -15.8850],
+        'Médina Baye' => [14.1550, -16.0850], 'Kasnack' => [14.1450, -16.0750], 'Léona' => [14.1400, -16.0700],
+        'Saly' => [14.4470, -17.0130], 'Grand Mbour' => [14.4170, -16.9650], 'Tefess' => [14.4230, -16.9700],
+        'Boucotte' => [12.5750, -16.2750], 'Lyndiane' => [12.5600, -16.2600], 'Tilène' => [12.5800, -16.2700],
+    ];
+
+ 
+    public const DEMANDES = [
+        'Coiffure & beauté' => [
+            ['Tresses pour un baptême samedi', 'Je cherche une tresseuse disponible à domicile ce week-end pour des tresses longues.'],
+            ['Maquillage pour un mariage', 'Maquillage de la mariée et de deux demoiselles d\'honneur, le matin de la cérémonie.'],
+        ],
+        'Plomberie' => [
+            ['Fuite d\'eau sous l\'évier', 'L\'eau coule sous l\'évier de la cuisine depuis ce matin, intervention urgente souhaitée.'],
+            ['Chauffe-eau en panne', 'Le chauffe-eau ne chauffe plus, il faut le réparer ou le remplacer.'],
+        ],
+        'Électricité' => [
+            ['Coupure de courant dans une chambre', 'Plus d\'électricité dans une chambre, le disjoncteur saute dès qu\'on rallume.'],
+            ['Installation de deux climatiseurs', 'Achat de deux climatiseurs, besoin d\'un professionnel pour l\'installation.'],
+        ],
+        'Couture' => [
+            ['Tenues de Tabaski pour la famille', 'Confection de quatre tenues (deux adultes, deux enfants), tissu déjà acheté.'],
+            ['Retouches de pantalons', 'Trois pantalons à raccourcir et un boubou à ajuster.'],
+        ],
+        'Peinture' => [
+            ['Repeindre un salon', 'Salon d\'environ 25 m² à repeindre, murs et plafond.'],
+            ['Peinture de la façade', 'Façade de la maison à rafraîchir avant la saison des pluies.'],
+        ],
+        'Menuiserie' => [
+            ['Porte qui ferme mal', 'La porte d\'entrée frotte et ne ferme plus correctement.'],
+            ['Placard pour une chambre', 'Fabrication d\'un placard deux portes sur mesure.'],
+        ],
+        'Ménage' => [
+            ['Grand ménage avant un événement', 'Nettoyage complet de la maison avant une cérémonie familiale.'],
+            ['Repassage chaque semaine', 'Recherche d\'une personne pour le repassage une fois par semaine.'],
+        ],
+        'Traiteur' => [
+            ['Repas pour un baptême (50 personnes)', 'Thiéboudienne et yassa pour environ 50 invités.'],
+            ['Buffet pour une fête d\'anniversaire', 'Buffet salé et sucré pour 30 personnes, samedi soir.'],
+        ],
+        'Maçonnerie' => [
+            ['Carrelage d\'une cuisine', 'Pose de carrelage au sol, environ 12 m², carreaux déjà achetés.'],
+            ['Réparation d\'un mur fissuré', 'Un mur extérieur présente des fissures, besoin d\'un diagnostic et d\'une réparation.'],
+        ],
+        'Mécanique' => [
+            ['Voiture qui ne démarre plus', 'La voiture ne démarre plus depuis hier, mécanicien à domicile souhaité.'],
+            ['Vidange et révision', 'Vidange et contrôle général d\'une voiture avant un long trajet.'],
+        ],
+    ];
 }
