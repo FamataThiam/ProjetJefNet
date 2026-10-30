@@ -89,4 +89,9 @@ class Reservation extends Model
             {
                 return $this->hasOne(Avis::class);
             }
+
+            public function paiements(): HasMany
+        {
+            return $this->hasMany(Paiement::class);
+        }
 }
