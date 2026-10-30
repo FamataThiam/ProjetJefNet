@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         DomaineSeeder::class,
         UserSeeder::class,
         PrestataireSeeder::class,
+        ServiceSeeder::class,
     ]);
 }
 }

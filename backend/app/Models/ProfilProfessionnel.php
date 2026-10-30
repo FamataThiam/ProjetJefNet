@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProfilProfessionnel extends Model
 {
@@ -40,4 +41,10 @@ class ProfilProfessionnel extends Model
     {
         return $this->belongsTo(CodeList::class, 'statut_certification_id');
     }
+
+            // Un prestataire propose plusieurs services
+        public function services(): HasMany
+        {
+            return $this->hasMany(Service::class);
+        }
 }

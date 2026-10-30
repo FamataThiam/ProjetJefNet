@@ -24,7 +24,7 @@ class DomaineSeeder extends Seeder
         ];
 
         foreach ($domaines as $libelle => $description) {
-            // "Coiffure & beauté" → "coiffure.jpg", "Électricité" → "electricite.jpg"
+            
             $fichier = Str::slug(explode(' ', $libelle)[0]) . '.jpg';
 
             Domaine::updateOrCreate(

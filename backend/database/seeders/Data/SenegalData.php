@@ -71,4 +71,78 @@ class SenegalData
         $paire = self::METIERS[$domaine][array_rand(self::METIERS[$domaine])];
         return $genre === 'femme' ? $paire[1] : $paire[0];
     }
+
+
+        // Domaine => services possibles : [nom, prix min, prix max, durée en minutes, unité de tarif]
+    public const CATALOGUE = [
+        'Coiffure & beauté' => [
+            ['Tresses africaines', 10000, 25000, 240, 'forfait'],
+            ['Nattes simples', 3000, 7000, 90, 'forfait'],
+            ['Coiffure de mariage', 25000, 60000, 180, 'forfait'],
+            ['Maquillage de cérémonie', 15000, 35000, 90, 'forfait'],
+            ['Pose d\'ongles', 5000, 12000, 60, 'forfait'],
+        ],
+        'Plomberie' => [
+            ['Réparation de fuite', 5000, 15000, 60, 'forfait'],
+            ['Débouchage de canalisation', 7500, 20000, 90, 'forfait'],
+            ['Installation de chauffe-eau', 15000, 35000, 180, 'forfait'],
+            ['Pose de robinetterie', 5000, 12000, 60, 'forfait'],
+        ],
+        'Électricité' => [
+            ['Dépannage électrique', 5000, 15000, 60, 'forfait'],
+            ['Installation de prise ou interrupteur', 2500, 6000, 30, 'par unité'],
+            ['Installation de climatiseur', 25000, 50000, 180, 'forfait'],
+            ['Entretien de climatiseur', 10000, 20000, 90, 'forfait'],
+        ],
+        'Couture' => [
+            ['Grand boubou sur mesure', 15000, 50000, 4320, 'forfait'],
+            ['Tenue de Tabaski', 20000, 60000, 4320, 'forfait'],
+            ['Robe de cérémonie', 20000, 70000, 4320, 'forfait'],
+            ['Retouche', 1500, 5000, 60, 'par pièce'],
+        ],
+        'Peinture' => [
+            ['Peinture d\'une chambre', 30000, 80000, 480, 'forfait'],
+            ['Peinture intérieure', 1500, 3000, 60, 'par m²'],
+            ['Peinture de façade', 150000, 400000, 2880, 'forfait'],
+        ],
+        'Menuiserie' => [
+            ['Placard sur mesure', 80000, 250000, 2880, 'forfait'],
+            ['Lit sur mesure', 120000, 300000, 4320, 'forfait'],
+            ['Réparation de porte', 5000, 15000, 120, 'forfait'],
+        ],
+        'Ménage' => [
+            ['Ménage complet de maison', 10000, 25000, 240, 'forfait'],
+            ['Repassage', 3000, 8000, 120, 'par séance'],
+            ['Nettoyage de bureaux', 15000, 40000, 240, 'forfait'],
+        ],
+        'Traiteur' => [
+            ['Repas de cérémonie', 2500, 6000, 1440, 'par personne'],
+            ['Thiéboudienne pour 20 personnes', 25000, 50000, 480, 'forfait'],
+            ['Buffet de mariage', 4000, 10000, 1440, 'par personne'],
+        ],
+        'Maçonnerie' => [
+            ['Pose de carrelage', 3000, 6000, 60, 'par m²'],
+            ['Construction de mur', 50000, 200000, 2880, 'forfait'],
+            ['Petite rénovation', 25000, 100000, 1440, 'forfait'],
+        ],
+        'Mécanique' => [
+            ['Vidange', 10000, 20000, 60, 'forfait'],
+            ['Diagnostic', 5000, 10000, 45, 'forfait'],
+            ['Réparation des freins', 15000, 35000, 120, 'forfait'],
+            ['Entretien de moto', 5000, 12000, 60, 'forfait'],
+        ],
+    ];
+
+    // Retrouve le domaine à partir d'un titre, ex : "Tresseuse" → "Coiffure & beauté"
+    public static function domaineDuTitre(string $titre): ?string
+    {
+        foreach (self::METIERS as $domaine => $paires) {
+            foreach ($paires as $paire) {
+                if (in_array($titre, $paire)) {
+                    return $domaine;
+                }
+            }
+        }
+        return null;
+    }
 }
