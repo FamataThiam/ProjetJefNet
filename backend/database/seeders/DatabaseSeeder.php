@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
     ServiceSeeder::class,
     DisponibiliteSeeder::class,
     DemandeServiceSeeder::class,
+    ReservationSeeder::class,
 ]);
 }
 }

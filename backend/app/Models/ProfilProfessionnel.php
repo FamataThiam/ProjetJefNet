@@ -53,4 +53,9 @@ class ProfilProfessionnel extends Model
         {
             return $this->hasMany(Disponibilite::class);
         }
+
+        public function reservations(): HasMany
+        {
+            return $this->hasMany(Reservation::class);
+        }
 }

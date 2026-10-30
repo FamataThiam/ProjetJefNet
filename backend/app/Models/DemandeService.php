@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class DemandeService extends Model
 {
@@ -54,4 +55,9 @@ class DemandeService extends Model
     {
         return $this->belongsTo(CodeList::class, 'statut_id');
     }
+
+            public function reservation(): HasOne
+        {
+            return $this->hasOne(Reservation::class);
+        }
 }
