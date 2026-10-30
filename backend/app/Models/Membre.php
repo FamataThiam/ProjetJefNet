@@ -59,4 +59,14 @@ class Membre extends Model
             {
                 return $this->hasMany(CommentairePublication::class);
             }
+
+            public function conversations()
+            {
+                return Conversation::where('initiateur_id', $this->id)->orWhere('destinataire_id', $this->id);
+            }
+
+            public function notifications(): HasMany
+            {
+                return $this->hasMany(Notification::class)->latest();
+            }
 }
