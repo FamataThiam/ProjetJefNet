@@ -37,10 +37,38 @@ class SenegalData
         'Ziguinchor'  => ['Boucotte', 'Lyndiane', 'Tilène'],
     ];
 
-    // Nombre de photos disponibles dans storage/app/public/avatars
+    
     public const NB_AVATARS_FEMMES = 18;
     public const NB_AVATARS_HOMMES = 17;
 
-    // Préfixes des numéros de téléphone sénégalais
+  
     public const PREFIXES_TEL = ['77', '78', '76', '70', '75'];
+
+
+    
+    public const METIERS = [
+        'Coiffure & beauté' => [['Coiffeur', 'Coiffeuse'], ['Tresseur', 'Tresseuse'], ['Maquilleur professionnel', 'Maquilleuse professionnelle'], ['Esthéticien', 'Esthéticienne']],
+        'Plomberie'         => [['Plombier', 'Plombière'], ['Plombier sanitaire', 'Plombière sanitaire']],
+        'Électricité'       => [['Électricien', 'Électricienne'], ['Électricien bâtiment', 'Électricienne bâtiment'], ['Frigoriste', 'Frigoriste']],
+        'Couture'           => [['Tailleur', 'Couturière'], ['Couturier', 'Couturière'], ['Styliste couturier', 'Styliste couturière']],
+        'Peinture'          => [['Peintre en bâtiment', 'Peintre en bâtiment'], ['Peintre décorateur', 'Peintre décoratrice']],
+        'Menuiserie'        => [['Menuisier', 'Menuisière'], ['Menuisier ébéniste', 'Menuisière ébéniste']],
+        'Ménage'            => [['Agent d\'entretien', 'Agente d\'entretien'], ['Aide ménager', 'Aide ménagère']],
+        'Traiteur'          => [['Traiteur', 'Traiteur'], ['Cuisinier événementiel', 'Cuisinière événementielle']],
+        'Maçonnerie'        => [['Maçon', 'Maçonne'], ['Carreleur', 'Carreleuse']],
+        'Mécanique'         => [['Mécanicien auto', 'Mécanicienne auto'], ['Mécanicien moto', 'Mécanicienne moto']],
+    ];
+
+    
+    public static function genreDe(string $prenom): string
+    {
+        return in_array($prenom, self::PRENOMS_FEMMES) ? 'femme' : 'homme';
+    }
+
+   
+    public static function titre(string $domaine, string $genre): string
+    {
+        $paire = self::METIERS[$domaine][array_rand(self::METIERS[$domaine])];
+        return $genre === 'femme' ? $paire[1] : $paire[0];
+    }
 }

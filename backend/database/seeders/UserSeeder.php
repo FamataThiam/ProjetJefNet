@@ -8,9 +8,12 @@ use App\Services\CodeListService;
 use Database\Seeders\Data\SenegalData;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Database\Seeders\Concerns\TirageAleatoire;
 
 class UserSeeder extends Seeder
 {
+
+    use TirageAleatoire;
     public function __construct(private CodeListService $codeLists) {}
 
     public function run(): void
@@ -20,7 +23,7 @@ class UserSeeder extends Seeder
         $this->creerMembres(93);
     }
 
-    // 5 administrateurs : 1 SUPER_ADMIN, 2 ADMIN, 2 MODERATEUR
+
     private function creerAdministrateurs(): void
     {
         $niveaux = ['SUPER_ADMIN', 'ADMIN', 'ADMIN', 'MODERATEUR', 'MODERATEUR'];
@@ -29,7 +32,7 @@ class UserSeeder extends Seeder
             $user = User::factory()->create([
                 'prenom' => fake()->randomElement(SenegalData::PRENOMS_HOMMES),
                 'nom'    => fake()->randomElement(SenegalData::NOMS),
-                // Le premier a un e-mail fixe pour pouvoir se connecter facilement
+                
                 'email'  => $i === 0 ? 'admin@jefnet.test' : "admin{$i}@jefnet.test",
             ]);
 
@@ -40,7 +43,7 @@ class UserSeeder extends Seeder
         }
     }
 
-    // 2 comptes membres connus, pour les démonstrations
+    
     private function creerComptesDemo(): void
     {
         $demos = [
@@ -59,7 +62,7 @@ class UserSeeder extends Seeder
         }
     }
 
-    // Les autres membres, avec des données variées
+
     private function creerMembres(int $nombre): void
     {
         for ($i = 0; $i < $nombre; $i++) {
@@ -67,7 +70,7 @@ class UserSeeder extends Seeder
             $prenom = fake()->randomElement($genre === 'femme' ? SenegalData::PRENOMS_FEMMES : SenegalData::PRENOMS_HOMMES);
             $nom    = fake()->randomElement(SenegalData::NOMS);
 
-            // Mode d'inscription : 70 % e-mail, 15 % Google, 10 % Facebook, 5 % GitHub
+          
             $provider = $this->tirage(['email' => 70, 'google' => 15, 'facebook' => 10, 'github' => 5]);
 
             $factory = User::factory();
@@ -79,9 +82,9 @@ class UserSeeder extends Seeder
                 'prenom'            => $prenom,
                 'nom'               => $nom,
                 'email'             => Str::slug("$prenom.$nom", '.') . fake()->unique()->numberBetween(1, 9999) . '@example.com',
-                // Répartition des statuts : 80 % ACTIF, 8 % INACTIF, 7 % SIGNALE, 5 % BLOQUE
+                
                 'statut_compte_id'  => $this->codeLists->idOf('StatutCompte', $this->tirage(['ACTIF' => 80, 'INACTIF' => 8, 'SIGNALE' => 7, 'BLOQUE' => 5])),
-                // Un compte externe est toujours vérifié ; sinon 90 % vérifiés
+               
                 'est_email_verifie' => $provider !== 'email' || fake()->boolean(90),
             ]);
 
@@ -98,16 +101,7 @@ class UserSeeder extends Seeder
         }
     }
 
-    // Tire une valeur au hasard selon des pourcentages, ex : ['ACTIF' => 80, 'BLOQUE' => 20]
-    private function tirage(array $poids): string
-    {
-        $n = fake()->numberBetween(1, array_sum($poids));
-        foreach ($poids as $valeur => $p) {
-            if ($n <= $p) {
-                return $valeur;
-            }
-            $n -= $p;
-        }
-        return array_key_first($poids);
-    }
+   
+
+   
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Membre extends Model
 {
@@ -29,4 +30,17 @@ class Membre extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+
+            // Un membre peut avoir un profil professionnel (0..1) : il est alors prestataire
+        public function profilProfessionnel(): HasOne
+        {
+            return $this->hasOne(ProfilProfessionnel::class);
+        }
+
+        // Raccourci : est-ce que ce membre est prestataire ?
+        public function estPrestataire(): bool
+        {
+            return $this->profilProfessionnel()->exists();
+        }
 }
