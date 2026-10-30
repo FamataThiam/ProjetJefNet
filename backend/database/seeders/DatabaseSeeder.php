@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
      RapportPrestationSeeder::class,
      AvisSeeder::class,
       PaiementSeeder::class,
+    PublicationSeeder::class,
 ]);
 }
 }

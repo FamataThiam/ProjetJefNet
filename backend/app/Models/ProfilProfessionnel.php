@@ -69,4 +69,9 @@ class ProfilProfessionnel extends Model
         {
             $this->update(['note_moyenne' => round($this->avis()->avg('note') ?? 0, 2)]);
         }
+
+        public function publications(): HasMany
+        {
+            return $this->hasMany(Publication::class);
+        }
 }
