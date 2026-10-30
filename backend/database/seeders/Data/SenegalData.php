@@ -207,4 +207,90 @@ class SenegalData
             ['Vidange et révision', 'Vidange et contrôle général d\'une voiture avant un long trajet.'],
         ],
     ];
+
+
+
+        // Domaine => [diagnostic, travaux réalisés, matériel utilisé, recommandations]
+    public const RAPPORTS = [
+        'Coiffure & beauté' => [
+            'Cheveux secs avec des pointes abîmées. La cliente souhaitait une coiffure tenant trois à quatre semaines.',
+            'Lavage et démêlage, application d\'un soin hydratant, puis réalisation de la coiffure demandée, section par section. Finition avec une huile légère.',
+            'Mèches synthétiques fournies par la cliente, peigne à queue, élastiques, huile de coco et spray hydratant.',
+            'Hydrater le cuir chevelu deux fois par semaine et dormir avec un foulard en satin pour faire durer la coiffure.',
+        ],
+        'Plomberie' => [
+            'Fuite constatée au niveau du raccord sous l\'évier, causée par un joint usé. Légère baisse de pression dans la cuisine.',
+            'Coupure de l\'arrivée d\'eau, démontage du siphon, remplacement du joint et du raccord défectueux, nettoyage de la canalisation, puis remise en eau et contrôle de l\'étanchéité.',
+            'Joints neufs, raccord en laiton, ruban téflon, clé à molette et pince multiprise.',
+            'Ne pas verser d\'huile de cuisson dans l\'évier et vérifier l\'absence de fuite dans une semaine.',
+        ],
+        'Électricité' => [
+            'Le disjoncteur de la chambre sautait à chaque remise en marche, à cause d\'une prise endommagée et d\'un câble chauffé.',
+            'Mise hors tension du circuit, remplacement de la prise et du câble abîmé, contrôle des connexions du tableau, puis test de chaque point lumineux et de chaque prise.',
+            'Prise murale, câble 2,5 mm², domino de connexion, multimètre et tournevis isolés.',
+            'Éviter les multiprises en cascade et faire contrôler l\'installation électrique tous les deux ans.',
+        ],
+        'Couture' => [
+            'Prise des mesures et choix du modèle avec le client. Tissu fourni de bonne qualité, en quantité suffisante.',
+            'Coupe du tissu selon les mesures, assemblage, broderie du col, pose des finitions puis essayage et retouches finales.',
+            'Machine à coudre, fil assorti, fil à broder, boutons et thermocollant.',
+            'Laver à l\'eau froide et repasser à l\'envers pour préserver les couleurs et la broderie.',
+        ],
+        'Peinture' => [
+            'Murs présentant des traces d\'humidité légères et une peinture écaillée par endroits. Surface d\'environ 25 m².',
+            'Protection du sol et des meubles, ponçage, application d\'une sous-couche, puis de deux couches de peinture. Nettoyage du chantier en fin d\'intervention.',
+            'Peinture acrylique lavable, sous-couche, rouleaux, pinceaux, bâches et ruban de masquage.',
+            'Aérer la pièce pendant 48 heures et attendre deux semaines avant de laver les murs.',
+        ],
+        'Menuiserie' => [
+            'Porte frottant au sol et charnières desserrées, rendant la fermeture difficile.',
+            'Dépose de la porte, rabotage du bas, renforcement et resserrage des charnières, réglage de la serrure, puis repose et vérification de la fermeture.',
+            'Rabot, vis à bois, charnières neuves, perceuse et vernis de protection.',
+            'Graisser les charnières tous les six mois et éviter de claquer la porte.',
+        ],
+        'Ménage' => [
+            'Logement de quatre pièces à nettoyer entièrement avant un événement familial.',
+            'Dépoussiérage complet, nettoyage des sols, de la cuisine et des sanitaires, lavage des vitres et rangement des pièces de vie.',
+            'Produits d\'entretien, serpillières, balais, éponges et chiffons microfibres.',
+            'Prévoir un entretien régulier chaque semaine pour faciliter les prochains nettoyages.',
+        ],
+        'Traiteur' => [
+            'Repas commandé pour une cérémonie familiale, avec un menu choisi à l\'avance avec le client.',
+            'Préparation des plats le matin même, cuisson, dressage dans les plats de service, livraison sur place et installation du buffet.',
+            'Marmites, réchauds, plats de service, ustensiles et ingrédients frais du marché.',
+            'Consommer les restes dans les 24 heures et les conserver au frais.',
+        ],
+        'Maçonnerie' => [
+            'Sol irrégulier à préparer avant la pose de carrelage. Surface d\'environ 12 m².',
+            'Préparation et nivellement de la surface, traçage, pose du carrelage au mortier-colle, puis réalisation des joints et nettoyage.',
+            'Mortier-colle, croisillons, niveau à bulle, coupe-carreaux et joint de carrelage.',
+            'Ne pas marcher sur le sol pendant 24 heures et attendre 48 heures avant de le laver.',
+        ],
+        'Mécanique' => [
+            'Le véhicule présentait un bruit au freinage et une huile moteur usée.',
+            'Vidange du moteur, remplacement du filtre à huile, contrôle et remplacement des plaquettes de frein, puis essai sur route.',
+            'Huile moteur, filtre à huile, plaquettes de frein, cric et clés.',
+            'Prévoir la prochaine vidange dans 5 000 km et faire vérifier les pneus régulièrement.',
+        ],
+    ];
+
+    // Observations possibles du client, à la fin du rapport
+    public const OBSERVATIONS_CLIENT = [
+        'Intervention réalisée à l\'heure prévue. Travail propre et soigné. Aucune réserve.',
+        'Prestataire ponctuel et à l\'écoute. Je suis satisfaite du résultat.',
+        'Très bon travail, le prestataire a bien expliqué ce qu\'il a fait. Aucune réserve.',
+        'Léger retard à l\'arrivée, mais le travail est de qualité. Aucune réserve.',
+        'Résultat conforme à ce qui était demandé. Je recommande.',
+    ];
+
+    // Assemble les 4 paragraphes du rapport (séparés par une ligne vide)
+    public static function descriptionRapport(string $domaine): string
+    {
+        [$diagnostic, $travaux, $materiel, $recommandations] = self::RAPPORTS[$domaine];
+
+        return "Diagnostic. $diagnostic\n\n"
+             . "Travaux réalisés. $travaux\n\n"
+             . "Matériel utilisé. $materiel\n\n"
+             . "Recommandations. $recommandations";
+    }
 }

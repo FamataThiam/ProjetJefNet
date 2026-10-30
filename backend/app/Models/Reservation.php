@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Reservation extends Model
 {
@@ -44,7 +45,7 @@ class Reservation extends Model
         return $this->belongsTo(Membre::class, 'membre_id');
     }
 
-    // Le prestataire qui assure la prestation
+
     public function prestataire(): BelongsTo
     {
         return $this->belongsTo(ProfilProfessionnel::class, 'profil_professionnel_id');
@@ -77,5 +78,10 @@ class Reservation extends Model
         public function calculerPrixTotal(): float
         {
             return (float) $this->details()->sum('prix_service');
+        }
+
+        public function rapport(): HasOne
+        {
+            return $this->hasOne(RapportPrestation::class);
         }
 }

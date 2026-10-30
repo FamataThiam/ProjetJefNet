@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
     DisponibiliteSeeder::class,
     DemandeServiceSeeder::class,
     ReservationSeeder::class,
+     RapportPrestationSeeder::class,
 ]);
 }
 }
