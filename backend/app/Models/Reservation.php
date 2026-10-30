@@ -84,4 +84,9 @@ class Reservation extends Model
         {
             return $this->hasOne(RapportPrestation::class);
         }
+
+        public function avis(): HasOne
+            {
+                return $this->hasOne(Avis::class);
+            }
 }

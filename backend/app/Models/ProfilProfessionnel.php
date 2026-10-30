@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class ProfilProfessionnel extends Model
 {
@@ -30,13 +31,12 @@ class ProfilProfessionnel extends Model
         return $this->belongsTo(Membre::class);
     }
 
-    // Son rayon d'intervention (CodeList RayonIntervention)
     public function rayonIntervention(): BelongsTo
     {
         return $this->belongsTo(CodeList::class, 'rayon_intervention_id');
     }
 
-    // Son statut de certification (CodeList StatutProfil)
+   
     public function statutCertification(): BelongsTo
     {
         return $this->belongsTo(CodeList::class, 'statut_certification_id');
@@ -57,5 +57,16 @@ class ProfilProfessionnel extends Model
         public function reservations(): HasMany
         {
             return $this->hasMany(Reservation::class);
+        }
+
+                public function avis(): HasManyThrough
+        {
+            return $this->hasManyThrough(Avis::class, Reservation::class);
+        }
+
+      
+        public function recalculerNoteMoyenne(): void
+        {
+            $this->update(['note_moyenne' => round($this->avis()->avg('note') ?? 0, 2)]);
         }
 }
