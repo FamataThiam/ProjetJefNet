@@ -12,10 +12,10 @@ class Membre extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+        protected $fillable = [
         'user_id', 'username', 'telephone', 'ville', 'localite', 'pays',
-        'derniere_connexion', 'nombre_connexion', 'photo_profil_path',
-        'couleur_perso', 'signature_electronique',
+        'derniere_connexion', 'nombre_connexion',
+        'photo_profil_path', 'couleur_perso', 'signature_electronique',
     ];
 
     protected function casts(): array

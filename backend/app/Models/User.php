@@ -48,19 +48,19 @@ class User extends Authenticatable
         return $this->belongsTo(CodeList::class, 'statut_compte_id');
     }
 
-    // Un utilisateur peut être un membre (héritage)
+    
         public function membre(): HasOne
         {
             return $this->hasOne(Membre::class);
         }
 
-        // Un utilisateur peut être un administrateur (héritage)
+       
         public function administrateur(): HasOne
         {
             return $this->hasOne(Administrateur::class);
         }
 
-        // Raccourcis pratiques pour savoir quel type d'utilisateur c'est
+        
         public function estMembre(): bool
         {
             return $this->membre()->exists();
