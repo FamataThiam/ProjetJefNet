@@ -12,6 +12,7 @@ use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\Auth\ReinitialiserMotDePasseRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -28,10 +29,12 @@ class AuthController extends Controller
         ], 201);
     }
 
-    // POST /api/auth/verifier-email
+       // POST /api/auth/verifier-email
     public function verifierEmail(VerifierEmailRequest $request): JsonResponse
     {
         $resultat = $this->auth->verifierEmail($request->email, $request->code);
+
+        Auth::setUser($resultat['user']);
 
         return response()->json([
             'message' => 'Adresse e-mail vérifiée. Bienvenue sur JefNet !',
@@ -50,10 +53,13 @@ class AuthController extends Controller
         ]);
     }
 
-    // POST /api/auth/connexion
+       // POST /api/auth/connexion
     public function connexion(ConnexionRequest $request): JsonResponse
     {
         $resultat = $this->auth->connecter($request->email, $request->password);
+
+        // L'utilisateur vient de s'identifier : la Resource doit le reconnaître comme propriétaire
+         Auth::setUser($resultat['user']);
 
         return response()->json([
             'message' => 'Connexion réussie.',

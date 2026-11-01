@@ -40,4 +40,10 @@ class UserRepository implements UserRepositoryInterface
     {
         $user->tokens()->delete();
     }
+
+
+        public function supprimerAutresJetons(User $user, int $jetonAGarderId): void
+    {
+        $user->tokens()->where('id', '!=', $jetonAGarderId)->delete();
+    }
 }

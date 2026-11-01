@@ -17,4 +17,6 @@ interface UserRepositoryInterface
     public function enregistrerConnexion(User $user): void;
 
     public function supprimerTousLesJetons(User $user): void;
+
+        public function supprimerAutresJetons(User $user, int $jetonAGarderId): void;
 }

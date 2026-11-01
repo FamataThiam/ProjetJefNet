@@ -11,4 +11,21 @@ class MembreRepository implements MembreRepositoryInterface
     {
         return Membre::create($data);
     }
+
+
+        public function update(Membre $membre, array $data): Membre
+    {
+        $membre->update($data);
+
+        return $membre->refresh();
+    }
+
+
+        public function trouverActifParUsername(string $username): ?Membre
+    {
+        return Membre::with('user')
+            ->where('username', strtolower($username))
+            ->whereHas('user.statutCompte', fn ($q) => $q->where('value', 'ACTIF'))
+            ->first();
+    }
 }

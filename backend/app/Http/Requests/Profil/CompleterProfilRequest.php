@@ -32,7 +32,6 @@ class CompleterProfilRequest extends FormRequest
             'telephone' => ['required', 'regex:/^7[05678]\d{7}$/', 'unique:membres,telephone'],
             'ville'     => ['required', 'string', 'max:100'],
             'localite'  => ['required', 'string', 'max:100'],
-            'pays'      => ['nullable', 'string', 'max:100'],
             'photo'     => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ];
     }
