@@ -2,21 +2,27 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CodeListController;
+use App\Http\Controllers\Api\DomaineController;
 use App\Http\Controllers\Api\MembreController;
+use App\Http\Controllers\Api\PrestataireController;
 use App\Http\Controllers\Api\ProfilController;
 use App\Http\Controllers\Api\SocialAuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Routes publiques
+| Routes publiques (accessibles sans compte)
 |--------------------------------------------------------------------------
 */
 Route::get('/ping', function () {
     return response()->json(['message' => 'JefNet API OK']);
 });
 
-Route::get('/code-lists/{type}', [CodeListController::class, 'index']);
+Route::get('/code-lists/{type}',  [CodeListController::class, 'index']);
+Route::get('/domaines',           [DomaineController::class, 'index']);
+Route::get('/prestataires',       [PrestataireController::class, 'index']);
+Route::get('/prestataires/{id}',  [PrestataireController::class, 'show'])
+    ->whereNumber('id');
 
 /*
 |--------------------------------------------------------------------------

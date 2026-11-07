@@ -25,4 +25,7 @@ class Domaine extends Model
         {
             return $this->hasMany(DetailsReservation::class);
         }
+
+
+        
 }

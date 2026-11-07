@@ -94,4 +94,10 @@ class Reservation extends Model
         {
             return $this->hasMany(Paiement::class);
         }
+
+
+                public function membre(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+        {
+            return $this->belongsTo(Membre::class);
+        }
 }
