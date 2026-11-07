@@ -6,8 +6,11 @@ use App\Http\Controllers\Api\DomaineController;
 use App\Http\Controllers\Api\MembreController;
 use App\Http\Controllers\Api\PrestataireController;
 use App\Http\Controllers\Api\ProfilController;
+use App\Http\Controllers\Api\ProfilProController;
 use App\Http\Controllers\Api\SocialAuthController;
+use App\Http\Controllers\Api\MesServicesController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\MesDisponibilitesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +78,30 @@ Route::middleware('auth:sanctum')->prefix('profil')->group(function () {
         Route::post('/signature', [ProfilController::class, 'changerSignature']);
     });
 });
+
+/*
+|--------------------------------------------------------------------------
+| Profil professionnel  →  /api/profil-pro/...  (connecté + profil complet)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('profil-pro')->group(function () {
+    Route::get('/',               [ProfilProController::class, 'show']);
+    Route::post('/',              [ProfilProController::class, 'store']);
+    Route::patch('/',             [ProfilProController::class, 'update']);
+    Route::delete('/',            [ProfilProController::class, 'destroy']);
+    Route::post('/certification', [ProfilProController::class, 'demanderCertification']);
+
+    // ---- Mes services ----
+    Route::get('/services',         [MesServicesController::class, 'index']);
+    Route::post('/services',        [MesServicesController::class, 'store']);
+    Route::patch('/services/{id}',  [MesServicesController::class, 'update'])->whereNumber('id');
+    Route::delete('/services/{id}', [MesServicesController::class, 'destroy'])->whereNumber('id');
+
+Route::get('/disponibilites',         [MesDisponibilitesController::class, 'index']);
+    Route::post('/disponibilites',        [MesDisponibilitesController::class, 'store']);
+    Route::patch('/disponibilites/{id}',  [MesDisponibilitesController::class, 'update'])->whereNumber('id');
+    Route::delete('/disponibilites/{id}', [MesDisponibilitesController::class, 'destroy'])->whereNumber('id');
+    });
 
 /*
 |--------------------------------------------------------------------------

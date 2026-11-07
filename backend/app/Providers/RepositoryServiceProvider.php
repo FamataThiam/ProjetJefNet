@@ -12,7 +12,11 @@ use App\Repositories\Eloquent\DomaineRepository;
 use App\Repositories\Eloquent\MembreRepository;
 use App\Repositories\Eloquent\ProfilProfessionnelRepository;
 use App\Repositories\Eloquent\UserRepository;
+use App\Repositories\Contracts\ServiceRepositoryInterface;
+use App\Repositories\Eloquent\ServiceRepository;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\Contracts\DisponibiliteRepositoryInterface;
+use App\Repositories\Eloquent\DisponibiliteRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -23,5 +27,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(MembreRepositoryInterface::class,              MembreRepository::class);
         $this->app->bind(DomaineRepositoryInterface::class,             DomaineRepository::class);
         $this->app->bind(ProfilProfessionnelRepositoryInterface::class, ProfilProfessionnelRepository::class);
+        $this->app->bind(ServiceRepositoryInterface::class, ServiceRepository::class);
+        $this->app->bind(DisponibiliteRepositoryInterface::class, DisponibiliteRepository::class);
     }
 }
