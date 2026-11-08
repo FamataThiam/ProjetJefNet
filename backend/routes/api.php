@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\MesServicesController;
 use App\Http\Controllers\Api\PrestataireController;
 use App\Http\Controllers\Api\ProfilController;
 use App\Http\Controllers\Api\ProfilProController;
+use App\Http\Controllers\Api\ReservationController;
 use App\Http\Controllers\Api\SocialAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -106,9 +107,12 @@ Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('profil-pro')->gro
     Route::delete('/disponibilites/{id}', [MesDisponibilitesController::class, 'destroy'])->whereNumber('id');
 
     // ---- Demandes disponibles (prestataire) ----
-    Route::get('/demandes',                  [DemandesDisponiblesController::class, 'index']);
-    Route::get('/demandes/{uuid}',           [DemandesDisponiblesController::class, 'show'])->whereUuid('uuid');
+    Route::get('/demandes',        [DemandesDisponiblesController::class, 'index']);
+    Route::get('/demandes/{uuid}', [DemandesDisponiblesController::class, 'show'])->whereUuid('uuid');
     Route::post('/demandes/{uuid}/accepter', [DemandesDisponiblesController::class, 'accepter'])->whereUuid('uuid');
+
+    // ---- Réservations reçues (prestataire) ----
+    Route::get('/reservations', [ReservationController::class, 'recues']);
 });
 
 /*
@@ -123,6 +127,29 @@ Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('demandes')->group
     Route::post('/',                [DemandeController::class, 'store']);
     Route::get('/{uuid}',           [DemandeController::class, 'show'])->whereUuid('uuid');
     Route::patch('/{uuid}/annuler', [DemandeController::class, 'annuler'])->whereUuid('uuid');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Réservations  →  /api/reservations/...  (connecté + profil complet)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('reservations')->group(function () {
+
+    // ---- Client ----
+    Route::get('/',  [ReservationController::class, 'index']);
+    Route::post('/', [ReservationController::class, 'store']);
+
+    // ---- Client ou prestataire concerné ----
+    Route::get('/{uuid}',           [ReservationController::class, 'show'])->whereUuid('uuid');
+    Route::patch('/{uuid}/annuler', [ReservationController::class, 'annuler'])->whereUuid('uuid')
+        ->name('reservations.annuler');
+
+    // ---- Prestataire ----
+    Route::patch('/{uuid}/confirmer', [ReservationController::class, 'confirmer'])->whereUuid('uuid');
+    Route::patch('/{uuid}/refuser',   [ReservationController::class, 'refuser'])->whereUuid('uuid');
+    Route::patch('/{uuid}/demarrer',  [ReservationController::class, 'demarrer'])->whereUuid('uuid');
+    Route::patch('/{uuid}/terminer',  [ReservationController::class, 'terminer'])->whereUuid('uuid');
 });
 
 /*
