@@ -22,3 +22,12 @@ return Application::configure(basePath: dirname(__DIR__))
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
     })->create();
+
+            $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Ressource introuvable.',
+                    'code'    => 'INTROUVABLE',
+                ], 404);
+            }
+        });

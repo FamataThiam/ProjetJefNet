@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+
 class DemandeService extends Model
 {
     use HasFactory, HasUuids;
@@ -16,7 +17,7 @@ class DemandeService extends Model
 
     protected $fillable = [
         'membre_id', 'domaine_id', 'titre', 'description',
-        'adresse', 'latitude', 'longitude', 'statut_id',
+        'adresse', 'ville', 'localite', 'latitude', 'longitude', 'statut_id',
     ];
 
     protected function casts(): array

@@ -17,6 +17,12 @@ use App\Repositories\Eloquent\ServiceRepository;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Contracts\DisponibiliteRepositoryInterface;
 use App\Repositories\Eloquent\DisponibiliteRepository;
+use App\Repositories\Contracts\DemandeServiceRepositoryInterface;
+use App\Repositories\Eloquent\DemandeServiceRepository;
+use App\Repositories\Contracts\NotificationRepositoryInterface;
+use App\Repositories\Contracts\ReservationRepositoryInterface;
+use App\Repositories\Eloquent\NotificationRepository;
+use App\Repositories\Eloquent\ReservationRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -29,5 +35,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ProfilProfessionnelRepositoryInterface::class, ProfilProfessionnelRepository::class);
         $this->app->bind(ServiceRepositoryInterface::class, ServiceRepository::class);
         $this->app->bind(DisponibiliteRepositoryInterface::class, DisponibiliteRepository::class);
+        $this->app->bind(DemandeServiceRepositoryInterface::class, DemandeServiceRepository::class);
+        $this->app->bind(ReservationRepositoryInterface::class, ReservationRepository::class);
+$this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
     }
 }

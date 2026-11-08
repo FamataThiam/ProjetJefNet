@@ -2,15 +2,17 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CodeListController;
+use App\Http\Controllers\Api\DemandeController;
+use App\Http\Controllers\Api\DemandesDisponiblesController;
 use App\Http\Controllers\Api\DomaineController;
 use App\Http\Controllers\Api\MembreController;
+use App\Http\Controllers\Api\MesDisponibilitesController;
+use App\Http\Controllers\Api\MesServicesController;
 use App\Http\Controllers\Api\PrestataireController;
 use App\Http\Controllers\Api\ProfilController;
 use App\Http\Controllers\Api\ProfilProController;
 use App\Http\Controllers\Api\SocialAuthController;
-use App\Http\Controllers\Api\MesServicesController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\MesDisponibilitesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,11 +99,31 @@ Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('profil-pro')->gro
     Route::patch('/services/{id}',  [MesServicesController::class, 'update'])->whereNumber('id');
     Route::delete('/services/{id}', [MesServicesController::class, 'destroy'])->whereNumber('id');
 
-Route::get('/disponibilites',         [MesDisponibilitesController::class, 'index']);
+    // ---- Mes disponibilités ----
+    Route::get('/disponibilites',         [MesDisponibilitesController::class, 'index']);
     Route::post('/disponibilites',        [MesDisponibilitesController::class, 'store']);
     Route::patch('/disponibilites/{id}',  [MesDisponibilitesController::class, 'update'])->whereNumber('id');
     Route::delete('/disponibilites/{id}', [MesDisponibilitesController::class, 'destroy'])->whereNumber('id');
-    });
+
+    // ---- Demandes disponibles (prestataire) ----
+    Route::get('/demandes',                  [DemandesDisponiblesController::class, 'index']);
+    Route::get('/demandes/{uuid}',           [DemandesDisponiblesController::class, 'show'])->whereUuid('uuid');
+    Route::post('/demandes/{uuid}/accepter', [DemandesDisponiblesController::class, 'accepter'])->whereUuid('uuid');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Demandes de service  →  /api/demandes/...  (connecté + profil complet)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('demandes')->group(function () {
+
+    // ---- Mes demandes (client) ----
+    Route::get('/',                 [DemandeController::class, 'index']);
+    Route::post('/',                [DemandeController::class, 'store']);
+    Route::get('/{uuid}',           [DemandeController::class, 'show'])->whereUuid('uuid');
+    Route::patch('/{uuid}/annuler', [DemandeController::class, 'annuler'])->whereUuid('uuid');
+});
 
 /*
 |--------------------------------------------------------------------------
