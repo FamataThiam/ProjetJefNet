@@ -14,6 +14,8 @@ use App\Http\Controllers\Api\ProfilProController;
 use App\Http\Controllers\Api\ReservationController;
 use App\Http\Controllers\Api\SocialAuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\PaiementController;
+use App\Http\Controllers\Api\RapportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -150,7 +152,24 @@ Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('reservations')->g
     Route::patch('/{uuid}/refuser',   [ReservationController::class, 'refuser'])->whereUuid('uuid');
     Route::patch('/{uuid}/demarrer',  [ReservationController::class, 'demarrer'])->whereUuid('uuid');
     Route::patch('/{uuid}/terminer',  [ReservationController::class, 'terminer'])->whereUuid('uuid');
-});
+
+        // ---- Paiement et facture ----
+    Route::post('/{uuid}/paiement',            [PaiementController::class, 'payer'])->whereUuid('uuid');
+    Route::get('/{uuid}/paiement',             [PaiementController::class, 'index'])->whereUuid('uuid');
+    Route::patch('/{uuid}/paiement/confirmer', [PaiementController::class, 'confirmer'])->whereUuid('uuid');
+    Route::get('/{uuid}/facture',              [PaiementController::class, 'facture'])->whereUuid('uuid');
+
+
+        // ---- Rapport de prestation ----
+    Route::get('/{uuid}/rapport',          [RapportController::class, 'show'])->whereUuid('uuid');
+    Route::post('/{uuid}/rapport',         [RapportController::class, 'store'])->whereUuid('uuid')
+        ->name('rapport.rediger');
+    Route::post('/{uuid}/rapport/modifier', [RapportController::class, 'update'])->whereUuid('uuid');
+    Route::patch('/{uuid}/rapport/signer',  [RapportController::class, 'signer'])->whereUuid('uuid');
+    Route::get('/{uuid}/rapport/photos/{moment}', [RapportController::class, 'photo'])
+        ->whereUuid('uuid')->whereIn('moment', ['avant', 'apres']);
+    Route::get('/{uuid}/rapport/pdf',      [RapportController::class, 'pdf'])->whereUuid('uuid');
+    });
 
 /*
 |--------------------------------------------------------------------------

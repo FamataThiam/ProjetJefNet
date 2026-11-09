@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -21,9 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
-    })->create();
 
-            $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, $request) {
+        // 404 propre pour l'API : ni nom de modèle, ni trace, ni chemins du serveur
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json([
                     'message' => 'Ressource introuvable.',
@@ -31,3 +32,4 @@ return Application::configure(basePath: dirname(__DIR__))
                 ], 404);
             }
         });
+    })->create();

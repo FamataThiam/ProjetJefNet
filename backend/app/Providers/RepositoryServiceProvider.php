@@ -23,20 +23,26 @@ use App\Repositories\Contracts\NotificationRepositoryInterface;
 use App\Repositories\Contracts\ReservationRepositoryInterface;
 use App\Repositories\Eloquent\NotificationRepository;
 use App\Repositories\Eloquent\ReservationRepository;
+use App\Repositories\Contracts\PaiementRepositoryInterface;
+use App\Repositories\Eloquent\PaiementRepository;
+use App\Repositories\Contracts\RapportRepositoryInterface;
+use App\Repositories\Eloquent\RapportRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->bind(CodeListRepositoryInterface::class,            CodeListRepository::class);
-        $this->app->bind(UserRepositoryInterface::class,                UserRepository::class);
-        $this->app->bind(MembreRepositoryInterface::class,              MembreRepository::class);
-        $this->app->bind(DomaineRepositoryInterface::class,             DomaineRepository::class);
+        $this->app->bind(CodeListRepositoryInterface::class, CodeListRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(MembreRepositoryInterface::class, MembreRepository::class);
+        $this->app->bind(DomaineRepositoryInterface::class,DomaineRepository::class);
         $this->app->bind(ProfilProfessionnelRepositoryInterface::class, ProfilProfessionnelRepository::class);
         $this->app->bind(ServiceRepositoryInterface::class, ServiceRepository::class);
         $this->app->bind(DisponibiliteRepositoryInterface::class, DisponibiliteRepository::class);
         $this->app->bind(DemandeServiceRepositoryInterface::class, DemandeServiceRepository::class);
         $this->app->bind(ReservationRepositoryInterface::class, ReservationRepository::class);
-$this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
+        $this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
+        $this->app->bind(PaiementRepositoryInterface::class, PaiementRepository::class);
+        $this->app->bind(RapportRepositoryInterface::class, RapportRepository::class);
     }
 }
