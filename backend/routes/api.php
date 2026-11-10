@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\DomaineController;
 use App\Http\Controllers\Api\MembreController;
 use App\Http\Controllers\Api\MesDisponibilitesController;
 use App\Http\Controllers\Api\MesServicesController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PaiementController;
 use App\Http\Controllers\Api\PrestataireController;
 use App\Http\Controllers\Api\ProfilController;
@@ -177,6 +178,18 @@ Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('reservations')->g
     Route::post('/{uuid}/avis',  [AvisController::class, 'store'])->whereUuid('uuid')
         ->name('avis.laisser');
     Route::patch('/{uuid}/avis', [AvisController::class, 'update'])->whereUuid('uuid');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Notifications  →  /api/notifications/...  (connecté + profil complet)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('notifications')->group(function () {
+    Route::get('/',            [NotificationController::class, 'index']);
+    Route::get('/non-lues',    [NotificationController::class, 'nonLues']);
+    Route::patch('/tout-lire', [NotificationController::class, 'toutLire']);
+    Route::patch('/{id}/lue',  [NotificationController::class, 'marquerLue'])->whereNumber('id');
 });
 
 /*
