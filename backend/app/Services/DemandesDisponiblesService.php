@@ -128,6 +128,8 @@ class DemandesDisponiblesService
             'ville'          => $membre->ville,
             'localite'       => $membre->localite,
             'villes'         => Zone::villesDeLaRegionDe($membre->ville),
+            'lat'            => $profil->latitude,
+            'lng'            => $profil->longitude,
         ];
     }
 }

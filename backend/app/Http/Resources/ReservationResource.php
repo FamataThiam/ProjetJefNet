@@ -18,6 +18,11 @@ class ReservationResource extends JsonResource
             'adresse_intervention' => $this->adresse_intervention,
             'prix_final'           => (float) $this->prix_final,
             'demande_id'           => $this->whenLoaded('demande', fn () => $this->demande?->uuid),
+                       
+            'position'             => $this->whenLoaded('demande', fn () => $this->demande ? [
+                'lat' => (float) $this->demande->latitude,
+                'lng' => (float) $this->demande->longitude,
+            ] : null),
 
             'services' => $this->whenLoaded('details', fn () => $this->details->map(fn ($d) => [
                 'id'   => $d->service_id,

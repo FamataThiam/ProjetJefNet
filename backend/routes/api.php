@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CodeListController;
 use App\Http\Controllers\Api\DemandeController;
 use App\Http\Controllers\Api\DemandesDisponiblesController;
 use App\Http\Controllers\Api\DomaineController;
+use App\Http\Controllers\Api\GeolocalisationController;
 use App\Http\Controllers\Api\MembreController;
 use App\Http\Controllers\Api\MesDisponibilitesController;
 use App\Http\Controllers\Api\MesServicesController;
@@ -15,8 +16,10 @@ use App\Http\Controllers\Api\PrestataireController;
 use App\Http\Controllers\Api\ProfilController;
 use App\Http\Controllers\Api\ProfilProController;
 use App\Http\Controllers\Api\RapportController;
+use App\Http\Controllers\Api\RecommandationController;
 use App\Http\Controllers\Api\ReservationController;
 use App\Http\Controllers\Api\SocialAuthController;
+use App\Http\Controllers\Api\TableauDeBordController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +34,7 @@ Route::get('/ping', function () {
 Route::get('/code-lists/{type}',  [CodeListController::class, 'index']);
 Route::get('/domaines',           [DomaineController::class, 'index']);
 Route::get('/prestataires',       [PrestataireController::class, 'index']);
+Route::get('/prestataires/carte', [GeolocalisationController::class, 'carte']);
 Route::get('/prestataires/{id}',  [PrestataireController::class, 'show'])
     ->whereNumber('id');
 Route::get('/prestataires/{id}/avis', [AvisController::class, 'duPrestataire'])
@@ -99,6 +103,7 @@ Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('profil-pro')->gro
     Route::patch('/',             [ProfilProController::class, 'update']);
     Route::delete('/',            [ProfilProController::class, 'destroy']);
     Route::post('/certification', [ProfilProController::class, 'demanderCertification']);
+    Route::patch('/position',     [GeolocalisationController::class, 'position']);
 
     // ---- Mes services ----
     Route::get('/services',         [MesServicesController::class, 'index']);
@@ -119,6 +124,16 @@ Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('profil-pro')->gro
 
     // ---- Réservations reçues (prestataire) ----
     Route::get('/reservations', [ReservationController::class, 'recues']);
+
+    // ---- Tableau de bord (statistiques) ----
+    Route::prefix('tableau-de-bord')->group(function () {
+        Route::get('/resume',       [TableauDeBordController::class, 'resume']);
+        Route::get('/evolution',    [TableauDeBordController::class, 'evolution']);
+        Route::get('/repartitions', [TableauDeBordController::class, 'repartitions']);
+        Route::get('/activite',     [TableauDeBordController::class, 'activite']);
+        Route::get('/entonnoir',    [TableauDeBordController::class, 'entonnoir']);
+        Route::get('/a-faire',      [TableauDeBordController::class, 'aFaire']);
+    });
 });
 
 /*
@@ -191,6 +206,14 @@ Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('notifications')->
     Route::patch('/tout-lire', [NotificationController::class, 'toutLire']);
     Route::patch('/{id}/lue',  [NotificationController::class, 'marquerLue'])->whereNumber('id');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Recommandation  →  /api/recommandations  (connecté + profil complet)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'profil.complet'])
+    ->get('/recommandations', [RecommandationController::class, 'index']);
 
 /*
 |--------------------------------------------------------------------------

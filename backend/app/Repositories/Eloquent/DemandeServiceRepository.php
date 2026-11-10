@@ -7,6 +7,7 @@ use App\Repositories\Contracts\DemandeServiceRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use App\Support\Geo;
 
 class DemandeServiceRepository implements DemandeServiceRepositoryInterface
 {
@@ -43,20 +44,37 @@ class DemandeServiceRepository implements DemandeServiceRepositoryInterface
         return $demande;
     }
 
-    public function disponibles(array $criteres, int $parPage = 10): LengthAwarePaginator
+ public function disponibles(array $criteres, int $parPage = 10): LengthAwarePaginator
 {
-    return $this->requeteDisponibles($criteres)
+    return $this->avecDistance($this->requeteDisponibles($criteres), $criteres)
         ->with(['domaine', 'statut'])
-        ->latest()
         ->paginate($parPage);
 }
 
 public function trouverDisponible(array $criteres, string $uuid): DemandeService
 {
-    return $this->requeteDisponibles($criteres)
+    return $this->avecDistance($this->requeteDisponibles($criteres), $criteres)
         ->where('uuid', $uuid)
         ->with(['domaine', 'statut'])
         ->firstOrFail();
+}
+
+
+
+/** Ajoute la distance au prestataire (si sa position est connue) et trie de la plus proche à la plus éloignée. */
+private function avecDistance(Builder $requete, array $c): Builder
+{
+    if (empty($c['lat']) || empty($c['lng'])) {
+        return $requete->latest();   // pas de position : tri par date, comme avant
+    }
+
+    return $requete
+        ->select('demandes_service.*')
+        ->selectRaw(
+            Geo::distanceSql('demandes_service.latitude', 'demandes_service.longitude') . ' AS distance_km',
+            [$c['lat'], $c['lng'], $c['lat']]
+        )
+        ->orderBy('distance_km');
 }
 
 private function requeteDisponibles(array $c): Builder

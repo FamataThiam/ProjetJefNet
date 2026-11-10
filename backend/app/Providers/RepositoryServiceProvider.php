@@ -29,6 +29,12 @@ use App\Repositories\Contracts\RapportRepositoryInterface;
 use App\Repositories\Eloquent\RapportRepository;
 use App\Repositories\Contracts\AvisRepositoryInterface;
 use App\Repositories\Eloquent\AvisRepository;
+use App\Repositories\Contracts\StatistiquesPrestataireRepositoryInterface;
+use App\Repositories\Eloquent\StatistiquesPrestataireRepository;
+use App\Repositories\Contracts\GeolocalisationRepositoryInterface;
+use App\Repositories\Eloquent\GeolocalisationRepository;
+use App\Repositories\Contracts\RecommandationRepositoryInterface;
+use App\Repositories\Eloquent\RecommandationRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -47,5 +53,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PaiementRepositoryInterface::class, PaiementRepository::class);
         $this->app->bind(RapportRepositoryInterface::class, RapportRepository::class);
         $this->app->bind(AvisRepositoryInterface::class, AvisRepository::class);
+        $this->app->bind(StatistiquesPrestataireRepositoryInterface::class, StatistiquesPrestataireRepository::class);
+        $this->app->bind(GeolocalisationRepositoryInterface::class, GeolocalisationRepository::class);
+        $this->app->bind(RecommandationRepositoryInterface::class, RecommandationRepository::class);
     }
 }
