@@ -27,6 +27,8 @@ use App\Repositories\Contracts\PaiementRepositoryInterface;
 use App\Repositories\Eloquent\PaiementRepository;
 use App\Repositories\Contracts\RapportRepositoryInterface;
 use App\Repositories\Eloquent\RapportRepository;
+use App\Repositories\Contracts\AvisRepositoryInterface;
+use App\Repositories\Eloquent\AvisRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -44,5 +46,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
         $this->app->bind(PaiementRepositoryInterface::class, PaiementRepository::class);
         $this->app->bind(RapportRepositoryInterface::class, RapportRepository::class);
+        $this->app->bind(AvisRepositoryInterface::class, AvisRepository::class);
     }
 }

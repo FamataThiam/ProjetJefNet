@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\AvisController;
 use App\Http\Controllers\Api\CodeListController;
 use App\Http\Controllers\Api\DemandeController;
 use App\Http\Controllers\Api\DemandesDisponiblesController;
@@ -8,14 +9,14 @@ use App\Http\Controllers\Api\DomaineController;
 use App\Http\Controllers\Api\MembreController;
 use App\Http\Controllers\Api\MesDisponibilitesController;
 use App\Http\Controllers\Api\MesServicesController;
+use App\Http\Controllers\Api\PaiementController;
 use App\Http\Controllers\Api\PrestataireController;
 use App\Http\Controllers\Api\ProfilController;
 use App\Http\Controllers\Api\ProfilProController;
+use App\Http\Controllers\Api\RapportController;
 use App\Http\Controllers\Api\ReservationController;
 use App\Http\Controllers\Api\SocialAuthController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\PaiementController;
-use App\Http\Controllers\Api\RapportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,8 @@ Route::get('/code-lists/{type}',  [CodeListController::class, 'index']);
 Route::get('/domaines',           [DomaineController::class, 'index']);
 Route::get('/prestataires',       [PrestataireController::class, 'index']);
 Route::get('/prestataires/{id}',  [PrestataireController::class, 'show'])
+    ->whereNumber('id');
+Route::get('/prestataires/{id}/avis', [AvisController::class, 'duPrestataire'])
     ->whereNumber('id');
 
 /*
@@ -153,23 +156,28 @@ Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('reservations')->g
     Route::patch('/{uuid}/demarrer',  [ReservationController::class, 'demarrer'])->whereUuid('uuid');
     Route::patch('/{uuid}/terminer',  [ReservationController::class, 'terminer'])->whereUuid('uuid');
 
-        // ---- Paiement et facture ----
+    // ---- Paiement et facture ----
     Route::post('/{uuid}/paiement',            [PaiementController::class, 'payer'])->whereUuid('uuid');
     Route::get('/{uuid}/paiement',             [PaiementController::class, 'index'])->whereUuid('uuid');
     Route::patch('/{uuid}/paiement/confirmer', [PaiementController::class, 'confirmer'])->whereUuid('uuid');
     Route::get('/{uuid}/facture',              [PaiementController::class, 'facture'])->whereUuid('uuid');
 
-
-        // ---- Rapport de prestation ----
-    Route::get('/{uuid}/rapport',          [RapportController::class, 'show'])->whereUuid('uuid');
-    Route::post('/{uuid}/rapport',         [RapportController::class, 'store'])->whereUuid('uuid')
+    // ---- Rapport de prestation ----
+    Route::get('/{uuid}/rapport',           [RapportController::class, 'show'])->whereUuid('uuid');
+    Route::post('/{uuid}/rapport',          [RapportController::class, 'store'])->whereUuid('uuid')
         ->name('rapport.rediger');
     Route::post('/{uuid}/rapport/modifier', [RapportController::class, 'update'])->whereUuid('uuid');
     Route::patch('/{uuid}/rapport/signer',  [RapportController::class, 'signer'])->whereUuid('uuid');
     Route::get('/{uuid}/rapport/photos/{moment}', [RapportController::class, 'photo'])
         ->whereUuid('uuid')->whereIn('moment', ['avant', 'apres']);
-    Route::get('/{uuid}/rapport/pdf',      [RapportController::class, 'pdf'])->whereUuid('uuid');
-    });
+    Route::get('/{uuid}/rapport/pdf',       [RapportController::class, 'pdf'])->whereUuid('uuid');
+
+    // ---- Avis ----
+    Route::get('/{uuid}/avis',   [AvisController::class, 'show'])->whereUuid('uuid');
+    Route::post('/{uuid}/avis',  [AvisController::class, 'store'])->whereUuid('uuid')
+        ->name('avis.laisser');
+    Route::patch('/{uuid}/avis', [AvisController::class, 'update'])->whereUuid('uuid');
+});
 
 /*
 |--------------------------------------------------------------------------
