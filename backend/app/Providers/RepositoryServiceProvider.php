@@ -35,6 +35,10 @@ use App\Repositories\Contracts\GeolocalisationRepositoryInterface;
 use App\Repositories\Eloquent\GeolocalisationRepository;
 use App\Repositories\Contracts\RecommandationRepositoryInterface;
 use App\Repositories\Eloquent\RecommandationRepository;
+use App\Repositories\Contracts\StatistiquesPlateformeRepositoryInterface;
+use App\Repositories\Eloquent\StatistiquesPlateformeRepository;
+use App\Repositories\Contracts\CertificationRepositoryInterface;
+use App\Repositories\Eloquent\CertificationRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -56,5 +60,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(StatistiquesPrestataireRepositoryInterface::class, StatistiquesPrestataireRepository::class);
         $this->app->bind(GeolocalisationRepositoryInterface::class, GeolocalisationRepository::class);
         $this->app->bind(RecommandationRepositoryInterface::class, RecommandationRepository::class);
+        $this->app->bind(StatistiquesPlateformeRepositoryInterface::class, StatistiquesPlateformeRepository::class);
+        $this->app->bind(CertificationRepositoryInterface::class, CertificationRepository::class);
     }
 }

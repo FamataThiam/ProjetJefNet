@@ -13,22 +13,24 @@ class UserResource extends JsonResource
         $estProprietaire = $request->user()?->id === $this->id;
 
         return [
-           
+            
             'id'      => $this->uuid,
             'prenom'  => $this->prenom,
             'nom'     => $this->nom,
             'membre'  => new MembreResource($this->whenLoaded('membre')),
             'cree_le' => $this->created_at?->toIso8601String(),
 
-         
-            'email'             => $this->when($estProprietaire, $this->email),
-            'provider'          => $this->when($estProprietaire, $this->provider),
-            'est_email_verifie' => $this->when($estProprietaire, (bool) $this->est_email_verifie),
-            'statut'            => $this->when($estProprietaire, fn () => new CodeListResource($this->whenLoaded('statutCompte'))),
-            'profil_complete'   => $this->when(
+           
+            'email'              => $this->when($estProprietaire, $this->email),
+            'provider'           => $this->when($estProprietaire, $this->provider),
+            'est_email_verifie'  => $this->when($estProprietaire, (bool) $this->est_email_verifie),
+            'statut'             => $this->when($estProprietaire, fn () => new CodeListResource($this->whenLoaded('statutCompte'))),
+            'profil_complete'    => $this->when(
                 $estProprietaire && $this->relationLoaded('membre'),
                 fn () => $this->membre !== null
             ),
+            'est_administrateur' => $this->when($estProprietaire, fn () => $this->estAdministrateur()),
+            'niveau_acces'       => $this->when($estProprietaire, fn () => $this->administrateur?->niveauAcces?->value),
         ];
     }
 }

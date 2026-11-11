@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'profil.complet' => \App\Http\Middleware\ProfilComplet::class,
+            'admin' => \App\Http\Middleware\EstAdministrateur::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
@@ -23,7 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
 
-        // 404 propre pour l'API : ni nom de modèle, ni trace, ni chemins du serveur
+        
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json([

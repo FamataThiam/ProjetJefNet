@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\AdminCertificationController;
+use App\Http\Controllers\Api\Admin\AdminTableauDeBordController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AvisController;
 use App\Http\Controllers\Api\CodeListController;
@@ -214,6 +216,44 @@ Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('notifications')->
 */
 Route::middleware(['auth:sanctum', 'profil.complet'])
     ->get('/recommandations', [RecommandationController::class, 'index']);
+
+/*
+|--------------------------------------------------------------------------
+| Administration  →  /api/admin/...  (connecté + administrateur)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
+
+    // ---- Tableau de bord (tous les niveaux) ----
+    Route::prefix('tableau-de-bord')->group(function () {
+        Route::get('/resume',       [AdminTableauDeBordController::class, 'resume']);
+        Route::get('/evolution',    [AdminTableauDeBordController::class, 'evolution']);
+        Route::get('/repartitions', [AdminTableauDeBordController::class, 'repartitions']);
+        Route::get('/marche',       [AdminTableauDeBordController::class, 'marche']);
+        Route::get('/a-traiter',    [AdminTableauDeBordController::class, 'aTraiter']);
+    });
+
+    // ---- Certifications : consultation (tous les niveaux) ----
+    Route::get('/certifications',                   [AdminCertificationController::class, 'index']);
+    Route::get('/certifications/{id}',              [AdminCertificationController::class, 'show'])->whereNumber('id');
+    Route::get('/certifications/{id}/justificatif', [AdminCertificationController::class, 'justificatif'])->whereNumber('id');
+
+    // ---- Certifications : décision (SUPER_ADMIN et ADMIN seulement) ----
+    Route::middleware('admin:SUPER_ADMIN,ADMIN')->group(function () {
+        Route::patch('/certifications/{id}/valider', [AdminCertificationController::class, 'valider'])->whereNumber('id');
+        Route::patch('/certifications/{id}/refuser', [AdminCertificationController::class, 'refuser'])->whereNumber('id');
+    });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Justificatif de certification  →  lien signé (sans token, valable 10 min)
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/certifications/{id}/fichier', [AdminCertificationController::class, 'fichier'])
+    ->whereNumber('id')
+    ->middleware('signed')
+    ->name('admin.certifications.justificatif');
 
 /*
 |--------------------------------------------------------------------------

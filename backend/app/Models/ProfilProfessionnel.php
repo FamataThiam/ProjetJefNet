@@ -18,15 +18,19 @@ class ProfilProfessionnel extends Model
         'membre_id', 'titre_professionnel', 'experience', 'cv', 'linkedin', 'portfolio',
         'rayon_intervention_id', 'statut_certification_id', 'note_moyenne', 'biographie',
         'latitude', 'longitude', 'position_maj_le',
+        'certification_traitee_par', 'certification_traitee_le', 'motif_refus',
+        'certification_demandee_le',
     ];
 
     protected function casts(): array
     {
         return [
             'note_moyenne'    => 'decimal:2',
-            'latitude'        => 'float',
+            'latitude'   => 'float',
             'longitude'       => 'float',
             'position_maj_le' => 'datetime',
+            'certification_traitee_le' => 'datetime',
+            'certification_demandee_le' => 'datetime',
         ];
     }
 
@@ -73,5 +77,10 @@ class ProfilProfessionnel extends Model
     public function publications(): HasMany
     {
         return $this->hasMany(Publication::class);
+    }
+
+        public function traiteePar(): BelongsTo
+    {
+        return $this->belongsTo(Administrateur::class, 'certification_traitee_par');
     }
 }

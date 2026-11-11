@@ -81,9 +81,14 @@ class ProfilProService
         $ancien  = $profil->cv;
         $nouveau = $justificatif->store(self::DOSSIER_JUSTIFICATIFS, 'local');
 
-        $this->profils->modifier($profil, [
-            'cv'                      => $nouveau,
-            'statut_certification_id' => $this->codeId('StatutProfil', 'EN_ATTENTE'),
+                $this->profils->modifier($profil, [
+            'cv'                        => $nouveau,
+            'statut_certification_id'   => $this->codeId('StatutProfil', 'EN_ATTENTE'),
+            'certification_demandee_le' => now(),
+           
+            'motif_refus'               => null,
+            'certification_traitee_par' => null,
+            'certification_traitee_le'  => null,
         ]);
 
         if ($ancien && $ancien !== $nouveau) {
