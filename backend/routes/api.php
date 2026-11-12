@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\AdminCertificationController;
+use App\Http\Controllers\Api\Admin\AdminDomaineController;
+use App\Http\Controllers\Api\Admin\AdminMembreController;
 use App\Http\Controllers\Api\Admin\AdminTableauDeBordController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AvisController;
@@ -238,10 +240,29 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
     Route::get('/certifications/{id}',              [AdminCertificationController::class, 'show'])->whereNumber('id');
     Route::get('/certifications/{id}/justificatif', [AdminCertificationController::class, 'justificatif'])->whereNumber('id');
 
-    // ---- Certifications : décision (SUPER_ADMIN et ADMIN seulement) ----
+    // ---- Membres : consultation (tous les niveaux) ----
+    Route::get('/membres',      [AdminMembreController::class, 'index']);
+    Route::get('/membres/{id}', [AdminMembreController::class, 'show'])->whereNumber('id');
+
+    // ---- Domaines : consultation (tous les niveaux) ----
+    Route::get('/domaines',      [AdminDomaineController::class, 'index']);
+    Route::get('/domaines/{id}', [AdminDomaineController::class, 'show'])->whereNumber('id');
+
+    // ---- Décisions (SUPER_ADMIN et ADMIN seulement) ----
     Route::middleware('admin:SUPER_ADMIN,ADMIN')->group(function () {
+        // Certifications
         Route::patch('/certifications/{id}/valider', [AdminCertificationController::class, 'valider'])->whereNumber('id');
         Route::patch('/certifications/{id}/refuser', [AdminCertificationController::class, 'refuser'])->whereNumber('id');
+
+        // Membres
+        Route::patch('/membres/{id}/suspendre', [AdminMembreController::class, 'suspendre'])->whereNumber('id');
+        Route::patch('/membres/{id}/reactiver', [AdminMembreController::class, 'reactiver'])->whereNumber('id');
+
+        // Domaines (POST pour modifier, car l'image est envoyée en form-data)
+        Route::post('/domaines',                  [AdminDomaineController::class, 'store']);
+        Route::post('/domaines/{id}/modifier',    [AdminDomaineController::class, 'update'])->whereNumber('id');
+        Route::patch('/domaines/{id}/activer',    [AdminDomaineController::class, 'activer'])->whereNumber('id');
+        Route::patch('/domaines/{id}/desactiver', [AdminDomaineController::class, 'desactiver'])->whereNumber('id');
     });
 });
 

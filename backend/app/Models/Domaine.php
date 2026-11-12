@@ -7,15 +7,28 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Domaine extends Model
 {
-    protected $fillable = ['libelle', 'description', 'image_path'];
+    protected $fillable = ['libelle', 'description', 'image_path', 'est_actif'];
+    
+     protected function casts(): array
+    {
+        return [
+            'est_actif' => 'boolean',
+        ];
+    }
 
-    // Un domaine regroupe plusieurs services
+   
+    public function scopeActifs($query)
+    {
+        return $query->where('est_actif', true);
+    }
+
+
     public function services(): HasMany
     {
         return $this->hasMany(Service::class);
     }
 
-    // Un domaine est concerné par plusieurs demandes
+  
         public function demandes(): HasMany
         {
             return $this->hasMany(DemandeService::class);

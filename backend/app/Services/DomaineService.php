@@ -10,8 +10,10 @@ class DomaineService
     public function __construct(private DomaineRepositoryInterface $domaines) {}
 
   
-    public function lister(): Collection
+        public function lister(): Collection
     {
-        return $this->domaines->tousAvecNombrePrestataires();
+        return $this->domaines->tousAvecNombrePrestataires()
+            ->where('est_actif', true)
+            ->values();
     }
 }

@@ -62,5 +62,13 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(RecommandationRepositoryInterface::class, RecommandationRepository::class);
         $this->app->bind(StatistiquesPlateformeRepositoryInterface::class, StatistiquesPlateformeRepository::class);
         $this->app->bind(CertificationRepositoryInterface::class, CertificationRepository::class);
+        $this->app->bind(
+            \App\Repositories\Contracts\MembreAdminRepositoryInterface::class,
+            \App\Repositories\Eloquent\MembreAdminRepository::class
+        );
+                $this->app->bind(
+            \App\Repositories\Contracts\DomaineAdminRepositoryInterface::class,
+            \App\Repositories\Eloquent\DomaineAdminRepository::class
+        );
     }
 }

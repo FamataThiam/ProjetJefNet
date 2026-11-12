@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Requests\Demande;
+use Illuminate\Validation\Rule;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -14,7 +15,7 @@ class PublierDemandeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'domaine_id'  => ['required', 'integer', 'exists:domaines,id'],
+            'domaine_id'  => ['required', 'integer', Rule::exists('domaines', 'id')->where('est_actif', true)],
             'titre'       => ['required', 'string', 'max:150'],
             'description' => ['required', 'string', 'max:2000'],
             'adresse'     => ['required', 'string', 'max:255'],   
@@ -39,6 +40,7 @@ class PublierDemandeRequest extends FormRequest
         return [
             'latitude.between'  => 'La position doit se trouver au Sénégal.',
             'longitude.between' => 'La position doit se trouver au Sénégal.',
+            'domaine_id.exists' => "Ce domaine n'existe pas ou n'est plus proposé sur JefNet.",
         ];
     }
 }

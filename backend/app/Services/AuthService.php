@@ -78,18 +78,18 @@ class AuthService
 
 
      
-    public function connecter(string $email, string $password): array
+        public function connecter(string $email, string $password): array
     {
         $user = $this->users->findByEmail($email);
 
-       
+        
         if (! $user || ! Hash::check($password, (string) $user->password)) {
             throw ValidationException::withMessages([
                 'email' => 'Identifiants incorrects.',
             ]);
         }
 
-     
+        
         if (! $user->est_email_verifie) {
             throw new CompteException(
                 'Veuillez vérifier votre adresse e-mail avant de vous connecter.',
@@ -97,15 +97,9 @@ class AuthService
             );
         }
 
-      
-        if ($user->statutCompte?->value !== 'ACTIF') {
-            throw new CompteException(
-                "Votre compte n'est pas actif. Contactez l'administration JefNet.",
-                'COMPTE_INACTIF'
-            );
-        }
+        
+        $this->verifierStatut($user);
 
-      
         $this->users->enregistrerConnexion($user);
 
         return [
@@ -219,6 +213,33 @@ class AuthService
         $parties    = preg_split('/\s+/', $nomComplet, 2);
 
         return [$parties[0], $parties[1] ?? ''];
+    }
+
+
+
+
+
+       
+    private function verifierStatut(User $user): void
+    {
+        $statut = $user->statutCompte?->value;
+
+        
+        if ($statut === 'BLOQUE') {
+            throw new CompteException(
+                "Votre compte a été suspendu par l'administration JefNet."
+                    . ($user->motif_blocage ? " Motif : {$user->motif_blocage}" : ''),
+                'COMPTE_BLOQUE'
+            );
+        }
+
+        
+        if (! in_array($statut, ['ACTIF', 'SIGNALE'], true)) {
+            throw new CompteException(
+                "Votre compte n'est pas actif. Contactez l'administration JefNet.",
+                'COMPTE_INACTIF'
+            );
+        }
     }
     
 }

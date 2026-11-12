@@ -17,6 +17,7 @@ class User extends Authenticatable
     protected $fillable = [
         'nom', 'prenom', 'email', 'password',
         'provider', 'provider_id', 'statut_compte_id', 'est_email_verifie',
+        'motif_blocage', 'bloque_le', 'bloque_par',
     ];
 
     
@@ -27,6 +28,7 @@ class User extends Authenticatable
         return [
             'password'          => 'hashed',
             'est_email_verifie' => 'boolean',
+            'bloque_le' => 'datetime',
         ];
     }
 
@@ -58,6 +60,13 @@ class User extends Authenticatable
         public function administrateur(): HasOne
         {
             return $this->hasOne(Administrateur::class);
+        }
+
+
+                
+        public function bloquePar(): BelongsTo
+        {
+            return $this->belongsTo(Administrateur::class, 'bloque_par');
         }
 
         

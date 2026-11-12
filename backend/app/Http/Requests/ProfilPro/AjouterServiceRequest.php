@@ -17,7 +17,7 @@ class AjouterServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'domaine_id'  => ['required', 'integer', 'exists:domaines,id'],
+            'domaine_id'  => ['required', 'integer', Rule::exists('domaines', 'id')->where('est_actif', true)],
             'nom'         => ['required', 'string', 'max:150'],
             'description' => ['nullable', 'string', 'max:2000'],
             'prix'        => ['required', 'numeric', 'min:0', 'max:99999999'],
@@ -32,6 +32,14 @@ class AjouterServiceRequest extends FormRequest
             'domaine_id'  => 'domaine',
             'unite_tarif' => 'unité de tarif',
             'duree'       => 'durée',
+        ];
+    }
+
+
+        public function messages(): array
+    {
+        return [
+            'domaine_id.exists' => "Ce domaine n'existe pas ou n'est plus proposé sur JefNet.",
         ];
     }
 }
