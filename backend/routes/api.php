@@ -3,13 +3,16 @@
 use App\Http\Controllers\Api\Admin\AdminCertificationController;
 use App\Http\Controllers\Api\Admin\AdminDomaineController;
 use App\Http\Controllers\Api\Admin\AdminMembreController;
+use App\Http\Controllers\Api\Admin\AdminPublicationController;
 use App\Http\Controllers\Api\Admin\AdminTableauDeBordController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AvisController;
 use App\Http\Controllers\Api\CodeListController;
+use App\Http\Controllers\Api\CommentaireController;
 use App\Http\Controllers\Api\DemandeController;
 use App\Http\Controllers\Api\DemandesDisponiblesController;
 use App\Http\Controllers\Api\DomaineController;
+use App\Http\Controllers\Api\FilController;
 use App\Http\Controllers\Api\GeolocalisationController;
 use App\Http\Controllers\Api\MembreController;
 use App\Http\Controllers\Api\MesDisponibilitesController;
@@ -19,6 +22,7 @@ use App\Http\Controllers\Api\PaiementController;
 use App\Http\Controllers\Api\PrestataireController;
 use App\Http\Controllers\Api\ProfilController;
 use App\Http\Controllers\Api\ProfilProController;
+use App\Http\Controllers\Api\PublicationController;
 use App\Http\Controllers\Api\RapportController;
 use App\Http\Controllers\Api\RecommandationController;
 use App\Http\Controllers\Api\ReservationController;
@@ -42,6 +46,8 @@ Route::get('/prestataires/carte', [GeolocalisationController::class, 'carte']);
 Route::get('/prestataires/{id}',  [PrestataireController::class, 'show'])
     ->whereNumber('id');
 Route::get('/prestataires/{id}/avis', [AvisController::class, 'duPrestataire'])
+    ->whereNumber('id');
+Route::get('/prestataires/{id}/publications', [FilController::class, 'duPrestataire'])
     ->whereNumber('id');
 
 /*
@@ -128,6 +134,12 @@ Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('profil-pro')->gro
 
     // ---- Réservations reçues (prestataire) ----
     Route::get('/reservations', [ReservationController::class, 'recues']);
+
+    // ---- Mes publications (réalisations) ----
+    Route::get('/publications',                [PublicationController::class, 'index']);
+    Route::post('/publications',               [PublicationController::class, 'store']);
+    Route::post('/publications/{id}/modifier', [PublicationController::class, 'update'])->whereNumber('id');
+    Route::delete('/publications/{id}',        [PublicationController::class, 'destroy'])->whereNumber('id');
 
     // ---- Tableau de bord (statistiques) ----
     Route::prefix('tableau-de-bord')->group(function () {
@@ -221,6 +233,21 @@ Route::middleware(['auth:sanctum', 'profil.complet'])
 
 /*
 |--------------------------------------------------------------------------
+| Fil d'actualité, publications et commentaires  (connecté + profil complet)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'profil.complet'])->group(function () {
+    Route::get('/fil',         [FilController::class, 'index']);
+    Route::get('/fil/stories', [FilController::class, 'stories']);
+
+    Route::get('/publications/{id}',               [FilController::class, 'show'])->whereNumber('id');
+    Route::get('/publications/{id}/commentaires',  [CommentaireController::class, 'index'])->whereNumber('id');
+    Route::post('/publications/{id}/commentaires', [CommentaireController::class, 'store'])->whereNumber('id');
+    Route::delete('/commentaires/{id}',            [CommentaireController::class, 'destroy'])->whereNumber('id');
+});
+
+/*
+|--------------------------------------------------------------------------
 | Administration  →  /api/admin/...  (connecté + administrateur)
 |--------------------------------------------------------------------------
 */
@@ -247,6 +274,12 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
     // ---- Domaines : consultation (tous les niveaux) ----
     Route::get('/domaines',      [AdminDomaineController::class, 'index']);
     Route::get('/domaines/{id}', [AdminDomaineController::class, 'show'])->whereNumber('id');
+
+    // ---- Modération des publications (tous les niveaux, y compris MODERATEUR) ----
+    Route::get('/publications',                [AdminPublicationController::class, 'index']);
+    Route::patch('/publications/{id}/masquer',    [AdminPublicationController::class, 'masquer'])->whereNumber('id');
+    Route::patch('/publications/{id}/reafficher', [AdminPublicationController::class, 'reafficher'])->whereNumber('id');
+    Route::delete('/commentaires/{id}',           [AdminPublicationController::class, 'supprimerCommentaire'])->whereNumber('id');
 
     // ---- Décisions (SUPER_ADMIN et ADMIN seulement) ----
     Route::middleware('admin:SUPER_ADMIN,ADMIN')->group(function () {

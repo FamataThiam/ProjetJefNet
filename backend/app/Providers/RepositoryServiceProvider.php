@@ -70,5 +70,13 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\DomaineAdminRepositoryInterface::class,
             \App\Repositories\Eloquent\DomaineAdminRepository::class
         );
+                $this->app->bind(
+            \App\Repositories\Contracts\PublicationRepositoryInterface::class,
+            \App\Repositories\Eloquent\PublicationRepository::class
+        );
+        $this->app->bind(
+            \App\Repositories\Contracts\CommentaireRepositoryInterface::class,
+            \App\Repositories\Eloquent\CommentaireRepository::class
+        );
     }
 }

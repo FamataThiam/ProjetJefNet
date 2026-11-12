@@ -20,4 +20,10 @@ class Media extends Model
     {
         return $this->belongsTo(CodeList::class, 'type_id');
     }
+
+
+     public function tousCommentaires(): HasMany
+    {
+        return $this->hasMany(CommentairePublication::class);
+    }
 }
