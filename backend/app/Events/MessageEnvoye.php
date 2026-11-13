@@ -42,7 +42,7 @@ class MessageEnvoye implements ShouldBroadcastNow
 
         return [
             'conversation_uuid' => $this->conversation->uuid,
-            'message'           => (new MessageResource($this->message))->resolve(),
+           'message'           => collect((new MessageResource($this->message))->resolve())->except('est_moi')->all(),
            
             'expediteur_nom'    => $expediteur ? trim($expediteur->prenom . ' ' . mb_substr((string) $expediteur->nom, 0, 1) . '.') : null,
             'apercu'            => MessageResource::apercu($this->message),

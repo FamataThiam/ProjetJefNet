@@ -31,6 +31,9 @@
     <label for="membre">Identifiant du membre (facultatif, avec le token)</label>
     <input id="membre" placeholder="ex. 2 pour Moussa">
 
+    <label for="conversation">UUID d'une conversation (facultatif, avec le token d'un participant)</label>
+    <input id="conversation" placeholder="ex. 01a18f2a-....">
+
     <label><input type="checkbox" id="admin" style="width:auto"> Écouter aussi le canal admin (token d'un administrateur)</label>
 
     <button type="button" id="connecter">Se connecter à Reverb</button>
@@ -78,6 +81,8 @@
     const canaux = ['public'];
     if (token && membre) canaux.push('private-membre.' + membre);
     if (token && document.getElementById('admin').checked) canaux.push('private-admin');
+    const conversation = document.getElementById('conversation').value.trim();
+    if (token && conversation) canaux.push('private-conversation.' + conversation);
 
     canaux.forEach((nom) => {
       const canal = pusher.subscribe(nom);
