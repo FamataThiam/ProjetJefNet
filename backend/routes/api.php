@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\DomaineController;
 use App\Http\Controllers\Api\FilController;
 use App\Http\Controllers\Api\GeolocalisationController;
 use App\Http\Controllers\Api\MembreController;
+use App\Http\Controllers\Api\MessagerieController;
 use App\Http\Controllers\Api\MesDisponibilitesController;
 use App\Http\Controllers\Api\MesServicesController;
 use App\Http\Controllers\Api\NotificationController;
@@ -245,6 +246,34 @@ Route::middleware(['auth:sanctum', 'profil.complet'])->group(function () {
     Route::post('/publications/{id}/commentaires', [CommentaireController::class, 'store'])->whereNumber('id');
     Route::delete('/commentaires/{id}',            [CommentaireController::class, 'destroy'])->whereNumber('id');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Messagerie  →  /api/conversations/...  (connecté + profil complet)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('conversations')->group(function () {
+    Route::get('/',         [MessagerieController::class, 'index']);
+    Route::post('/',        [MessagerieController::class, 'store']);
+    Route::get('/non-lus',  [MessagerieController::class, 'nonLus']);
+
+    Route::get('/{uuid}',               [MessagerieController::class, 'show'])->whereUuid('uuid');
+    Route::get('/{uuid}/messages',      [MessagerieController::class, 'messages'])->whereUuid('uuid');
+    Route::post('/{uuid}/messages',     [MessagerieController::class, 'envoyer'])->whereUuid('uuid');
+    Route::patch('/{uuid}/lire',        [MessagerieController::class, 'lire'])->whereUuid('uuid');
+    Route::patch('/{uuid}/archiver',    [MessagerieController::class, 'archiver'])->whereUuid('uuid');
+    Route::patch('/{uuid}/desarchiver', [MessagerieController::class, 'desarchiver'])->whereUuid('uuid');
+
+        Route::post('/{uuid}/appel', [MessagerieController::class, 'lancerAppel'])->whereUuid('uuid');
+    Route::post('/{uuid}/appel/rejoindre', [MessagerieController::class, 'rejoindreAppel'])->whereUuid('uuid');
+    Route::post('/{uuid}/appel/terminer',  [MessagerieController::class, 'terminerAppel'])->whereUuid('uuid');
+});
+
+// Fichier d'un message : lien signé valable 1 h (photo, vocal, document), sans token
+Route::get('/messages/{id}/fichier', [MessagerieController::class, 'fichier'])
+    ->whereNumber('id')
+    ->middleware('signed')
+    ->name('messages.fichier');
 
 /*
 |--------------------------------------------------------------------------

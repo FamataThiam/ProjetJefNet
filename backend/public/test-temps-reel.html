@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>JefNet - Test temps réel</title>
+<script src="https://cdn.jsdelivr.net/npm/pusher-js@8.4.0/dist/web/pusher.min.js"></script>
+<style>
+  body { font-family: Arial, sans-serif; margin: 24px; color: #1a1f24; background: #f4f8fb; }
+  h1 { color: #0174AB; margin: 0 0 4px; }
+  .carte { background: #fff; border: 1px solid #d5dde3; border-radius: 8px; padding: 14px; margin: 12px 0; }
+  label { display: block; font-size: 13px; margin: 8px 0 4px; color: #5b6670; }
+  input { width: 100%; max-width: 520px; padding: 8px; border: 1px solid #b9c5ce; border-radius: 6px; box-sizing: border-box; }
+  button { margin-top: 10px; padding: 9px 16px; background: #0174AB; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+  #etat { font-weight: bold; }
+  .ok { color: #17863f; } .ko { color: #b42318; }
+  #journal div { border-bottom: 1px solid #e6ecf0; padding: 6px 0; font-family: Consolas, monospace; font-size: 13px; white-space: pre-wrap; }
+  .canal { color: #0174AB; font-weight: bold; }
+</style>
+</head>
+<body>
+  <h1>Test temps réel JefNet</h1>
+  <p>Cette page joue le rôle du futur front : elle écoute Reverb et affiche les signaux reçus.</p>
+
+  <div class="carte">
+    <label for="cle">REVERB_APP_KEY (dans ton .env : la clé publique, pas le secret)</label>
+    <input id="cle" placeholder="ex. viytbfhxernvkqguaozj">
+
+    <label for="token">Token Sanctum (facultatif : pour écouter les canaux privés)</label>
+    <input id="token" placeholder="ex. 152|aB3x...">
+
+    <label for="membre">Identifiant du membre (facultatif, avec le token)</label>
+    <input id="membre" placeholder="ex. 2 pour Moussa">
+
+    <label><input type="checkbox" id="admin" style="width:auto"> Écouter aussi le canal admin (token d'un administrateur)</label>
+
+    <button type="button" id="connecter">Se connecter à Reverb</button>
+    <p>État : <span id="etat">non connecté</span></p>
+  </div>
+
+  <div class="carte">
+    <strong>Signaux reçus</strong>
+    <div id="journal"><div>En attente…</div></div>
+  </div>
+
+<script>
+  const journal = document.getElementById('journal');
+  const etat = document.getElementById('etat');
+
+  function ecrire(canal, evenement, donnees) {
+    if (journal.firstChild && journal.firstChild.textContent === 'En attente…') journal.innerHTML = '';
+    const ligne = document.createElement('div');
+    const heure = new Date().toLocaleTimeString('fr-FR');
+    ligne.innerHTML = heure + '  <span class="canal">' + canal + '</span>  ' + evenement + '\n' + JSON.stringify(donnees, null, 2);
+    journal.prepend(ligne);
+  }
+
+  document.getElementById('connecter').addEventListener('click', () => {
+    const cle = document.getElementById('cle').value.trim();
+    const token = document.getElementById('token').value.trim();
+    const membre = document.getElementById('membre').value.trim();
+    if (!cle) { alert('Colle la REVERB_APP_KEY'); return; }
+
+    const pusher = new Pusher(cle, {
+      wsHost: 'localhost',
+      wsPort: 6001,
+      forceTLS: false,
+      enabledTransports: ['ws'],
+      cluster: 'mt1',
+      channelAuthorization: {
+        endpoint: 'http://127.0.0.1:8000/api/broadcasting/auth',
+        headers: { Authorization: 'Bearer ' + token, Accept: 'application/json' }
+      }
+    });
+
+    pusher.connection.bind('connected', () => { etat.textContent = 'connecté à Reverb'; etat.className = 'ok'; });
+    pusher.connection.bind('error', (e) => { etat.textContent = 'erreur de connexion (Reverb est-il lancé ?)'; etat.className = 'ko'; console.log(e); });
+
+    const canaux = ['public'];
+    if (token && membre) canaux.push('private-membre.' + membre);
+    if (token && document.getElementById('admin').checked) canaux.push('private-admin');
+
+    canaux.forEach((nom) => {
+      const canal = pusher.subscribe(nom);
+      canal.bind('pusher:subscription_succeeded', () => ecrire(nom, 'abonnement réussi', {}));
+      canal.bind('pusher:subscription_error', (e) => ecrire(nom, 'abonnement REFUSÉ', e));
+      canal.bind_global((evenement, donnees) => {
+        if (!evenement.startsWith('pusher:')) ecrire(nom, evenement, donnees);
+      });
+    });
+  });
+</script>
+</body>
+</html>

@@ -4,9 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+
 
 class Facture extends Model
 {
+
+    use HasFactory;
     protected $fillable = ['paiement_id', 'numero_facture', 'date_emission', 'montant', 'fichier_pdf'];
 
     protected function casts(): array

@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Concerns\DiffuseEnDirect;
+
 
 class Membre extends Model
 {
-    use HasFactory;
+    use HasFactory, DiffuseEnDirect;
 
         protected $fillable = [
         'user_id', 'username', 'telephone', 'ville', 'localite', 'pays',
@@ -26,14 +28,20 @@ class Membre extends Model
         ];
     }
 
-    // Un membre appartient à un utilisateur (héritage)
+    
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
 
-            // Un membre peut avoir un profil professionnel (prestataire)
+    protected string $ressourceTempsReel = 'membres';
+
+    public function membresConcernes(): array
+    {
+        return [$this->id];
+    }
+           
         public function profilProfessionnel(): HasOne
         {
             return $this->hasOne(ProfilProfessionnel::class);

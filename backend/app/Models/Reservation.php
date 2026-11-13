@@ -8,16 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Concerns\DiffuseEnDirect;
 
 class Reservation extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasUuids, DiffuseEnDirect;
 
     protected $fillable = [
         'membre_id', 'profil_professionnel_id', 'demande_service_id',
         'date_prevue', 'heure_prevue', 'adresse_intervention', 'prix_final', 'statut_id',
         'date_confirmation', 'date_annulation', 'raison_annulation',
     ];
+
+    protected string $ressourceTempsReel = 'reservations';
+
+    public function membresConcernes(): array
+    {
+        return [$this->client?->id, $this->prestataire?->membre_id];
+    }
 
     protected function casts(): array
     {

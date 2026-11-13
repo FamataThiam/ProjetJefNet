@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
+
 
 class Conversation extends Model
 {
-    use HasUuids;
+    use HasUuids, HasFactory;
 
     protected $fillable = ['initiateur_id', 'destinataire_id', 'statut_id'];
 
@@ -29,5 +33,16 @@ class Conversation extends Model
     public function interlocuteur(Membre $moi): Membre
     {
         return $this->initiateur_id === $moi->id ? $this->destinataire : $this->initiateur;
+    }
+
+
+     public function dernierMessage(): HasOne
+    {
+        return $this->hasOne(Message::class)->latestOfMany();
+    }
+
+    public function estParticipant(Membre $membre): bool
+    {
+        return in_array($membre->id, [$this->initiateur_id, $this->destinataire_id], true);
     }
 }

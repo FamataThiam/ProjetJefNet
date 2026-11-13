@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Message extends Model
 {
+    use HasFactory;
+    protected $touches = ['conversation'];
     protected $fillable = ['conversation_id', 'expediteur_id', 'reponse_a_id', 'contenu', 'type_message_id', 'fichier_url', 'est_lu'];
 
     protected function casts(): array

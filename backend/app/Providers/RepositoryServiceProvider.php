@@ -40,6 +40,7 @@ use App\Repositories\Eloquent\StatistiquesPlateformeRepository;
 use App\Repositories\Contracts\CertificationRepositoryInterface;
 use App\Repositories\Eloquent\CertificationRepository;
 
+
 class RepositoryServiceProvider extends ServiceProvider
 {
     public function register(): void
@@ -77,6 +78,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             \App\Repositories\Contracts\CommentaireRepositoryInterface::class,
             \App\Repositories\Eloquent\CommentaireRepository::class
+        );
+
+                $this->app->bind(
+            \App\Repositories\Contracts\MessagerieRepositoryInterface::class,
+            \App\Repositories\Eloquent\MessagerieRepository::class
         );
     }
 }

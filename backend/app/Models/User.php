@@ -9,10 +9,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Concerns\DiffuseEnDirect;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, HasUuids, Notifiable;
+    use HasApiTokens, HasFactory, HasUuids, Notifiable, DiffuseEnDirect;
 
     protected $fillable = [
         'nom', 'prenom', 'email', 'password',
@@ -50,6 +51,13 @@ class User extends Authenticatable
         return $this->belongsTo(CodeList::class, 'statut_compte_id');
     }
 
+
+        protected string $ressourceTempsReel = 'membres';
+
+    public function membresConcernes(): array
+    {
+        return [$this->membre?->id];
+    }
     
         public function membre(): HasOne
         {

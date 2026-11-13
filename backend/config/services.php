@@ -56,4 +56,12 @@ return [
 
     'frontend_url' => env('FRONTEND_URL', 'http://localhost:5173'),
 
+
+
+           'daily' => [
+           'key'    => env('DAILY_API_KEY'),
+           'domain' => env('DAILY_DOMAIN'),
+           'url'    => 'https://api.daily.co/v1',
+       ],
+
 ];

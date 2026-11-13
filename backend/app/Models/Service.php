@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Concerns\DiffuseEnDirect;
 
 class Service extends Model
 {
-    use HasFactory;
+    use HasFactory, DiffuseEnDirect;
 
     protected $fillable = [
         'profil_professionnel_id', 'domaine_id', 'nom', 'description',
@@ -25,7 +26,14 @@ class Service extends Model
         ];
     }
 
-    // Le service est proposé par un prestataire
+    protected string $ressourceTempsReel = 'services';
+    protected bool $diffusionPublique = true;
+
+    public function membresConcernes(): array
+    {
+        return [ProfilProfessionnel::whereKey($this->profil_professionnel_id)->value('membre_id')];
+    }
+
     public function profilProfessionnel(): BelongsTo
     {
         return $this->belongsTo(ProfilProfessionnel::class);

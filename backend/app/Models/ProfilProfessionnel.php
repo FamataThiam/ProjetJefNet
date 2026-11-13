@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use App\Models\Concerns\DiffuseEnDirect;
 
 class ProfilProfessionnel extends Model
 {
-    use HasFactory;
+    use HasFactory, DiffuseEnDirect;
 
     protected $table = 'profils_professionnels';
 
@@ -32,6 +33,13 @@ class ProfilProfessionnel extends Model
             'certification_traitee_le' => 'datetime',
             'certification_demandee_le' => 'datetime',
         ];
+    }
+    protected string $ressourceTempsReel = 'prestataires';
+    protected bool $diffusionPublique = true;
+
+    public function membresConcernes(): array
+    {
+        return [$this->membre_id];
     }
 
     public function membre(): BelongsTo

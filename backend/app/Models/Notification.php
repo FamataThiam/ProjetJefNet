@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Concerns\DiffuseEnDirect;
 
 class Notification extends Model
 {
+
+    use HasFactory, DiffuseEnDirect;
     protected $fillable = ['membre_id', 'type_id', 'titre', 'contenu', 'lien', 'est_lu'];
 
     protected function casts(): array
