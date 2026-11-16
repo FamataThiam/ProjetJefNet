@@ -1,1 +1,81 @@
 @import "tailwindcss";
+
+/* La classe "dark" est posée automatiquement quand le fond devient foncé */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- Couleurs fixes JefNet ---------- */
+@theme {
+  --color-jef: #0174ab;
+  --color-jef-fonce: #015d89;
+  --color-jef-clair: #2ba8e0;
+  --color-jef-pale: #eaf4fa;
+  --color-nuit: #050a14;
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-titre: "Montserrat", "Inter", sans-serif;
+}
+
+/* ---------- Couleurs qui suivent l'arc (valeurs de départ, mode clair) ---------- */
+:root {
+  --fond: #f8fafc;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --texte: #0f172a;
+  --texte-doux: #64748b;
+  --bordure: #e2e8f0;
+}
+@theme inline {
+  --color-fond: var(--fond);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-texte: var(--texte);
+  --color-texte-doux: var(--texte-doux);
+  --color-bordure: var(--bordure);
+}
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--fond);
+  color: var(--texte);
+  transition: background-color .15s linear, color .15s linear;
+}
+
+/* ---------- Page 404 : texte rempli par la galaxie ---------- */
+.oups {
+  background-image: url('/images/galaxie.jpg');
+  background-size: 160% auto;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: galaxie 30s linear infinite alternate;
+}
+@keyframes galaxie { to { background-position: 100% 50%; } }
+
+/* ---------- Chargement liquide ---------- */
+.chargement-rotation { transform-origin: 50px 50px; animation: tourner 1.1s cubic-bezier(.55,.15,.45,.85) infinite; }
+.goutte { transform-origin: 50px 50px; }
+.goutte-1 { animation: goutte1 1.1s ease-in-out infinite; }
+.goutte-2 { animation: goutte2 1.1s ease-in-out infinite; }
+@keyframes tourner { to { transform: rotate(360deg); } }
+@keyframes goutte1 {
+  0%, 100% { transform: rotate(-22deg) translateY(0); }
+  45% { transform: rotate(-40deg) translateY(-15px); }
+}
+@keyframes goutte2 {
+  0%, 100% { transform: rotate(-50deg) translateY(0) scale(.5); }
+  55% { transform: rotate(-66deg) translateY(-11px) scale(.9); }
+}
+
+/* ---------- Squelette du fil (suit aussi les couleurs de l'arc) ---------- */
+.squelette {
+  background: linear-gradient(90deg, var(--surface-2) 0%, var(--surface) 40%, var(--surface-2) 80%);
+  background-size: 200% 100%;
+  animation: reflet 1.4s ease-in-out infinite;
+}
+@keyframes reflet { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .oups, .chargement-rotation, .goutte, .squelette { animation: none; }
+}

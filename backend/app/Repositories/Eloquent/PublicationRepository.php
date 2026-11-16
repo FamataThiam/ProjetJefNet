@@ -89,8 +89,10 @@ class PublicationRepository implements PublicationRepositoryInterface
 
     public function fil(array $c, int $parPage = 10): LengthAwarePaginator
     {
-        $q = $this->base()
+      $q = Publication::query()
             ->select('publications.*')
+            ->with(self::RELATIONS)
+            ->withCount('tousCommentaires as nb_commentaires')
             ->join('profils_professionnels as pp', 'pp.id', '=', 'publications.profil_professionnel_id')
             ->join('membres as m', 'm.id', '=', 'pp.membre_id')
             ->join('users as u', 'u.id', '=', 'm.user_id')
@@ -166,6 +168,7 @@ class PublicationRepository implements PublicationRepositoryInterface
             $liaisons[] = $c['certifie_id'];
         }
 
+         $parties[] = "(0 - LEAST((ROW_NUMBER() OVER (PARTITION BY publications.profil_professionnel_id ORDER BY {$date} DESC) - 1) * 15, 45))";
         return [implode(' + ', $parties), $liaisons];
     }
 

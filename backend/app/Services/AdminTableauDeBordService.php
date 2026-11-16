@@ -27,7 +27,7 @@ class AdminTableauDeBordService
         $debut     = now()->startOfMonth();
         $fin       = now();
         $debutPrec = now()->subMonthNoOverflow()->startOfMonth();
-        $finPrec   = now()->subMonthNoOverflow()->endOfMonth();
+        $finPrec   = now()->subMonthNoOverflow();
 
         $membres     = $this->stats->membres($debut, $fin);
         $membresPrec = $this->stats->membres($debutPrec, $finPrec);
@@ -38,14 +38,20 @@ class AdminTableauDeBordService
         $totalProfils = array_sum($certifs);
 
         return [
-            'periode' => [
-                'libelle' => ucfirst(now()->locale('fr')->translatedFormat('F Y')),
-                'debut'   => $debut->toDateString(),
-                'fin'     => $fin->toDateString(),
+                'periode' => [
+                'libelle'     => ucfirst(now()->locale('fr')->translatedFormat('F Y')),
+                'debut'       => $debut->toDateString(),
+                'fin'         => $fin->toDateString(),
+              
+                'comparaison' => [
+                    'debut'   => $debutPrec->toDateString(),
+                    'fin'     => $finPrec->toDateString(),
+                    'libelle' => 'du 1er au ' . $finPrec->locale('fr')->translatedFormat('j F'),
+                ],
             ],
             'cartes' => [
                 $this->carte('membres', 'Membres inscrits', $membres['total'], null, null,
-                    complement: "+{$membres['nouveaux']} ce mois (" . $membresPrec['nouveaux'] . ' le mois dernier)'),
+                complement: "+{$membres['nouveaux']} ce mois (" . $membresPrec['nouveaux'] . ' sur la même période le mois dernier)'),
                 $this->carte('prestataires', 'Prestataires actifs', $this->stats->prestatairesActifs(), null, null),
                 $this->carte('volume', "Volume d'affaires du mois", $volume['montant'], $volumePrec['montant'], 'FCFA'),
                 $this->carte('reservations', 'Réservations du mois',

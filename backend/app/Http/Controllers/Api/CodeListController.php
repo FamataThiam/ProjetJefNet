@@ -12,7 +12,7 @@ class CodeListController extends Controller
         private CodeListService $service
     ) {}
 
-  // Renvoie les valeurs actives d'une liste, ex : valuesOf('ModePaiement')
+  
     public function index(string $type)
     {
         $valeurs = $this->service->valuesOf($type);

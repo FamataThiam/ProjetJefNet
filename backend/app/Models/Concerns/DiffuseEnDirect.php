@@ -6,18 +6,10 @@ use App\Events\DonneesModifiees;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-/**
- * À ajouter dans un modèle (use DiffuseEnDirect;) :
- * chaque création / modification / suppression envoie un signal temps réel.
- *
- * Réglages facultatifs dans le modèle :
- *   protected string $ressourceTempsReel = 'prestataires';  // nom écouté par le front (par défaut : la table)
- *   protected bool   $diffusionPublique  = true;            // signal visible par tous
- *   public function membresConcernes(): array { ... }      // membres prévenus en privé
- */
+
 trait DiffuseEnDirect
 {
-    /** Colonnes dont le changement seul ne mérite pas de signal. */
+    
     private static array $colonnesIgnorees = [
         'updated_at', 'derniere_connexion', 'nombre_connexion', 'remember_token', 'password',
     ];
@@ -42,7 +34,7 @@ trait DiffuseEnDirect
             return;
         }
 
-        // Une simple mise à jour de "dernière connexion" ne déclenche rien
+       
         if ($action === 'updated'
             && empty(array_diff(array_keys($this->getChanges()), self::$colonnesIgnorees))) {
             return;
@@ -52,7 +44,7 @@ trait DiffuseEnDirect
             $evenement = new DonneesModifiees(
                 ressource: property_exists($this, 'ressourceTempsReel') ? $this->ressourceTempsReel : $this->getTable(),
                 action:    $action,
-                id:        (int) $this->getKey(),
+                id: (int) (method_exists($this, 'idTempsReel') ? $this->idTempsReel() : $this->getKey()),
                 membres:   $this->membresConcernes(),
                 public:    property_exists($this, 'diffusionPublique') && $this->diffusionPublique,
             );
@@ -61,7 +53,7 @@ trait DiffuseEnDirect
             return;
         }
 
-        // Envoi seulement si la transaction réussit ; une erreur n'empêche jamais l'action
+        
         DB::afterCommit(function () use ($evenement) {
             try {
                 broadcast($evenement);

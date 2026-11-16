@@ -47,4 +47,9 @@ class CommentairePublication extends Model
     {
         return $this->hasMany(self::class, 'parent_id')->oldest();
     }
+
+    public function idTempsReel(): int
+    {
+        return (int) $this->publication_id;
+    }
 }

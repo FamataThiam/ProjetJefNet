@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\AdminCertificationController;
+use App\Http\Controllers\Api\Admin\AdminCodeListController;
 use App\Http\Controllers\Api\Admin\AdminDomaineController;
 use App\Http\Controllers\Api\Admin\AdminMembreController;
 use App\Http\Controllers\Api\Admin\AdminPublicationController;
@@ -264,7 +265,8 @@ Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('conversations')->
     Route::patch('/{uuid}/archiver',    [MessagerieController::class, 'archiver'])->whereUuid('uuid');
     Route::patch('/{uuid}/desarchiver', [MessagerieController::class, 'desarchiver'])->whereUuid('uuid');
 
-        Route::post('/{uuid}/appel', [MessagerieController::class, 'lancerAppel'])->whereUuid('uuid');
+
+    Route::post('/{uuid}/appel',           [MessagerieController::class, 'lancerAppel'])->whereUuid('uuid');
     Route::post('/{uuid}/appel/rejoindre', [MessagerieController::class, 'rejoindreAppel'])->whereUuid('uuid');
     Route::post('/{uuid}/appel/terminer',  [MessagerieController::class, 'terminerAppel'])->whereUuid('uuid');
 });
@@ -304,6 +306,10 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
     Route::get('/domaines',      [AdminDomaineController::class, 'index']);
     Route::get('/domaines/{id}', [AdminDomaineController::class, 'show'])->whereNumber('id');
 
+    // ---- Listes de valeurs : consultation (tous les niveaux) ----
+    Route::get('/code-lists',       [AdminCodeListController::class, 'index']);
+    Route::get('/code-lists/types', [AdminCodeListController::class, 'types']);
+
     // ---- Modération des publications (tous les niveaux, y compris MODERATEUR) ----
     Route::get('/publications',                [AdminPublicationController::class, 'index']);
     Route::patch('/publications/{id}/masquer',    [AdminPublicationController::class, 'masquer'])->whereNumber('id');
@@ -325,6 +331,13 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
         Route::post('/domaines/{id}/modifier',    [AdminDomaineController::class, 'update'])->whereNumber('id');
         Route::patch('/domaines/{id}/activer',    [AdminDomaineController::class, 'activer'])->whereNumber('id');
         Route::patch('/domaines/{id}/desactiver', [AdminDomaineController::class, 'desactiver'])->whereNumber('id');
+    });
+
+    // ---- Listes de valeurs : actions (SUPER_ADMIN seulement) ----
+    Route::middleware('admin:SUPER_ADMIN')->group(function () {
+        Route::post('/code-lists',                  [AdminCodeListController::class, 'store']);
+        Route::patch('/code-lists/{id}/activer',    [AdminCodeListController::class, 'activer'])->whereNumber('id');
+        Route::patch('/code-lists/{id}/desactiver', [AdminCodeListController::class, 'desactiver'])->whereNumber('id');
     });
 });
 

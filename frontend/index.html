@@ -1,10 +1,36 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+
+    <title>JefNet</title>
+    <meta name="description" content="JefNet met en relation les travailleurs indépendants et les clients au Sénégal : recherche par proximité, réservation, paiement et avis." />
+    <meta name="theme-color" content="#0174AB" />
+
+    <script>
+ 
+  (function () {
+    try {
+      var c = JSON.parse(localStorage.getItem('jefnet-couleurs'));
+      if (!c) return;
+      var r = document.documentElement;
+      for (var nom in c.variables) r.style.setProperty(nom, c.variables[nom]);
+      if (c.sombre) r.classList.add('dark');
+    } catch (e) {}
+    })();
+  </script>
+
+    
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/favicon-192.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Polices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>

@@ -42,7 +42,7 @@ class TableauDeBordService
         $debut     = now()->startOfMonth();
         $fin       = now();
         $debutPrec = now()->subMonthNoOverflow()->startOfMonth();
-        $finPrec   = now()->subMonthNoOverflow()->endOfMonth();
+        $finPrec   = now()->subMonthNoOverflow();
 
         $ca     = $this->stats->chiffreAffaires($profil->id, $debut, $fin);
         $caPrec = $this->stats->chiffreAffaires($profil->id, $debutPrec, $finPrec);
@@ -57,10 +57,16 @@ class TableauDeBordService
         $serie   = $this->evolution($membre, 6)['mois'];
 
         return [
-            'periode' => [
-                'libelle' => ucfirst(now()->locale('fr')->translatedFormat('F Y')),
-                'debut'   => $debut->toDateString(),
-                'fin'     => $fin->toDateString(),
+                'periode' => [
+                'libelle'     => ucfirst(now()->locale('fr')->translatedFormat('F Y')),
+                'debut'       => $debut->toDateString(),
+                'fin'         => $fin->toDateString(),
+                
+                'comparaison' => [
+                    'debut'   => $debutPrec->toDateString(),
+                    'fin'     => $finPrec->toDateString(),
+                    'libelle' => 'du 1er au ' . $finPrec->locale('fr')->translatedFormat('j F'),
+                ],
             ],
             'cartes' => [
                 $this->carte('chiffre_affaires', "Chiffre d'affaires du mois", $ca['montant'], $caPrec['montant'], 'FCFA',
