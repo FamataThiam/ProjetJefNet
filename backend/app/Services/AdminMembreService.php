@@ -70,9 +70,9 @@ class AdminMembreService
             $annulees = $this->annulerReservationsAVenir($membre);
 
             
-            $this->notifications->notifier(
+                        $this->notifications->notifier(
                 $membre->id,
-                'PROFIL',
+                'COMPTE',
                 'Compte suspendu',
                 "Votre compte a été suspendu par l'administration JefNet. Motif : {$motif}",
                 '/profil',
@@ -105,7 +105,7 @@ class AdminMembreService
 
             $this->notifications->notifier(
                 $membre->id,
-                'PROFIL',
+                'COMPTE',
                 'Compte réactivé',
                 'Votre compte JefNet a été réactivé. Vous pouvez de nouveau utiliser toutes les fonctionnalités de la plateforme.',
                 '/profil',

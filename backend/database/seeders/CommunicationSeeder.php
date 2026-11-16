@@ -138,9 +138,9 @@ class CommunicationSeeder extends Seeder
         }
 
       
-        $certifie = $this->codeLists->idOf('StatutProfil', 'CERTIFIE');
+         $certifie = $this->codeLists->idOf('StatutProfil', 'CERTIFIE');
         foreach (ProfilProfessionnel::where('statut_certification_id', $certifie)->get() as $p) {
-            $this->notifier($p->membre_id, 'PROFIL', 'Profil certifié 🎉',
+            $this->notifier($p->membre_id, 'CERTIFICATION', 'Profil certifié',
                 'Félicitations ! Votre badge « certifié » est maintenant visible sur votre profil.', '/profil', now()->subDays(fake()->numberBetween(5, 40)));
         }
     }

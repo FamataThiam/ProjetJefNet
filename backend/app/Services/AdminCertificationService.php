@@ -75,9 +75,9 @@ class AdminCertificationService
                 'motif_refus'               => null,
             ]);
 
-            $this->notifications->notifier(
+                       $this->notifications->notifier(
                 $profil->membre_id,
-                'PROFIL',
+                'CERTIFICATION',
                 'Votre profil est certifié !',
                 'Félicitations : votre profil professionnel est désormais certifié JefNet. '
                     . 'Le badge « Certifié » apparaît sur votre profil et améliore votre place dans les recommandations.',
@@ -105,7 +105,7 @@ class AdminCertificationService
 
             $this->notifications->notifier(
                 $profil->membre_id,
-                'PROFIL',
+                'CERTIFICATION',
                 'Demande de certification non acceptée',
                 "Votre demande de certification n'a pas été acceptée. Motif : {$motif} "
                     . 'Vous pouvez envoyer un nouveau justificatif depuis votre profil professionnel.',

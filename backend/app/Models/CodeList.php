@@ -18,7 +18,7 @@ class CodeList extends Model
     public const VALEURS_SYSTEME = [
         'StatutCompte'       => ['ACTIF', 'INACTIF', 'BLOQUE', 'SIGNALE'],
         'NiveauAcces'        => ['SUPER_ADMIN', 'ADMIN', 'MODERATEUR'],
-        'TypeNotification'   => ['RESERVATION', 'NOUVELLE_DEMANDE', 'PAIEMENT', 'AVIS', 'PUBLICATION', 'PROFIL'],
+        'TypeNotification'   => ['RESERVATION', 'NOUVELLE_DEMANDE', 'PAIEMENT', 'AVIS', 'PUBLICATION', 'PROFIL', 'MESSAGE', 'CERTIFICATION', 'COMPTE'],
         'StatutConversation' => ['ACTIVE', 'ARCHIVEE'],
         'TypeMessage'        => ['TEXTE', 'IMAGE', 'AUDIO', 'VIDEO', 'FICHIER'],
         'TypeMedia'          => ['IMAGE', 'VIDEO'],
