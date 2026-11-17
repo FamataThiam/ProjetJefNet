@@ -7,6 +7,7 @@ use App\Models\Administrateur;
 use App\Models\ProfilProfessionnel;
 use App\Repositories\Contracts\CertificationRepositoryInterface;
 use App\Support\CodeListe;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -115,6 +116,40 @@ class AdminCertificationService
 
         return $this->certifications->trouver($profilId);
     }
+
+
+    
+    public function retirer(Administrateur $admin, int $profilId, string $motif): ProfilProfessionnel
+    {
+        $profil = $this->certifications->trouver($profilId);
+
+        if ($profil->statutCertification?->value !== 'CERTIFIE') {
+            throw ValidationException::withMessages([
+                'statut' => "Seul un profil certifié peut perdre sa certification (statut actuel : {$profil->statutCertification?->value}).",
+            ]);
+        }
+
+        DB::transaction(function () use ($profil, $admin, $motif) {
+            $this->certifications->modifier($profil, [
+                'statut_certification_id'   => CodeListe::id('StatutProfil', 'RETIRE'),
+                'certification_traitee_par' => $admin->id,
+                'certification_traitee_le'  => now(),
+                'motif_refus'               => $motif,
+            ]);
+
+            $this->notifications->notifier(
+                $profil->membre_id,
+                'CERTIFICATION',
+                'Certification retirée',
+                "Votre certification JefNet a été retirée par l'administration. Motif : {$motif} "
+                    . 'Vous pouvez envoyer une nouvelle demande depuis votre profil professionnel.',
+                '/profil-pro',
+            );
+        });
+
+        return $this->certifications->trouver($profilId);
+    }
+
 
    
 

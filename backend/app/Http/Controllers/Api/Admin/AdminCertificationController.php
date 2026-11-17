@@ -19,8 +19,8 @@ class AdminCertificationController extends Controller
     /** GET /admin/certifications?statut=EN_ATTENTE|CERTIFIE|REFUSE|NON_CERTIFIE|TOUS */
     public function index(Request $request)
     {
-        $request->validate([
-            'statut' => ['nullable', Rule::in(['EN_ATTENTE', 'CERTIFIE', 'REFUSE', 'NON_CERTIFIE', 'TOUS'])],
+         $request->validate([
+            'statut' => ['nullable', Rule::in(['EN_ATTENTE', 'CERTIFIE', 'REFUSE', 'RETIRE', 'NON_CERTIFIE', 'TOUS'])],
         ]);
 
         return CertificationResource::collection(
@@ -70,6 +70,22 @@ class AdminCertificationController extends Controller
 
         return response()->json([
             'message' => 'La demande de certification a été refusée.',
+            'data'    => new CertificationResource($profil),
+        ]);
+    }
+
+
+        /** PATCH /admin/certifications/{id}/retirer */
+    public function retirer(RefuserCertificationRequest $request, int $id): JsonResponse
+    {
+        $profil = $this->certifications->retirer(
+            $request->attributes->get('administrateur'),
+            $id,
+            $request->validated('motif'),
+        );
+
+        return response()->json([
+            'message' => 'La certification a été retirée.',
             'data'    => new CertificationResource($profil),
         ]);
     }

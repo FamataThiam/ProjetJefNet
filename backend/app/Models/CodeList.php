@@ -20,7 +20,7 @@ class CodeList extends Model
         'NiveauAcces'        => ['SUPER_ADMIN', 'ADMIN', 'MODERATEUR'],
         'TypeNotification'   => ['RESERVATION', 'NOUVELLE_DEMANDE', 'PAIEMENT', 'AVIS', 'PUBLICATION', 'PROFIL', 'MESSAGE', 'CERTIFICATION', 'COMPTE'],
         'StatutConversation' => ['ACTIVE', 'ARCHIVEE'],
-        'TypeMessage'        => ['TEXTE', 'IMAGE', 'AUDIO', 'VIDEO', 'FICHIER'],
+        'TypeMessage'        => ['TEXTE', 'IMAGE', 'AUDIO', 'VIDEO', 'FICHIER', 'APPEL_VIDEO'],
         'TypeMedia'          => ['IMAGE', 'VIDEO'],
         'RayonIntervention'  => ['LOCALITE', 'VILLE', 'REGION', 'PAYS'],
         'StatutDemande'      => ['EN_ATTENTE', 'ACCEPTEE', 'REFUSEE', 'ANNULEE', 'EXPIREE', 'CONCLUE'],

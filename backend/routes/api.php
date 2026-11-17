@@ -321,6 +321,7 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
         // Certifications
         Route::patch('/certifications/{id}/valider', [AdminCertificationController::class, 'valider'])->whereNumber('id');
         Route::patch('/certifications/{id}/refuser', [AdminCertificationController::class, 'refuser'])->whereNumber('id');
+        Route::patch('/certifications/{id}/retirer', [AdminCertificationController::class, 'retirer'])->whereNumber('id');
 
         // Membres
         Route::patch('/membres/{id}/suspendre', [AdminMembreController::class, 'suspendre'])->whereNumber('id');

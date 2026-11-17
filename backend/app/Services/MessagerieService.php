@@ -22,7 +22,10 @@ class MessagerieService
     private const DISQUE = 'local';           
     private const DOSSIER = 'messagerie';
 
-    public function __construct(private MessagerieRepositoryInterface $messagerie) {}
+        public function __construct(
+        private MessagerieRepositoryInterface $messagerie,
+        private NotificationService $notifications,
+    ) {}
 
     
 
@@ -94,7 +97,7 @@ class MessagerieService
         $chemin = $fichier ? $this->stocker($fichier, $conversation, $vocal) : null;
 
         try {
-            $message = DB::transaction(function () use ($conversation, $moi, $contenu, $type, $chemin, $reponseAId) {
+                        $message = DB::transaction(function () use ($conversation, $moi, $autre, $contenu, $type, $chemin, $reponseAId) {
              
                 if ($conversation->statut?->value === 'ARCHIVEE') {
                     $this->messagerie->modifierConversation($conversation, [
@@ -102,7 +105,13 @@ class MessagerieService
                     ]);
                 }
 
-                return $this->messagerie->creerMessage([
+  
+                $dejaNonLus = Message::where('conversation_id', $conversation->id)
+                    ->where('expediteur_id', $moi->id)
+                    ->where('est_lu', false)
+                    ->exists();
+
+                $message = $this->messagerie->creerMessage([
                     'conversation_id' => $conversation->id,
                     'expediteur_id'   => $moi->id,
                     'reponse_a_id'    => $reponseAId,
@@ -111,6 +120,18 @@ class MessagerieService
                     'fichier_url'     => $chemin,
                     'est_lu'          => false,
                 ]);
+
+                if (! $dejaNonLus) {
+                    $this->notifications->notifier(
+                        $autre->id,
+                        'MESSAGE',
+                        'Nouveau message',
+                        "{$this->nomCourt($moi)} vous a envoyé {$this->apercu($type, $contenu)}",
+                        "/messagerie/{$conversation->uuid}",
+                    );
+                }
+
+                return $message;
             });
         } catch (Throwable $e) {
             if ($chemin) {
@@ -220,5 +241,23 @@ class MessagerieService
                 report($e);
             }
         });
+    }
+
+
+        private function nomCourt(Membre $membre): string
+    {
+        return "{$membre->user->prenom} " . mb_substr((string) $membre->user->nom, 0, 1) . '.';
+    }
+
+    /** « un message : Bonjour, je suis… », « une photo », « un message vocal »… */
+    private function apercu(string $type, ?string $contenu): string
+    {
+        return match ($type) {
+            'IMAGE'   => 'une photo.',
+            'AUDIO'   => 'un message vocal.',
+            'VIDEO'   => 'une vidéo.',
+            'FICHIER' => 'un fichier.',
+            default   => 'un message : « ' . Str::limit((string) $contenu, 60) . ' »',
+        };
     }
 }
