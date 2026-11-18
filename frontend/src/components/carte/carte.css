@@ -1,0 +1,75 @@
+
+.carte-jef, .carte-jef .leaflet-container { background-color: #f7fbfe; font-family: inherit; }
+.carte-jef .leaflet-container {
+  background-image: radial-gradient(#cfe3f1 1.2px, transparent 1.3px);
+  background-size: 22px 22px;
+}
+.dark .carte-jef, .dark .carte-jef .leaflet-container { background-color: #0b1a2e; }
+.dark .carte-jef .leaflet-container { background-image: radial-gradient(rgba(125, 211, 252, .16) 1.2px, transparent 1.3px); }
+
+
+.carte-jef .pays-senegal { filter: drop-shadow(0 6px 18px rgba(1, 116, 171, .18)); }
+.dark .carte-jef .pays-senegal { fill: #12304f; fill-opacity: .7; stroke: #38bdf8; }
+.dark .carte-jef .pays-gambie { fill: #0b1a2e; stroke: #1e5a85; }
+
+.carte-jef .etiquette-pays {
+  color: #8aa9c0; font-size: 12px; font-weight: 600; letter-spacing: .18em;
+  text-transform: uppercase; text-align: center; white-space: nowrap; pointer-events: none;
+}
+.carte-jef .etiquette-discrete { color: #93b6cc; font-size: 11px; letter-spacing: .08em; }
+.carte-jef .etiquette-ocean { color: #9ab4c7; font-size: 14px; font-style: italic; text-align: center; white-space: nowrap; pointer-events: none; }
+.dark .carte-jef .etiquette-pays, .dark .carte-jef .etiquette-ocean { color: #4f6b85; }
+
+.carte-jef .etiquette-ville {
+  color: #0a4f7e; font-size: 12px; font-weight: 700; text-align: center; white-space: nowrap; pointer-events: none;
+  text-shadow: 0 0 4px #fff, 0 0 4px #fff;
+}
+.dark .carte-jef .etiquette-ville { color: #bae6fd; text-shadow: 0 0 4px #0b1a2e, 0 0 4px #0b1a2e; }
+
+.carte-jef .leaflet-control-zoom { border: 0; box-shadow: 0 4px 14px -6px rgba(1, 116, 171, .4); border-radius: 14px; overflow: hidden; }
+.carte-jef .leaflet-control-zoom a { background: #fff; color: #0174ab; border-color: #e2edf5; }
+.dark .carte-jef .leaflet-control-zoom a { background: #12304f; color: #7dd3fc; border-color: rgba(255, 255, 255, .08); }
+
+
+.pastille-jef {
+  position: relative; display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%;
+  background: #fff; color: #0174ab; font-size: 12px; font-weight: 700; cursor: pointer;
+  border: 2px solid #fff; box-shadow: 0 2px 8px rgba(1, 116, 171, .35);
+  transition: transform .2s ease;
+}
+.pastille-jef img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.pastille-jef::before {
+  content: ''; position: absolute; inset: -20px; border-radius: 50%; z-index: -1;
+  background: radial-gradient(circle, rgba(43, 168, 224, .28) 0%, rgba(43, 168, 224, 0) 70%);
+  animation: halo-jef 3s ease-in-out infinite;
+}
+
+.pastille-certifiee::after {
+  content: '✓'; position: absolute; right: -3px; bottom: -3px; width: 16px; height: 16px; border-radius: 50%;
+  background: #0174ab; color: #fff; font-size: 9px; display: grid; place-items: center; border: 2px solid #fff;
+}
+.pastille-jef:hover { transform: scale(1.12); }
+.pastille-active {
+  background: #0174ab; color: #fff; font-size: 15px; border: 3px solid #fff;
+  box-shadow: 0 0 0 5px rgba(1, 116, 171, .3), 0 6px 18px rgba(1, 116, 171, .5);
+}
+.pastille-active::before { inset: -34px; background: radial-gradient(circle, rgba(1, 116, 171, .32) 0%, rgba(1, 116, 171, 0) 70%); }
+@keyframes halo-jef { 0%, 100% { opacity: .7; transform: scale(.9); } 50% { opacity: 1; transform: scale(1.08); } }
+
+.groupe-jef {
+  display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; cursor: pointer;
+  background: linear-gradient(135deg, #0174ab, #38b4ea); color: #fff; font-weight: 800; font-size: 15px;
+  border: 3px solid #fff; box-shadow: 0 0 0 7px rgba(56, 180, 234, .25), 0 8px 20px -6px rgba(1, 116, 171, .7);
+  transition: transform .2s ease;
+}
+.groupe-jef:hover { transform: scale(1.1); }
+.point-moi { display: block; width: 18px; height: 18px; border-radius: 50%;
+  background: #2ba8e0; border: 3px solid #fff; box-shadow: 0 0 0 7px rgba(43, 168, 224, .25); }
+
+
+.realisation { background: repeating-linear-gradient(-45deg, #e3f1fa 0 10px, #f2f8fc 10px 20px); }
+.dark .realisation { background: repeating-linear-gradient(-45deg, #12304f 0 10px, #0f2742 10px 20px); }
+
+.fiche-entree { animation: fiche-jef .35s ease-out; }
+@keyframes fiche-jef { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .pastille-jef::before, .fiche-entree { animation: none; } }

@@ -1,0 +1,87 @@
+/* ---------- Barre de navigation du visiteur ---------- */
+.bande-nav {
+  position: relative;
+  background: linear-gradient(110deg, #0174ab 0%, #1a8fd0 55%, #38b4ea 100%);
+  clip-path: polygon(56px 0, 100% 0, 100% 100%, 0 100%);
+  transition: background .5s;
+}
+/* reflet de lumière en haut du bandeau */
+.bande-nav::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(120px 60px at 30% 0%, rgba(255, 255, 255, .35), transparent 70%);
+}
+.dark .bande-nav { background: linear-gradient(110deg, #03314f 0%, #0a4f7e 55%, #0174ab 100%); }
+
+/* ---------- Bouton clair / sombre ---------- */
+.bouton-mode {
+  --l: 84px; --h: 40px;
+  position: relative; flex-shrink: 0; width: var(--l); height: var(--h); padding: 3px;
+  border-radius: 999px; cursor: pointer;
+  /* contour en verre */
+  background: rgba(255, 255, 255, .22);
+  border: 1px solid rgba(255, 255, 255, .6);
+  backdrop-filter: blur(12px) saturate(170%);
+  -webkit-backdrop-filter: blur(12px) saturate(170%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 8px 20px -10px rgba(0, 30, 60, .6);
+}
+.bouton-mode:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.bouton-mode .ciel {
+  position: relative; display: block; width: 100%; height: 100%; overflow: hidden; border-radius: 999px;
+  background: linear-gradient(90deg, #3c9ff0, #6fbaf5 60%, #a9d7fb);
+  box-shadow: inset 0 2px 5px rgba(0, 40, 90, .35);
+  transition: background .6s ease;
+}
+/* halos autour du soleil / de la lune */
+.bouton-mode .anneau {
+  position: absolute; top: 50%; left: 22%; height: 0; border-radius: 50%;
+  border: calc(var(--h) * .12) solid rgba(255, 255, 255, .13);
+  transform: translate(-50%, -50%); transition: left .6s cubic-bezier(.6, 0, .3, 1);
+}
+.bouton-mode .nuage {
+  position: absolute; border-radius: 50%; background: #e8f4fe;
+  transition: transform .6s cubic-bezier(.6, 0, .3, 1), opacity .4s;
+}
+.bouton-mode .nuage.fonce { background: #cbe5fb; }
+.bouton-mode .etoile {
+  position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #fff;
+  box-shadow: 0 0 3px #fff; opacity: 0; transform: translateY(-6px); transition: opacity .4s, transform .6s;
+}
+/* soleil (ou lune) avec reflet de bulle de verre */
+.bouton-mode .astre {
+  position: absolute; top: 3px; left: 3px; width: calc(var(--h) - 8px); height: calc(var(--h) - 8px); border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffe680, #fcd130 55%, #f2ae12);
+  box-shadow: 0 3px 8px rgba(160, 100, 0, .45), inset -2px -3px 5px rgba(200, 120, 0, .35);
+  transition: transform .6s cubic-bezier(.6, 0, .3, 1), background .6s, box-shadow .6s;
+}
+.bouton-mode .astre::after {
+  content: ''; position: absolute; left: 18%; top: 12%; width: 45%; height: 30%; border-radius: 50%;
+  background: linear-gradient(rgba(255, 255, 255, .85), rgba(255, 255, 255, 0));
+}
+.bouton-mode .cratere {
+  position: absolute; border-radius: 50%; background: #9aa8bd; opacity: 0;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, .25); transition: opacity .4s .2s;
+}
+
+/* ---- mode sombre : la lune glisse à droite, nuit étoilée ---- */
+.bouton-mode.nuit .ciel { background: linear-gradient(90deg, #141a2c, #262e44 55%, #3d4660); }
+.bouton-mode.nuit .anneau { left: 78%; }
+.bouton-mode.nuit .nuage { opacity: 0; transform: translateY(70%); }
+.bouton-mode.nuit .etoile { opacity: 1; transform: none; animation: scintille 2.4s ease-in-out infinite; }
+.bouton-mode.nuit .astre {
+  transform: translateX(calc(var(--l) - var(--h) - 6px));
+  background: radial-gradient(circle at 35% 30%, #f4f6fa, #d5dbe5 60%, #aab4c4);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .5), inset -2px -3px 5px rgba(80, 90, 110, .35);
+}
+
+/* ---------- Pied de page ---------- */
+.bande-pied { clip-path: none; }
+@media (min-width: 1024px) {
+  .bande-pied { clip-path: polygon(80px 0, 100% 0, 100% 100%, 0 100%); }
+}
+
+.bouton-mode.nuit .cratere { opacity: 1; }
+@keyframes scintille { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .bouton-mode *, .bouton-mode *::after { transition: none !important; animation: none !important; }
+}

@@ -1,35 +1,59 @@
-// Chargement « liquide » : un anneau en dégradé qui tourne,
-// et des gouttes qui s'en détachent puis s'y recollent (filtre « gooey »).
-// plein = true : occupe tout l'écran (changement de page) ; sinon s'insère dans un bloc.
-export default function Chargement({ plein = false, texte = 'Chargement…', taille = 96 }) {
+import { useId } from 'react'
+
+
+const R = 34
+const TOUR = 2 * Math.PI * R 
+
+
+const MORCEAUX = [
+  [0.5, 1.8, 0],
+  [0.12, 1.25, -0.3],
+  [0.05, 2.4, -0.9],
+]
+
+export default function Chargement({
+  plein = false,
+  texte = null,
+  taille = 96,
+  couleurs = ['#ff0a8f', '#ff6a13'], 
+}) {
+  const id = useId().replace(/:/g, '')
+
   return (
     <div
       role="status"
       aria-live="polite"
-      className={`flex flex-col items-center justify-center gap-4 ${plein ? 'fixed inset-0 z-50 bg-white/90 backdrop-blur-sm' : 'py-12'}`}
+      aria-label={texte || 'Chargement'}
+      className={`flex flex-col items-center justify-center gap-4 ${plein ? 'fixed inset-0 z-50 bg-white' : 'py-12'}`}
     >
-      <svg width={taille} height={taille} viewBox="0 0 100 100" className="chargement-liquide" aria-hidden="true">
+      <svg width={taille} height={taille} viewBox="0 0 100 100" aria-hidden="true">
         <defs>
-          <linearGradient id="degrade-jef" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#2ba8e0" />
-            <stop offset="100%" stopColor="#0174ab" />
+          <linearGradient id={`deg-${id}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0.1" stopColor={couleurs[0]} />
+            <stop offset="0.95" stopColor={couleurs[1]} />
           </linearGradient>
-          <filter id="gluant">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="flou" />
-            <feColorMatrix in="flou" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9" result="colle" />
-            <feComposite in="SourceGraphic" in2="colle" operator="atop" />
+          <filter id={`gluant-${id}`} x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2.6" result="flou" />
+            <feColorMatrix in="flou" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" />
           </filter>
+          <mask id={`forme-${id}`}>
+            <g filter={`url(#gluant-${id})`}>
+              <g className="liquide-ensemble">
+                {MORCEAUX.map(([part, duree, decalage], i) => (
+                  <circle
+                    key={i}
+                    className={i === 0 ? 'liquide-morceau liquide-principal' : 'liquide-morceau'}
+                    style={{ animationDuration: i === 0 ? `${duree}s, ${duree * 2}s` : `${duree}s`, animationDelay: `${decalage}s` }}
+                    cx="50" cy="50" r={R}
+                    fill="none" stroke="#fff" strokeWidth="12" strokeLinecap="round"
+                    strokeDasharray={`${part * TOUR} ${TOUR}`}
+                  />
+                ))}
+              </g>
+            </g>
+          </mask>
         </defs>
-        <g filter="url(#gluant)">
-          <g className="chargement-rotation">
-            {/* anneau ouvert */}
-            <circle cx="50" cy="50" r="32" fill="none" stroke="url(#degrade-jef)" strokeWidth="11"
-              strokeLinecap="round" strokeDasharray="150 51" />
-            {/* gouttes */}
-            <circle className="goutte goutte-1" cx="50" cy="18" r="6.5" fill="#2ba8e0" />
-            <circle className="goutte goutte-2" cx="50" cy="18" r="5" fill="#2ba8e0" />
-          </g>
-        </g>
+        <rect x="0" y="0" width="100" height="100" fill={`url(#deg-${id})`} mask={`url(#forme-${id})`} />
       </svg>
       {texte && <p className="text-sm font-medium text-slate-500">{texte}</p>}
     </div>

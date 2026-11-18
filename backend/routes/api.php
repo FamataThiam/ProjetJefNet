@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Admin\AdminDomaineController;
 use App\Http\Controllers\Api\Admin\AdminMembreController;
 use App\Http\Controllers\Api\Admin\AdminPublicationController;
 use App\Http\Controllers\Api\Admin\AdminTableauDeBordController;
+use App\Http\Controllers\Api\AccueilController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AvisController;
 use App\Http\Controllers\Api\CodeListController;
@@ -42,6 +43,7 @@ Route::get('/ping', function () {
 });
 
 Route::get('/code-lists/{type}',  [CodeListController::class, 'index']);
+Route::get('/accueil',            [AccueilController::class, 'index']);
 Route::get('/domaines',           [DomaineController::class, 'index']);
 Route::get('/prestataires',       [PrestataireController::class, 'index']);
 Route::get('/prestataires/carte', [GeolocalisationController::class, 'carte']);

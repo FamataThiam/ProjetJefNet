@@ -1,0 +1,40 @@
+/* ---------- JefIA : rond en verre avec des vagues ---------- */
+.vagues-jef {
+  position: relative; display: block; flex-shrink: 0; overflow: hidden;
+  width: var(--t); height: var(--t); border-radius: 50%;
+  background: linear-gradient(#eaf6fd, #cfe9f8);
+  border: calc(var(--t) * .04) solid #fff;
+}
+.vagues-jef svg { position: absolute; left: 0; width: 200%; height: 100%; }
+.vagues-jef .v1 { bottom: -8%; fill: #7dd3fc; opacity: .6; animation: vague-jef 3.2s linear infinite; }
+.vagues-jef .v2 { bottom: -16%; fill: #38b4ea; opacity: .8; animation: vague-jef 2.2s linear infinite reverse; }
+.vagues-jef .v3 { bottom: -26%; fill: #0174ab; animation: vague-jef 4s linear infinite; }
+/* reflet de verre */
+.vagues-jef::after {
+  content: ''; position: absolute; left: 18%; top: 8%; width: 45%; height: 26%; border-radius: 50%;
+  background: linear-gradient(rgba(255, 255, 255, .9), rgba(255, 255, 255, 0));
+}
+@keyframes vague-jef { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* le gros bouton : ombre bleue + halo */
+.vagues-lanceur { box-shadow: 0 16px 36px -12px rgba(1, 116, 171, .65), 0 0 0 7px rgba(56, 180, 234, .15); }
+
+/* fenêtre en verre */
+.fenetre-jefia {
+  background: rgba(255, 255, 255, .8);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, .9);
+  box-shadow: 0 30px 80px -30px rgba(1, 60, 100, .55), inset 0 1px 0 #fff;
+  animation: ouvre-jefia .3s cubic-bezier(.2, .8, .2, 1);
+  transform-origin: bottom right;
+}
+.dark .fenetre-jefia { background: rgba(11, 26, 46, .85); border-color: rgba(255, 255, 255, .1); box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8); }
+@keyframes ouvre-jefia { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: none; } }
+
+.message-jefia { animation: message-jefia .3s ease-out; }
+@keyframes message-jefia { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .vagues-jef svg, .fenetre-jefia, .message-jefia { animation: none; }
+}
