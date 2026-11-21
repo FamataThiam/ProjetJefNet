@@ -43,18 +43,23 @@ class NotificationService
     }
 
    
-    public function lister(Membre $membre, bool $nonLuesSeulement = false): LengthAwarePaginator
+
+    public function lister(Membre $membre, array $filtres = []): LengthAwarePaginator
     {
-        return $this->notifications->pourMembre($membre->id, $nonLuesSeulement);
+        return $this->notifications->pourMembre($membre->id, $filtres);
     }
 
-   
     public function nombreNonLues(Membre $membre): int
     {
         return $this->notifications->nombreNonLues($membre->id);
     }
 
    
+    public function compteParType(Membre $membre): array
+    {
+        return $this->notifications->compteParType($membre->id);
+    }
+
     public function marquerLue(Membre $membre, int $id): Notification
     {
         $notification = $this->notifications->trouverPourMembre($membre->id, $id);
@@ -62,6 +67,17 @@ class NotificationService
         return $this->notifications->marquerLue($notification);
     }
 
+    public function marquerNonLue(Membre $membre, int $id): Notification
+    {
+        $notification = $this->notifications->trouverPourMembre($membre->id, $id);
+
+        return $this->notifications->marquerNonLue($notification);
+    }
+
+    public function marquerPlusieursLues(Membre $membre, array $ids): int
+    {
+        return $this->notifications->marquerPlusieursLues($membre->id, $ids);
+    }
 
     public function toutMarquerLu(Membre $membre): int
     {

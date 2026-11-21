@@ -8,10 +8,11 @@ import { CENTRE_SENEGAL, RAYON_PROCHE_KM, RAYON_SENEGAL_KM, REGIONS, VUE_DEPART 
 import { iconeMoi } from '../carte/icones'
 import PointsCarte, { ZOOM_ECLATE, estDansUnGroupe } from '../carte/PointsCarte'
 
-const sansAccents = (t = '') => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim()
+const sansAccents = (t = '') => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim()
 
-
-export default function SectionCarte() {
+// Section « Trouver un prestataire » : filtres (vrais métiers) + fiche à gauche + carte à droite
+// pleinePage : version de l'espace membre (page /carte) → pas de titre, carte sur toute la hauteur
+export default function SectionCarte({ pleinePage = false }) {
   const [params, setParams] = useSearchParams()
   const domaine = params.get('domaine') ?? ''
   const ville = params.get('ville') ?? ''
@@ -83,6 +84,12 @@ export default function SectionCarte() {
     )
   }
 
+  // /carte?moi=1 (bouton « Près de chez toi » du fil) : on cherche tout de suite autour du membre
+  const autoMoi = params.get('moi') === '1'
+  useEffect(() => {
+    if (autoMoi && carte && !maPosition && etatPosition === 'repos') localiser()
+  }, [autoMoi, carte]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const toutLePays = () => {
     setMaPosition(null)
     setActifId(null)
@@ -94,14 +101,20 @@ export default function SectionCarte() {
     : 'border-slate-200 bg-white text-slate-700 hover:border-[#0174ab]/40 dark:border-white/10 dark:bg-white/5 dark:text-slate-300'}`
 
   return (
-    <section id="trouver" className="mx-auto max-w-7xl scroll-mt-24 px-5 py-16 sm:px-10">
-      <p className="text-[13px] font-bold uppercase tracking-[.16em] text-[#0174ab] dark:text-[#38bdf8]">Près de chez vous</p>
-      <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-[44px] dark:text-white">
-        Trouvez un prestataire sur la carte
-      </h2>
+    <section id="trouver" className={pleinePage
+      ? 'relative z-[1] mx-auto max-w-[1400px] px-4 py-4 sm:px-6'
+      : 'mx-auto max-w-7xl scroll-mt-24 px-5 py-16 sm:px-10'}>
+      {!pleinePage && (
+        <>
+          <p className="text-[13px] font-bold uppercase tracking-[.16em] text-[#0174ab] dark:text-[#38bdf8]">Près de chez vous</p>
+          <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-[44px] dark:text-white">
+            Trouvez un prestataire sur la carte
+          </h2>
+        </>
+      )}
 
       {/* filtres : les vrais métiers de la base */}
-      <div className="mt-7 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:flex-wrap">
+      <div className={`${pleinePage ? '' : 'mt-7 '}flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:flex-wrap`}>
         <button type="button" onClick={() => changerDomaine('')} className={puce(!domaine)}>Tous</button>
         {domaines.filter((d) => d.nombre_prestataires > 0).map((d) => (
           <button key={d.id} type="button" onClick={() => changerDomaine(String(d.id))} className={puce(domaine === String(d.id))}>
@@ -115,7 +128,7 @@ export default function SectionCarte() {
         </button>
       </div>
 
-      <div className="mt-6 grid gap-5 lg:grid-cols-[360px_1fr]">
+      <div className={`${pleinePage ? 'mt-4' : 'mt-6'} grid gap-5 lg:grid-cols-[360px_1fr]`}>
         {/* fiche à gauche (sous la carte sur téléphone) */}
         <div className="order-2 lg:order-1">
           <FichePrestataire
@@ -129,7 +142,7 @@ export default function SectionCarte() {
 
         {/* carte à droite */}
         <div className="relative isolate order-1 lg:order-2">
-          <Carte surCarte={setCarte} className="h-[420px] border border-slate-200 sm:h-[620px] dark:border-white/10">
+          <Carte surCarte={setCarte} className={`${pleinePage ? 'h-[420px] sm:h-[calc(100vh-215px)] sm:min-h-[460px]' : 'h-[420px] sm:h-[620px]'} border border-slate-200 dark:border-white/10`}>
             <PointsCarte prestataires={visibles} actifId={actif?.id} onChoisir={choisir} />
             {maPosition && <Marker position={maPosition} icon={iconeMoi} interactive={false} />}
           </Carte>

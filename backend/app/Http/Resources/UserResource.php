@@ -33,6 +33,8 @@ class UserResource extends JsonResource
                 fn () => $this->membre?->profilProfessionnel()->exists() ?? false
             ),
             'est_administrateur' => $this->when($estProprietaire, fn () => $this->estAdministrateur()),
+            'canal' => $this->when($estProprietaire && $this->relationLoaded('membre'), fn () => $this->membre ? 'membre.' . $this->membre->id : null),
+            'a_mot_de_passe'     => $this->when($estProprietaire, fn () => $this->password !== null),
             'niveau_acces'       => $this->when($estProprietaire, fn () => $this->administrateur?->niveauAcces?->value),
         ];
     }

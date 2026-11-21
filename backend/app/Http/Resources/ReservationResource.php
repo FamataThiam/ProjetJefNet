@@ -37,6 +37,7 @@ class ReservationResource extends JsonResource
 
             'prestataire' => $this->whenLoaded('prestataire', fn () => [
                 'id'        => $this->prestataire->id,
+                'uuid'      => $this->prestataire->membre?->user?->uuid,
                 'titre'     => $this->prestataire->titre_professionnel,
                 'nom'       => trim(($this->prestataire->membre?->user?->prenom ?? '') . ' ' . ($this->prestataire->membre?->user?->nom ?? '')),
                 'telephone' => $this->prestataire->membre?->telephone,

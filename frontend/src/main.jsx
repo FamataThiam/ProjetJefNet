@@ -2,24 +2,24 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './index.css'
-import App from './App.jsx'
+import App from './App'
 import ModeProvider from './contexts/ModeProvider'
+import SessionProvider from './contexts/SessionProvider'
 
-const requetes = new QueryClient({
+
+const queryClient = new QueryClient({
   defaultOptions: {
-    queries: {
-      staleTime: 30_000,
-      retry: 1,
-      refetchOnWindowFocus: false,
-    },
+    queries: { retry: 1, refetchOnWindowFocus: false },
   },
 })
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <QueryClientProvider client={requetes}>
+    <QueryClientProvider client={queryClient}>
       <ModeProvider>
-        <App />
+        <SessionProvider>
+          <App />
+        </SessionProvider>
       </ModeProvider>
     </QueryClientProvider>
   </StrictMode>,

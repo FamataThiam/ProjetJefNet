@@ -47,12 +47,13 @@ Route::get('/accueil',            [AccueilController::class, 'index']);
 Route::get('/domaines',           [DomaineController::class, 'index']);
 Route::get('/prestataires',       [PrestataireController::class, 'index']);
 Route::get('/prestataires/carte', [GeolocalisationController::class, 'carte']);
-Route::get('/prestataires/{id}',  [PrestataireController::class, 'show'])
-    ->whereNumber('id');
-Route::get('/prestataires/{id}/avis', [AvisController::class, 'duPrestataire'])
-    ->whereNumber('id');
-Route::get('/prestataires/{id}/publications', [FilController::class, 'duPrestataire'])
-    ->whereNumber('id');
+// profil public d'un prestataire : {uuid} = uuid de son compte (users.uuid)
+Route::get('/prestataires/{uuid}',  [PrestataireController::class, 'show'])
+    ->whereUuid('uuid');
+Route::get('/prestataires/{uuid}/avis', [AvisController::class, 'duPrestataire'])
+    ->whereUuid('uuid');
+Route::get('/prestataires/{uuid}/publications', [FilController::class, 'duPrestataire'])
+    ->whereUuid('uuid');
 
 /*
 |--------------------------------------------------------------------------
@@ -225,6 +226,8 @@ Route::middleware(['auth:sanctum', 'profil.complet'])->prefix('notifications')->
     Route::get('/non-lues',    [NotificationController::class, 'nonLues']);
     Route::patch('/tout-lire', [NotificationController::class, 'toutLire']);
     Route::patch('/{id}/lue',  [NotificationController::class, 'marquerLue'])->whereNumber('id');
+    Route::patch('/lire',      [NotificationController::class, 'lirePlusieurs']);
+Route::patch('/{id}/non-lue', [NotificationController::class, 'marquerNonLue'])->whereNumber('id');
 });
 
 /*

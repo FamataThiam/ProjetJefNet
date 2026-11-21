@@ -25,8 +25,10 @@ class PublicationResource extends JsonResource
             'est_active'  => (bool) $this->est_active,
 
             'prestataire' => [
-                'profil_id' => $profil?->id,
-                'membre_id' => $membre?->id,
+                // lien vers le profil : /prestataires/{uuid}
+                'uuid'      => $user?->uuid,
+                // numéro du membre : seulement pour un utilisateur connecté
+                'membre_id' => $this->when($moi !== null, $membre?->id),
                 'nom'       => trim(($user?->prenom ?? '') . ' ' . ($user?->nom ?? '')),
                 'username'  => $membre?->username,
                 'photo_url' => self::url($membre?->photo_profil_path),
@@ -45,16 +47,13 @@ class PublicationResource extends JsonResource
 
             'nb_commentaires' => (int) ($this->nb_commentaires ?? 0),
 
-           
             'est_auteur'   => $moi !== null && $moi === $membre?->id,
             'deja_reserve' => (bool) ($this->deja_reserve ?? false),
 
-           
             'score' => $this->when(isset($this->score), fn () => round((float) $this->score, 1)),
         ];
     }
 
-   
     public static function url(?string $chemin): ?string
     {
         if (! $chemin) {

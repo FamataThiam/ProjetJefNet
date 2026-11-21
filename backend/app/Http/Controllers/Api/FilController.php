@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Publication\FilRequest;
 use App\Http\Resources\Publication\PublicationResource;
 use App\Services\FilService;
+use App\Services\PrestataireService;
 use App\Services\PublicationService;
 use Illuminate\Http\Request;
 
@@ -39,10 +40,10 @@ class FilController extends Controller
         return new PublicationResource($this->publications->consulter($request->user()->membre, $id));
     }
 
-    /** GET /prestataires/{id}/publications (public : visible sur le profil du prestataire) */
-    public function duPrestataire(Request $request, int $id)
+    /** GET /prestataires/{uuid}/publications (public : visible sur le profil du prestataire) */
+    public function duPrestataire(PrestataireService $prestataires, string $uuid)
     {
-       
+        $id = $prestataires->idDepuisUuid($uuid);
         $lecteur = auth('sanctum')->user()?->membre;
 
         return PublicationResource::collection($this->publications->duPrestataire($lecteur, $id));

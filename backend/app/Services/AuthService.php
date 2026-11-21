@@ -61,7 +61,9 @@ class AuthService
     {
         $code = $this->otp->generer($objet, $user->email);
 
-        Mail::to($user->email)->send(new CodeOtpMail($user->prenom, $code, $objet));
+        // mis dans la file d'attente : l'API répond tout de suite,
+        // le worker (php artisan queue:work) envoie l'e-mail juste après
+        Mail::to($user->email)->queue(new CodeOtpMail($user->prenom, $code, $objet));
     }
 
 

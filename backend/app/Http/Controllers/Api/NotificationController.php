@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Notification\LireNotificationsRequest;
+use App\Http\Requests\Notification\ListerNotificationsRequest;
 use App\Http\Resources\NotificationResource;
 use App\Services\NotificationService;
 use Illuminate\Http\JsonResponse;
@@ -12,16 +14,16 @@ class NotificationController extends Controller
 {
     public function __construct(private NotificationService $notifications) {}
 
-    // GET /api/notifications  (?non_lues=1 pour n'afficher que les non lues)
-    public function index(Request $request)
+    // GET /api/notifications  (?etat=non_lues|lues  &type=RESERVATION  &q=texte)
+    public function index(ListerNotificationsRequest $request)
     {
-        $request->validate(['non_lues' => 'nullable|boolean']);
         $membre = $request->user()->membre;
 
         return NotificationResource::collection(
-            $this->notifications->lister($membre, $request->boolean('non_lues'))
+            $this->notifications->lister($membre, $request->filtres())
         )->additional([
             'non_lues' => $this->notifications->nombreNonLues($membre),
+            'par_type' => $this->notifications->compteParType($membre),
         ]);
     }
 
@@ -42,6 +44,31 @@ class NotificationController extends Controller
         return response()->json([
             'message'  => 'Notification marquée comme lue.',
             'data'     => new NotificationResource($notification),
+            'non_lues' => $this->notifications->nombreNonLues($membre),
+        ]);
+    }
+
+    // PATCH /api/notifications/{id}/non-lue
+    public function marquerNonLue(Request $request, int $id): JsonResponse
+    {
+        $membre       = $request->user()->membre;
+        $notification = $this->notifications->marquerNonLue($membre, $id);
+
+        return response()->json([
+            'message'  => 'Notification marquée comme non lue.',
+            'data'     => new NotificationResource($notification),
+            'non_lues' => $this->notifications->nombreNonLues($membre),
+        ]);
+    }
+
+    // PATCH /api/notifications/lire  { ids: [...] }  → plusieurs d'un coup (cases cochées)
+    public function lirePlusieurs(LireNotificationsRequest $request): JsonResponse
+    {
+        $membre = $request->user()->membre;
+        $nombre = $this->notifications->marquerPlusieursLues($membre, $request->validated('ids'));
+
+        return response()->json([
+            'message'  => "{$nombre} notification(s) marquée(s) comme lue(s).",
             'non_lues' => $this->notifications->nombreNonLues($membre),
         ]);
     }

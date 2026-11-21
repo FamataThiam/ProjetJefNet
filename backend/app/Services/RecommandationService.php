@@ -103,6 +103,7 @@ class RecommandationService
 
         return [
             'id'           => $p->id,
+            'uuid'         => $p->membre->user->uuid,   // lien vers le profil : /prestataires/{uuid}
             'nom'          => $p->membre->user->prenom . ' ' . mb_substr($p->membre->user->nom, 0, 1) . '.',
             'titre'        => $p->titre_professionnel,
             'photo_url'    => $this->urlPhoto($p->membre->photo_profil_path),

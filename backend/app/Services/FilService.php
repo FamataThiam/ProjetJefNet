@@ -75,6 +75,7 @@ class FilService
                 return [
                     'avis_id'     => $a->id,
                     'prestataire' => [
+                        'uuid'      => $membre->user->uuid,   // lien vers le profil : /prestataires/{uuid}
                         'profil_id' => $profil->id,
                         'nom'       => trim($membre->user->prenom . ' ' . $membre->user->nom),
                         'titre'     => $profil->titre_professionnel,
@@ -102,6 +103,7 @@ class FilService
             ->limit(3)
             ->get()
             ->map(fn ($p) => [
+                'uuid'        => $p->membre->user->uuid,   // lien vers le profil : /prestataires/{uuid}
                 'profil_id'   => $p->id,
                 'nom'         => trim($p->membre->user->prenom . ' ' . $p->membre->user->nom),
                 'titre'       => $p->titre_professionnel,

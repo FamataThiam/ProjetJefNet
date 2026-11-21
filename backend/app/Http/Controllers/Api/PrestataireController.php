@@ -21,9 +21,11 @@ class PrestataireController extends Controller
         );
     }
 
-    // GET /api/prestataires/{id}
-    public function show(int $id): PrestataireDetailResource
+    // GET /api/prestataires/{uuid}
+    public function show(string $uuid): PrestataireDetailResource
     {
+        $id = $this->prestataires->idDepuisUuid($uuid);
+
         return new PrestataireDetailResource($this->prestataires->profilPublic($id));
     }
 }

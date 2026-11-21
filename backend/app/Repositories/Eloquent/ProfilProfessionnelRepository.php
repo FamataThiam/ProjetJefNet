@@ -46,13 +46,22 @@ class ProfilProfessionnelRepository implements ProfilProfessionnelRepositoryInte
         }
 
        
+        // recherche libre : nom, prénom, @username, métier, service, domaine, ville ou quartier
         if (! empty($filtres['q'])) {
-            $like = '%' . addcslashes($filtres['q'], '%_\\') . '%';
+            $texte = ltrim(trim($filtres['q']), '@');
+            $like  = '%' . addcslashes($texte, '%_\\') . '%';
 
             $query->where(function ($q) use ($like) {
                 $q->where('titre_professionnel', 'ILIKE', $like)
-                  ->orWhereHas('services', fn ($s) => $s->where('est_actif', true)->where('nom', 'ILIKE', $like))
-                  ->orWhereHas('membre.user', fn ($u) => $u->where('prenom', 'ILIKE', $like)->orWhere('nom', 'ILIKE', $like));
+                  ->orWhereHas('services', fn ($s) => $s->where('est_actif', true)->where(fn ($s2) => $s2
+                      ->where('nom', 'ILIKE', $like)
+                      ->orWhereHas('domaine', fn ($d) => $d->where('libelle', 'ILIKE', $like))))
+                  ->orWhereHas('membre', fn ($m) => $m->where('username', 'ILIKE', $like)
+                      ->orWhere('ville', 'ILIKE', $like)
+                      ->orWhere('localite', 'ILIKE', $like))
+                  ->orWhereHas('membre.user', fn ($u) => $u->where('prenom', 'ILIKE', $like)
+                      ->orWhere('nom', 'ILIKE', $like)
+                      ->orWhereRaw("prenom || ' ' || nom ILIKE ?", [$like]));
             });
         }
 

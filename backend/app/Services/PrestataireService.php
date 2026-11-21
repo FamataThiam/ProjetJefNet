@@ -19,4 +19,14 @@ class PrestataireService
     {
         return $this->profils->trouverVisible($id);
     }
+
+
+    public function idDepuisUuid(string $uuid): int
+    {
+        $id = ProfilProfessionnel::whereHas('membre.user', fn ($q) => $q->where('uuid', $uuid))->value('id');
+
+        abort_if($id === null, 404, 'Prestataire introuvable.');
+
+        return $id;
+    }
 }

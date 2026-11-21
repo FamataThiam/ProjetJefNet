@@ -57,7 +57,7 @@ class AvisService
                     'AVIS',
                     'Nouvel avis reçu',
                     "{$this->nomCourt($client)} vous a donné {$donnees['note']}/5 : « " . Str::limit($donnees['commentaire'], 80) . ' »',
-                    "/prestataires/{$reservation->prestataire->id}",
+                    "/prestataires/{$reservation->prestataire->membre->user->uuid}",
                 );
 
                 return $avis;
@@ -93,7 +93,7 @@ class AvisService
                 'AVIS',
                 'Avis modifié',
                 "{$this->nomCourt($client)} a modifié son avis : {$avis->note}/5.",
-                "/prestataires/{$reservation->prestataire->id}",
+                "/prestataires/{$reservation->prestataire->membre->user->uuid}",
             );
         });
 

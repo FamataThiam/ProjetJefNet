@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Storage;
 
 class AccueilService
 {
-   
     public function donnees(): array
     {
         return [
@@ -25,7 +24,6 @@ class AccueilService
         ];
     }
 
-   
     private function realisations(): array
     {
         return Publication::visibles()
@@ -49,7 +47,6 @@ class AccueilService
             })
             ->all();
     }
-
 
     private function derniersAvis(): array
     {
@@ -78,11 +75,12 @@ class AccueilService
         $membre = $profil->membre;
 
         return [
-            'id'       => $profil->id,
+            // identifiant public : l'uuid du compte (lien /prestataires/{uuid})
+            'id'       => $membre->user->uuid,
             'nom'      => trim("{$membre->user->prenom} {$membre->user->nom}"),
             'titre'    => $profil->titre_professionnel,
             'certifie' => $profil->statutCertification?->value === 'CERTIFIE',
-          
+
             'membre'   => (new MembreResource($membre))->resolve(),
         ];
     }

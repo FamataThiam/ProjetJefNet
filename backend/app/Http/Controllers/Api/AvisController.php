@@ -7,6 +7,7 @@ use App\Http\Requests\Avis\AvisRequest;
 use App\Http\Resources\AvisResource;
 use App\Http\Resources\MonAvisResource;
 use App\Services\AvisService;
+use App\Services\PrestataireService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -42,9 +43,11 @@ class AvisController extends Controller
         return new MonAvisResource($this->avis->monAvis($request->user()->membre, $uuid));
     }
 
-    // GET /api/prestataires/{id}/avis  → avis d'un prestataire + statistiques (public)
-    public function duPrestataire(int $id)
+    // GET /api/prestataires/{uuid}/avis  → avis d'un prestataire + statistiques (public)
+    public function duPrestataire(PrestataireService $prestataires, string $uuid)
     {
+        $id = $prestataires->idDepuisUuid($uuid);
+
         ['avis' => $avis, 'statistiques' => $statistiques] = $this->avis->duPrestataire($id);
 
         return AvisResource::collection($avis)->additional(['statistiques' => $statistiques]);

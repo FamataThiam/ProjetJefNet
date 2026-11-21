@@ -1,30 +1,46 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { useRef } from 'react'
+import { Navigate, Outlet, useLocation, useSearchParams } from 'react-router-dom'
 import useSession from '../hooks/useSession'
-import { accueilDe, profilDe } from '../lib/espace'
+import { accueilDe, apresConnexion, suiteSure } from '../lib/espace'
+
+function Attente() {
+  return <div className="grid min-h-screen place-items-center"><span className="h-10 w-10 animate-spin rounded-full border-4 border-[#0174ab]/25 border-t-[#0174ab]" /></div>
+}
 
 
 export function RouteInvite() {
-  const { utilisateur } = useSession()
-  if (utilisateur) return <Navigate to={accueilDe(utilisateur)} replace />
+  const { user, chargement } = useSession()
+  const [params] = useSearchParams()
+  if (chargement) return <Attente />
+  return user ? <Navigate to={apresConnexion(user, suiteSure(params.get('suite')))} replace /> : <Outlet />
+}
+
+
+export function RouteProtegee() {
+  const { user, chargement } = useSession()
+  const lieu = useLocation()
+  if (chargement) return <Attente />
+  if (!user) return <Navigate to={`/connexion?suite=${encodeURIComponent(lieu.pathname + lieu.search)}`} replace />
   return <Outlet />
 }
 
 
-export function RouteProtegee({ profils, profilComplet = true }) {
-  const { utilisateur } = useSession()
-  const ici = useLocation()
+export function RouteProfilIncomplet() {
+  const { user, chargement } = useSession()
+  const completAArrivee = useRef(null)
+  if (user && completAArrivee.current === null) completAArrivee.current = Boolean(user.profil_complete)
+  if (chargement) return <Attente />
+  if (!user) return <Navigate to="/connexion" replace />
+  if (completAArrivee.current) return <Navigate to={accueilDe(user)} replace />
+  return <Outlet />
+}
 
-  if (!utilisateur) return <Navigate to="/connexion" replace state={{ depuis: ici.pathname }} />
 
-  const profil = profilDe(utilisateur)
-  
-  if (profils && !profils.includes(profil)) return <Navigate to={accueilDe(utilisateur)} replace />
-
-
-  if (profil !== 'admin' && profilComplet) {
-    if (!utilisateur.est_email_verifie) return <Navigate to="/verifier-email" replace />
-    if (!utilisateur.profil_complete) return <Navigate to="/completer-profil" replace />
-  }
-
+export function RouteMembre() {
+  const { user, chargement } = useSession()
+  const lieu = useLocation()
+  if (chargement) return <Attente />
+  if (!user) return <Navigate to={`/connexion?suite=${encodeURIComponent(lieu.pathname + lieu.search)}`} replace />
+  if (!user.profil_complete && !user.est_administrateur) return <Navigate to="/completer-profil" replace />
   return <Outlet />
 }
