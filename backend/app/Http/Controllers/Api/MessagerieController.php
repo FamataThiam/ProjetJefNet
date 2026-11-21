@@ -30,7 +30,10 @@ class MessagerieController extends Controller
     /** POST /conversations  { destinataire_id } : ouvre ou retrouve la conversation */
     public function store(DemarrerConversationRequest $request): JsonResponse
     {
-        $conversation = $this->messagerie->demarrer($request->user()->membre, $request->validated('destinataire_id'));
+        $destinataireId = $request->validated('destinataire_id')
+        ?? $this->messagerie->membreIdDepuisUuid($request->validated('destinataire_uuid'));
+
+        $conversation = $this->messagerie->demarrer($request->user()->membre, $destinataireId);
 
         return response()->json([
             'data' => new ConversationResource($conversation),

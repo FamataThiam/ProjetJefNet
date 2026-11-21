@@ -1,0 +1,57 @@
+
+.mb .voile-appel { position:fixed; inset:0; z-index:1000; display:flex; align-items:center; justify-content:center; padding:16px; background:rgba(3,12,24,.6); backdrop-filter:blur(8px); animation:ap-entre .25s ease }
+@keyframes ap-entre { from { opacity:0; transform:scale(.97) } }
+.mb .ic-appel { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round }
+
+
+.mb .ondes-appel { position:relative; display:grid; place-items:center; width:max-content; margin:0 auto }
+.mb .ondes-appel i { position:absolute; inset:-14px; border-radius:50%; border:2px solid rgba(255,255,255,.45); animation:ap-onde 2s ease-out infinite }
+.mb .ondes-appel i:nth-child(2) { animation-delay:.8s }
+@keyframes ap-onde { from { transform:scale(.85); opacity:1 } to { transform:scale(1.45); opacity:0 } }
+.mb .ondes-appel .av { position:relative; border:3px solid rgba(255,255,255,.6) }
+.mb .a100 { width:100px; height:100px; font-size:34px }
+.mb .a140 { width:140px; height:140px; font-size:46px }
+
+
+.mb .carte-entrant { width:min(340px,100%); border-radius:28px; padding:36px 24px 26px; text-align:center; color:#fff; background:linear-gradient(160deg,#0b2a44,#0174ab); box-shadow:0 40px 80px -30px rgba(0,0,0,.7); animation:ap-secoue 2.4s ease-in-out infinite }
+@keyframes ap-secoue { 0%,84%,100% { transform:none } 88% { transform:translateX(-4px) } 92% { transform:translateX(4px) } 96% { transform:translateX(-2px) } }
+.mb .carte-entrant h3 { margin-top:26px; font-size:21px; font-weight:900 }
+.mb .carte-entrant p { opacity:.85; font-size:14px; margin-top:4px }
+.mb .choix-appel { display:flex; justify-content:center; gap:44px; margin-top:28px }
+.mb .choix-appel button { border:0; background:none; color:#fff; font:700 12.5px Inter,sans-serif; display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer }
+.mb .choix-appel span { width:62px; height:62px; border-radius:50%; display:grid; place-items:center; box-shadow:0 12px 24px -10px rgba(0,0,0,.5); transition:transform .2s }
+.mb .choix-appel button:hover span { transform:scale(1.08) }
+.mb .choix-appel .non span { background:#ef4444 }
+.mb .choix-appel .oui span { background:#16a34a; animation:ap-pulse 1.4s infinite }
+@keyframes ap-pulse { 0% { box-shadow:0 0 0 0 rgba(34,197,94,.6) } 100% { box-shadow:0 0 0 18px rgba(34,197,94,0) } }
+
+
+.mb .ecran-appel { position:relative; width:min(980px,100%); height:min(640px,100%); border-radius:28px; overflow:hidden; color:#fff; background:radial-gradient(500px 360px at 50% 40%,#1d4d6e,#0b1b33); box-shadow:0 40px 90px -30px rgba(0,0,0,.8) }
+.mb .ecran-appel.avec-video { background:#000 }
+.mb .video-autre { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:none }
+.mb .ecran-appel.avec-video .video-autre { display:block }
+.mb .centre-appel { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px }
+.mb .centre-appel:not(.attente) .ondes-appel i { display:none }
+.mb .centre-appel h3 { margin-top:30px; font-size:24px; font-weight:900 }
+.mb .centre-appel p { margin-top:6px; opacity:.8; font-variant-numeric:tabular-nums }
+.mb .tete-appel { position:absolute; left:22px; top:20px; padding:8px 14px; border-radius:14px; background:rgba(0,0,0,.35); backdrop-filter:blur(8px) }
+.mb .tete-appel b { display:block; font-size:16px } .mb .tete-appel small { font-size:12.5px; opacity:.85; font-variant-numeric:tabular-nums }
+.mb .ma-camera { position:absolute; right:18px; top:18px; width:190px; aspect-ratio:4/3; border-radius:16px; overflow:hidden; background:#1d3c55; border:2px solid rgba(255,255,255,.3); box-shadow:0 12px 30px -10px #000 }
+.mb .ma-camera video { width:100%; height:100%; object-fit:cover; transform:scaleX(-1) }
+.mb .ma-camera.coupee video { visibility:hidden }
+.mb .ma-camera span { position:absolute; inset:0; display:grid; place-items:center; font-size:12px; opacity:.8 }
+.mb .commandes-appel { position:absolute; left:50%; bottom:22px; transform:translateX(-50%); display:flex; gap:14px; padding:12px 16px; border-radius:24px; background:rgba(255,255,255,.12); backdrop-filter:blur(16px) }
+.mb .commandes-appel button { width:54px; height:54px; border-radius:50%; border:0; background:rgba(255,255,255,.18); color:#fff; display:grid; place-items:center; cursor:pointer; transition:background .2s,transform .2s }
+.mb .commandes-appel button:hover { transform:translateY(-2px) }
+.mb .commandes-appel button.off { background:#fff; color:#0b1b33 }
+.mb .commandes-appel .raccrocher { width:66px; background:#ef4444 }
+
+
+.mb .info-appel { position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:1001; padding:12px 20px; border-radius:14px; background:#0b1b33; color:#fff; font-weight:700; font-size:14px; box-shadow:0 14px 30px -12px rgba(0,0,0,.6); animation:ap-entre .25s }
+
+@media (max-width:640px) {
+  .mb .voile-appel { padding:0 }
+  .mb .ecran-appel { width:100%; height:100%; border-radius:0 }
+  .mb .ma-camera { width:110px; right:12px; top:12px }
+  .mb .tete-appel { left:12px; top:12px }
+}

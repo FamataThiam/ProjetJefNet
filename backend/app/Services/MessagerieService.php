@@ -28,6 +28,15 @@ class MessagerieService
     ) {}
 
     
+    public function membreIdDepuisUuid(string $uuid): int
+    {
+        $id = Membre::whereHas('user', fn ($q) => $q->where('uuid', $uuid))->value('id');
+        abort_if($id === null, 404, 'Membre introuvable.');
+
+        return $id;
+    }
+
+
 
     public function demarrer(Membre $moi, int $destinataireId): Conversation
     {
@@ -249,7 +258,7 @@ class MessagerieService
         return "{$membre->user->prenom} " . mb_substr((string) $membre->user->nom, 0, 1) . '.';
     }
 
-    /** « un message : Bonjour, je suis… », « une photo », « un message vocal »… */
+
     private function apercu(string $type, ?string $contenu): string
     {
         return match ($type) {

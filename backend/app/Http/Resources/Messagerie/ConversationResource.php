@@ -22,6 +22,7 @@ class ConversationResource extends JsonResource
 
             'interlocuteur' => [
                 'membre_id'       => $autre?->id,
+                'uuid' => $user?->uuid,
                 'nom'             => trim(($user?->prenom ?? '') . ' ' . ($user?->nom ?? '')),
                 'username'        => $autre?->username,
                 'photo_url'       => PublicationResource::url($autre?->photo_profil_path),

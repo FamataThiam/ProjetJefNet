@@ -6,6 +6,14 @@ import { lireJeton } from './jeton'
 
 let echo = null
 
+// Chaque requête envoie l'identifiant de notre connexion Reverb :
+// le backend (->toOthers()) ne nous renvoie alors pas nos propres messages.
+api.interceptors.request.use((config) => {
+  const id = echo?.socketId()
+  if (id) config.headers['X-Socket-ID'] = id
+  return config
+})
+
 export function ouvrirEcho() {
   if (echo) return echo
   const cle = import.meta.env.VITE_REVERB_APP_KEY
@@ -21,7 +29,7 @@ export function ouvrirEcho() {
     wssPort: Number(import.meta.env.VITE_REVERB_PORT ?? 443),
     forceTLS: https,
     enabledTransports: ['ws', 'wss'],
-
+    // les canaux privés sont autorisés par le backend avec le jeton Sanctum
     authorizer: (canal) => ({
       authorize: (socketId, rappel) => {
         api.post('/broadcasting/auth', { socket_id: socketId, channel_name: canal.name }, {
@@ -35,7 +43,7 @@ export function ouvrirEcho() {
   return echo
 }
 
-
+// à la déconnexion
 export function fermerEcho() {
   echo?.disconnect()
   echo = null

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import BoutonEcrire from './BoutonEcrire'
 import { ilYA, initiales, moisAnnee, prix, virgule, zone } from './format'
 
-
+// Photo ronde : anneau qui tourne, ou anneau découpé si le prestataire a un statut (< 24 h)
 function Avatar({ membre, prenom, nom, certifie, statut, vu, onOuvrirStatut }) {
   const n = statut.length
   const tour = 2 * Math.PI * 46
@@ -90,7 +91,8 @@ export default function EnteteProfil({ profil, nbRealisations, statut, statutVu,
 
         <div className="mt-5 flex flex-wrap justify-center gap-2.5 lg:justify-start">
           <Link to={lienConnexion} className={`${btn} bg-gradient-to-r from-[#0174ab] to-[#1a8fd0] text-white shadow-[0_12px_26px_-12px_rgba(1,116,171,.9)] hover:-translate-y-0.5`}>Réserver</Link>
-          <Link to={lienConnexion} className={`${btn} bg-[#e3f1fa] text-slate-900 hover:bg-[#d3eafa] dark:bg-white/10 dark:text-white`}>Écrire</Link>
+          <BoutonEcrire uuidPrestataire={profil.id} lienConnexion={lienConnexion}
+            className={`${btn} bg-[#e3f1fa] text-slate-900 hover:bg-[#d3eafa] dark:bg-white/10 dark:text-white`} />
           <button type="button" onClick={partager} title="Partager le profil"
             className={`${btn} bg-[#e3f1fa] px-4 text-slate-900 hover:bg-[#d3eafa] dark:bg-white/10 dark:text-white`}>
             {copie ? 'Lien copié ✓' : '↗'}

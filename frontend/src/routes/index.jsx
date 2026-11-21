@@ -18,6 +18,7 @@ const ListePrestataires = lazy(() => import('../pages/membre/ListePrestataires')
 const EspaceClient = lazy(() => import('../pages/membre/EspaceClient'))
 const DevenirPrestataire = lazy(() => import('../pages/membre/DevenirPrestataire'))
 const Notifications = lazy(() => import('../pages/membre/Notifications'))
+const Messages = lazy(() => import('../pages/membre/Messages'))
 const PageIntrouvable = lazy(() => import('../pages/erreurs/PageIntrouvable'))
 
 export const routeur = createBrowserRouter([
@@ -74,6 +75,8 @@ export const routeur = createBrowserRouter([
               { path: '/espace', element: <EspaceClient /> },
               { path: '/devenir-prestataire', element: <DevenirPrestataire /> },
               { path: '/notifications', element: <Notifications /> },
+              { path: '/messages', element: <Messages /> },
+              { path: '/messages/:uuid', element: <Messages /> },
             ],
           },
         ],
