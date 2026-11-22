@@ -1,0 +1,232 @@
+
+.mb .rs { max-width:1240px; margin:0 auto; padding:26px 20px 70px; position:relative; isolation:isolate }
+.mb .rs .verre { background:var(--carte); backdrop-filter:blur(22px) saturate(160%); -webkit-backdrop-filter:blur(22px) saturate(160%); border:1px solid var(--bord); border-radius:24px; box-shadow:var(--ombre) }
+.mb .rs-taches { position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden }
+.mb .rs-taches i { position:absolute; border-radius:50%; filter:blur(90px) }
+.mb .rs-taches i:nth-child(1) { width:520px; height:520px; left:-160px; top:-120px; background:rgba(56,180,234,.28) }
+.mb .rs-taches i:nth-child(2) { width:460px; height:460px; right:-140px; top:35%; background:rgba(1,116,171,.16) }
+.dark .mb .rs-taches i { opacity:.3 }
+
+.mb .rs-ariane { font-size:13px; color:var(--doux); margin-bottom:8px; display:flex; gap:8px; flex-wrap:wrap }
+.mb .rs-ariane a:hover { color:var(--bleu) }
+.mb .rs-ariane b { color:var(--bleu); font-weight:700 }
+.mb .rs-titre { font-size:30px; font-weight:900; letter-spacing:-.02em; line-height:1.15 }
+.mb .rs-sous { color:var(--doux); margin-top:4px; font-size:14.5px }
+.mb .rs-entete { display:flex; align-items:center; gap:14px; flex-wrap:wrap }
+
+/* boutons */
+.mb .rs-btn { height:48px; padding:0 22px; border-radius:15px; border:0; font:800 14.5px Inter,sans-serif; display:inline-flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; transition:transform .2s,box-shadow .2s,background .2s,opacity .2s; white-space:nowrap }
+.mb .rs-btn:disabled { opacity:.55; cursor:not-allowed; transform:none }
+.mb .rs-btn.plein { background:linear-gradient(120deg,#0174ab,#1a8fd0); color:#fff; box-shadow:0 14px 26px -14px #0174ab }
+.mb .rs-btn.plein:not(:disabled):hover { transform:translateY(-2px) }
+.mb .rs-btn.clair { background:var(--pale); color:var(--bleu) }
+.dark .mb .rs-btn.clair { color:#7dd3fc }
+.mb .rs-btn.contour { background:transparent; border:1.5px solid var(--ligne); color:var(--texte) }
+.mb .rs-btn.contour:hover { border-color:var(--bleu) }
+.mb .rs-btn.rouge { background:#fdecec; color:#c53030 }
+.dark .mb .rs-btn.rouge { background:rgba(197,48,48,.16); color:#fca5a5 }
+.mb .rs-btn.large { width:100% }
+.mb .rs-btn.petit { height:38px; padding:0 14px; font-size:13px; border-radius:12px }
+.mb .rs-lien { border:0; background:none; color:var(--bleu); font:700 13.5px Inter,sans-serif; cursor:pointer; padding:0 }
+.mb .rs-lien:hover { text-decoration:underline }
+
+/* badges de statut */
+.mb .rs-st { display:inline-block; font-size:12px; font-weight:800; padding:5px 11px; border-radius:20px; white-space:nowrap }
+.mb .rs-st.att { background:#fff4dc; color:#a66300 } .mb .rs-st.conf { background:#e3f1fa; color:#0174ab }
+.mb .rs-st.cours { background:#e8f0ff; color:#3b5bdb } .mb .rs-st.fini { background:#e5f7ee; color:#18794e }
+.mb .rs-st.ann { background:#eef1f4; color:#6b7280 } .mb .rs-st.ref { background:#fdecec; color:#c53030 }
+.dark .mb .rs-st { background:rgba(255,255,255,.08) }
+.dark .mb .rs-st.att { color:#fbbf24 } .dark .mb .rs-st.conf { color:#7dd3fc } .dark .mb .rs-st.cours { color:#a5b4fc }
+.dark .mb .rs-st.fini { color:#6ee7b7 } .dark .mb .rs-st.ann { color:#cbd5e1 } .dark .mb .rs-st.ref { color:#fca5a5 }
+
+.mb .rs-erreur { font-size:13.5px; color:#c53030; background:#fdecec; border-radius:12px; padding:10px 14px; margin-top:12px }
+.dark .mb .rs-erreur { background:rgba(197,48,48,.16); color:#fca5a5 }
+.mb .rs-ok { font-size:13.5px; color:#18794e; background:#e5f7ee; border-radius:12px; padding:10px 14px; margin-top:12px }
+.dark .mb .rs-ok { background:rgba(24,121,78,.18); color:#6ee7b7 }
+.mb .rs-vide { padding:40px 24px; text-align:center; color:var(--doux); font-size:14.5px }
+.mb .rs-vide b { display:block; color:var(--texte); font-size:17px; margin-bottom:6px }
+.mb .rs-squelette { background:linear-gradient(90deg,var(--sq1),var(--sq2),var(--sq1)); background-size:200% 100%; animation:rs-brille 1.4s linear infinite; border-radius:24px }
+@keyframes rs-brille { to { background-position:-200% 0 } }
+@keyframes rs-monte { from { opacity:0; transform:translateY(10px) } }
+
+/* ================= Réserver ================= */
+.mb .rs-res { display:grid; grid-template-columns:minmax(0,1fr) 370px; gap:24px; margin-top:22px; align-items:start }
+.mb .rs-res > * { min-width:0 }
+.mb .rs-etape { padding:24px 26px; margin-bottom:18px; animation:rs-monte .45s ease both }
+.mb .rs-etape h3 { font-size:17px; font-weight:800; display:flex; align-items:center; gap:12px; margin-bottom:16px }
+.mb .rs-etape h3 i { font-style:normal; width:30px; height:30px; border-radius:10px; background:linear-gradient(140deg,#38b4ea,#0174ab); color:#fff; display:grid; place-items:center; font-size:14px; flex-shrink:0 }
+.mb .rs-etape h3 small { margin-left:auto; font-weight:600; font-size:13px; color:var(--doux) }
+.mb .rs-svc { width:100%; text-align:left; display:flex; align-items:center; gap:14px; padding:14px 16px; border-radius:18px; border:1.5px solid var(--ligne); background:var(--carte); margin-bottom:10px; cursor:pointer; font:inherit; color:inherit; transition:border-color .2s,box-shadow .2s,background .2s }
+.mb .rs-svc:hover { border-color:color-mix(in srgb,var(--bleu) 50%,transparent) }
+.mb .rs-svc.on { border-color:var(--bleu); background:color-mix(in srgb,var(--bleu) 6%,var(--carte)); box-shadow:0 0 0 4px rgba(1,116,171,.08) }
+.mb .rs-case { width:24px; height:24px; border-radius:8px; border:2px solid #c6d6e3; flex-shrink:0; display:grid; place-items:center; transition:.2s }
+.mb .rs-svc.on .rs-case { background:var(--bleu); border-color:var(--bleu) }
+.mb .rs-svc.on .rs-case::after { content:''; width:10px; height:6px; border:solid #fff; border-width:0 0 2.5px 2.5px; transform:rotate(-45deg) translate(1px,-1px) }
+.mb .rs-svc span { min-width:0 }
+.mb .rs-svc b { display:block; font-size:15px } .mb .rs-svc small { color:var(--doux); font-size:13px }
+.mb .rs-svc em { margin-left:auto; font-style:normal; font-weight:900; color:var(--bleu); white-space:nowrap }
+.dark .mb .rs-svc em { color:#7dd3fc }
+.mb .rs-jours { display:flex; gap:10px; overflow-x:auto; padding-bottom:6px; scrollbar-width:thin }
+.mb .rs-jour { min-width:84px; padding:12px 8px; border-radius:18px; border:1.5px solid var(--ligne); background:var(--carte); text-align:center; cursor:pointer; font:inherit; color:inherit; transition:.2s; flex-shrink:0 }
+.mb .rs-jour:hover { border-color:var(--bleu) }
+.mb .rs-jour small { display:block; font-size:12px; color:var(--doux); font-weight:700; text-transform:uppercase }
+.mb .rs-jour b { display:block; font-size:24px; font-weight:900; margin:2px 0 }
+.mb .rs-jour span { font-size:12px; color:var(--doux) }
+.mb .rs-jour.on { background:linear-gradient(150deg,#0174ab,#1a8fd0); border-color:transparent; color:#fff }
+.mb .rs-jour.on small, .mb .rs-jour.on span { color:rgba(255,255,255,.85) }
+.mb .rs-plage { font-size:13px; color:var(--doux); margin:16px 0 10px }
+.mb .rs-heures { display:grid; grid-template-columns:repeat(auto-fill,minmax(92px,1fr)); gap:9px }
+.mb .rs-heure { height:42px; border-radius:13px; border:1.5px solid var(--ligne); background:var(--carte); font:700 14px Inter,sans-serif; color:var(--texte); cursor:pointer; transition:.2s }
+.mb .rs-heure:hover { border-color:var(--bleu) }
+.mb .rs-heure.on { border-color:var(--bleu); color:var(--bleu); background:color-mix(in srgb,var(--bleu) 7%,var(--carte)) }
+.dark .mb .rs-heure.on { color:#7dd3fc }
+.mb .rs-champ { width:100%; min-height:52px; border-radius:16px; border:1.5px solid var(--ligne); background:var(--carte); padding:14px 16px; font:15px Inter,sans-serif; color:var(--texte); outline:none; transition:border-color .2s,box-shadow .2s; resize:vertical }
+.mb .rs-champ:focus { border-color:var(--bleu); box-shadow:0 0 0 4px rgba(1,116,171,.1) }
+.mb .rs-aide { font-size:12.5px; color:var(--doux); margin-top:8px; line-height:1.5 }
+.mb .rs-champ-err { font-size:12.5px; color:#c53030; margin-top:6px }
+.mb .rs-recap { padding:24px; position:sticky; top:84px }
+.mb .rs-pres { display:flex; gap:12px; align-items:center; padding-bottom:16px; border-bottom:1px solid var(--ligne) }
+.mb .rs-pres > div { min-width:0 }
+.mb .rs-pres b { display:block } .mb .rs-pres small { color:var(--doux); font-size:13px }
+.mb .rs-badge-c { display:inline-block; margin-top:4px; font-size:11px; font-weight:800; color:var(--bleu); background:var(--pale); border-radius:20px; padding:2px 8px }
+.mb .rs-ligne { display:flex; justify-content:space-between; gap:12px; font-size:14px; padding:7px 0 }
+.mb .rs-ligne span { color:var(--doux) } .mb .rs-ligne b { text-align:right; white-space:nowrap }
+.mb .rs-total { display:flex; justify-content:space-between; align-items:baseline; border-top:1px dashed var(--ligne); margin-top:10px; padding-top:14px }
+.mb .rs-total b { font-size:26px; font-weight:900; color:var(--bleu) }
+.dark .mb .rs-total b { color:#7dd3fc }
+.mb .rs-note { font-size:12.5px; color:var(--doux); line-height:1.55; margin:14px 0 16px; background:var(--pale); border-radius:14px; padding:12px 14px }
+
+/* ================= Liste ================= */
+.mb .rs-bascule { margin-left:auto; display:flex; padding:4px; border-radius:16px; background:var(--carte); border:1px solid var(--ligne) }
+.mb .rs-bascule button { padding:10px 18px; border:0; border-radius:12px; background:none; font:800 13.5px Inter,sans-serif; color:var(--doux); cursor:pointer; transition:.25s }
+.mb .rs-bascule button.on { background:linear-gradient(120deg,#0174ab,#1a8fd0); color:#fff }
+.mb .rs-onglets { display:flex; gap:8px; margin:22px 0 18px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none }
+.mb .rs-onglets button { padding:9px 16px; border-radius:30px; font:700 13.5px Inter,sans-serif; background:var(--carte); border:1px solid var(--ligne); color:var(--doux); cursor:pointer; white-space:nowrap; transition:.2s }
+.mb .rs-onglets button:hover { color:var(--texte) }
+.mb .rs-onglets button.on { background:var(--texte); color:var(--fond); border-color:var(--texte) }
+.mb .rs-onglets button i { font-style:normal; margin-left:6px; font-size:12px; opacity:.7 }
+.mb .rs-liste { display:grid; gap:12px }
+.mb .rs-ligne-resa { display:grid; grid-template-columns:78px minmax(0,1fr) 200px 160px; align-items:center; gap:20px; padding:16px 22px 16px 16px; transition:transform .2s; animation:rs-monte .4s ease both }
+.mb .rs-ligne-resa:hover { transform:translateY(-2px) }
+.mb .rs-date { height:78px; border-radius:20px; background:var(--pale); text-align:center; display:grid; place-content:center }
+.mb .rs-date small { font-size:11.5px; font-weight:800; color:var(--bleu); text-transform:uppercase }
+.dark .mb .rs-date small { color:#7dd3fc }
+.mb .rs-date b { font-size:26px; font-weight:900; line-height:1.1 }
+.mb .rs-date span { font-size:12px; color:var(--doux); font-weight:600 }
+.mb .rs-ligne-resa h4 { font-size:16px; font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.mb .rs-ligne-resa p { font-size:13.5px; color:var(--doux); margin-top:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.mb .rs-qui { display:flex; align-items:center; gap:10px; font-size:13.5px; min-width:0 }
+.mb .rs-qui span:last-child { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.mb .rs-qui small { display:block; color:var(--doux); font-size:12px }
+.mb .rs-fin { text-align:right }
+.mb .rs-fin b { display:block; font-size:17px; font-weight:900; margin-top:8px }
+.mb .rs-afaire { display:block; margin-top:6px; font-size:12px; font-weight:800; color:#c2410c }
+.mb .rs-afaire.attente { color:var(--doux) } .mb .rs-afaire.fait { color:#18794e }
+.dark .mb .rs-afaire { color:#fdba74 } .dark .mb .rs-afaire.fait { color:#6ee7b7 } .dark .mb .rs-afaire.attente { color:var(--doux) }
+.mb .rs-plus { display:flex; justify-content:center; margin-top:18px }
+
+/* ================= Détail ================= */
+.mb .rs-det { display:grid; grid-template-columns:minmax(0,1fr) 370px; gap:24px; margin-top:22px; align-items:start }
+.mb .rs-det > * { min-width:0; display:flex; flex-direction:column; gap:18px }
+.mb .rs-bloc { padding:24px 26px; animation:rs-monte .45s ease both }
+.mb .rs-bloc h3 { font-size:16px; font-weight:800; margin-bottom:12px }
+.mb .rs-suivi { list-style:none; display:grid; grid-template-columns:repeat(5,1fr); margin-top:18px }
+.mb .rs-suivi li { position:relative; text-align:center; padding-top:46px; font-size:12.5px; font-weight:700 }
+.mb .rs-suivi li::before { content:''; position:absolute; top:15px; left:-50%; right:50%; height:4px; border-radius:4px; background:var(--ligne) }
+.mb .rs-suivi li:first-child::before { display:none }
+.mb .rs-suivi li.fait::before, .mb .rs-suivi li.ici::before { background:linear-gradient(90deg,#38b4ea,#0174ab) }
+.mb .rs-suivi li i { position:absolute; top:0; left:50%; margin-left:-17px; width:34px; height:34px; border-radius:50%; display:grid; place-items:center; background:var(--carte); border:3px solid var(--ligne); font-style:normal; font-weight:900; font-size:13px; color:var(--doux); z-index:1 }
+.mb .rs-suivi li.fait i { background:var(--bleu); border-color:var(--bleu); color:#fff }
+.mb .rs-suivi li.ici i { border-color:var(--bleu); color:var(--bleu); box-shadow:0 0 0 6px rgba(1,116,171,.15) }
+.mb .rs-suivi li.stop i { background:#c53030; border-color:#c53030; color:#fff }
+.mb .rs-suivi li small { display:block; font-weight:500; font-size:11.5px; color:var(--doux); margin-top:2px }
+.mb .rs-grille2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px }
+.mb .rs-info { background:var(--pale); border-radius:16px; padding:13px 15px; min-width:0 }
+.mb .rs-info small { display:block; font-size:12px; color:var(--doux); font-weight:600 }
+.mb .rs-info b { font-size:14.5px; overflow-wrap:anywhere }
+.mb .rs-motif { margin-top:14px; background:#fdecec; color:#9b2c2c; border-radius:14px; padding:12px 14px; font-size:13.5px }
+.dark .mb .rs-motif { background:rgba(197,48,48,.16); color:#fca5a5 }
+.mb .rs-doc { display:flex; align-items:center; gap:14px; padding:14px; border-radius:16px; border:1px solid var(--ligne); background:var(--carte); margin-bottom:10px }
+.mb .rs-doc:last-child { margin-bottom:0 }
+.mb .rs-doc.off { opacity:.55 }
+.mb .rs-pdf { width:44px; height:52px; border-radius:10px; background:#fdecec; color:#c53030; font-weight:900; font-size:11px; display:grid; place-items:center; flex-shrink:0 }
+.mb .rs-doc > div { min-width:0 }
+.mb .rs-doc b { display:block; font-size:14.5px } .mb .rs-doc small { font-size:12.5px; color:var(--doux) }
+.mb .rs-doc .rs-btns { margin-left:auto; display:flex; gap:8px }
+.mb .rs-action { padding:24px; animation:rs-monte .45s ease both }
+.mb .rs-eti { font-size:12px; font-weight:800; color:#c2410c; text-transform:uppercase; letter-spacing:.6px }
+.mb .rs-eti.attente { color:var(--doux) } .mb .rs-eti.fait { color:#18794e }
+.dark .mb .rs-eti { color:#fdba74 } .dark .mb .rs-eti.fait { color:#6ee7b7 } .dark .mb .rs-eti.attente { color:var(--doux) }
+.mb .rs-action h3 { font-size:20px; font-weight:900; margin:6px 0 }
+.mb .rs-action p { font-size:14px; color:var(--doux); line-height:1.55; margin-bottom:18px }
+.mb .rs-action .rs-btn + .rs-btn { margin-top:10px }
+.mb .rs-mini { padding:20px 22px }
+.mb .rs-mini .rs-pres { border:0; padding:0 }
+.mb .rs-mini .rs-btns { display:flex; gap:8px; margin-top:14px }
+.mb .rs-mini .rs-btns > * { flex:1; height:42px; font-size:13.5px }
+.mb .rs-fin-etape { display:flex; gap:12px; align-items:center; font-size:13.5px; padding:10px 0; border-bottom:1px solid var(--ligne) }
+.mb .rs-fin-etape:last-child { border:0 }
+.mb .rs-rond { width:26px; height:26px; border-radius:50%; display:grid; place-items:center; font-size:12px; font-weight:900; flex-shrink:0; background:#fff4dc; color:#a66300 }
+.mb .rs-rond.oui { background:#e5f7ee; color:#18794e }
+.dark .mb .rs-rond { background:rgba(255,255,255,.08) }
+
+/* ================= Fenêtres ================= */
+.rs-voile { position:fixed; inset:0; z-index:80; background:rgba(6,22,40,.45); backdrop-filter:blur(6px); display:grid; place-items:center; padding:16px; animation:rs-fondu .2s ease }
+@keyframes rs-fondu { from { opacity:0 } }
+.mb .rs-modale, .rs-modale { width:min(560px,100%); max-height:calc(100vh - 32px); overflow-y:auto; background:var(--fond); border-radius:28px; padding:28px; box-shadow:0 40px 80px -30px rgba(0,0,0,.5); animation:rs-monte .25s ease; color:var(--texte) }
+.mb .rs-modale.large { width:min(720px,100%) }
+.mb .rs-modale-haut { display:flex; align-items:flex-start; gap:12px; margin-bottom:18px }
+.mb .rs-modale-haut h2 { font-size:22px; font-weight:900 }
+.mb .rs-modale-haut p { color:var(--doux); font-size:14px; margin-top:2px }
+.mb .rs-fermer { margin-left:auto; width:38px; height:38px; border-radius:12px; border:0; background:var(--pale); color:var(--doux); font-size:20px; line-height:1; cursor:pointer; flex-shrink:0 }
+.mb .rs-lbl { display:block; font-size:13px; font-weight:700; margin:14px 0 8px }
+.mb .rs-modes { display:grid; grid-template-columns:repeat(3,1fr); gap:10px }
+.mb .rs-mode { border:1.5px solid var(--ligne); border-radius:18px; padding:14px 10px; text-align:center; font:800 13.5px Inter,sans-serif; background:var(--carte); color:var(--texte); cursor:pointer; transition:.2s }
+.mb .rs-mode small { display:block; font-weight:600; color:var(--doux); font-size:11.5px; margin-top:2px }
+.mb .rs-mode.on { border-color:var(--bleu); color:var(--bleu); background:color-mix(in srgb,var(--bleu) 6%,var(--carte)) }
+.dark .mb .rs-mode.on { color:#7dd3fc }
+.mb .rs-montant { display:flex; justify-content:space-between; align-items:center; background:var(--pale); border-radius:16px; padding:14px 16px; margin:18px 0 }
+.mb .rs-montant b { font-size:22px; font-weight:900; color:var(--bleu) }
+.dark .mb .rs-montant b { color:#7dd3fc }
+.mb .rs-etoiles { display:flex; gap:6px }
+.mb .rs-etoiles button { border:0; background:none; font-size:34px; line-height:1; color:#d5dde5; cursor:pointer; transition:transform .15s,color .15s; padding:0 }
+.mb .rs-etoiles button.on { color:#f5b301 }
+.mb .rs-etoiles button:hover { transform:scale(1.15) }
+.dark .mb .rs-etoiles button { color:#334155 } .dark .mb .rs-etoiles button.on { color:#f5b301 }
+.mb .rs-photos { display:grid; grid-template-columns:1fr 1fr; gap:12px }
+.mb .rs-photo { position:relative; aspect-ratio:4/3; border-radius:16px; border:1.5px dashed var(--ligne); background:var(--carte); display:grid; place-items:center; overflow:hidden; font-size:13px; color:var(--doux); cursor:pointer; text-align:center }
+.mb .rs-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover }
+.mb .rs-photo em { position:absolute; left:10px; top:10px; font-style:normal; font-size:11.5px; font-weight:800; background:rgba(0,0,0,.55); color:#fff; border-radius:20px; padding:3px 9px }
+.mb .rs-texte-rapport { font-size:14.5px; line-height:1.65; white-space:pre-line }
+.mb .rs-pad { position:relative; height:170px; border-radius:18px; border:1.5px dashed var(--ligne); background:#fff; touch-action:none; overflow:hidden }
+.mb .rs-pad canvas { width:100%; height:100%; display:block; cursor:crosshair }
+.mb .rs-pad .indice { position:absolute; inset:0; display:grid; place-items:center; color:#94a3b8; font-size:14px; pointer-events:none }
+.mb .rs-pad button { position:absolute; right:10px; bottom:10px }
+.mb .rs-sig-actuelle { display:flex; align-items:center; gap:14px; padding:12px 14px; border-radius:16px; background:var(--pale); font-size:13.5px }
+.mb .rs-sig-actuelle img { height:48px; background:#fff; border-radius:10px; padding:4px 10px; margin-left:auto }
+.mb .rs-pied { display:flex; gap:10px; justify-content:flex-end; margin-top:20px; flex-wrap:wrap }
+
+/* ================= Téléphone ================= */
+@media (max-width:980px) {
+  .mb .rs-res, .mb .rs-det { grid-template-columns:1fr }
+  .mb .rs-recap { position:static }
+  .mb .rs-det > aside { order:-1 }   /* sur téléphone, la carte d'action passe en premier */
+  .mb .rs-ligne-resa { grid-template-columns:64px minmax(0,1fr) auto; gap:14px }
+  .mb .rs-ligne-resa .rs-qui { display:none }
+  .mb .rs-date { height:66px }
+}
+@media (max-width:640px) {
+  .mb .rs { padding:18px 14px 60px }
+  .mb .rs-titre { font-size:24px }
+  .mb .rs-bascule { margin-left:0; width:100% } .mb .rs-bascule button { flex:1 }
+  .mb .rs-etape, .mb .rs-bloc { padding:18px }
+  .mb .rs-ligne-resa { grid-template-columns:56px minmax(0,1fr); padding:14px }
+  .mb .rs-ligne-resa .rs-fin { grid-column:2; text-align:left; display:flex; align-items:center; gap:10px; flex-wrap:wrap }
+  .mb .rs-ligne-resa .rs-fin b { margin:0 }
+  .mb .rs-ligne-resa .rs-afaire { margin:0 }
+  .mb .rs-suivi li { font-size:11px; padding-top:40px } .mb .rs-suivi li small { display:none }
+  .mb .rs-suivi li i { width:28px; height:28px; margin-left:-14px; font-size:12px } .mb .rs-suivi li::before { top:12px }
+  .mb .rs-grille2, .mb .rs-photos { grid-template-columns:1fr }
+  .mb .rs-modes { grid-template-columns:1fr }
+  .mb .rs-doc { flex-wrap:wrap } .mb .rs-doc .rs-btns { margin-left:58px }
+}

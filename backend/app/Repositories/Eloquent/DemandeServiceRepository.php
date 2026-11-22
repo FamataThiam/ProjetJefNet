@@ -22,7 +22,7 @@ class DemandeServiceRepository implements DemandeServiceRepositoryInterface
         return DemandeService::query()
             ->where('membre_id', $membreId)
             ->when($statut, fn ($q) => $q->whereHas('statut', fn ($s) => $s->where('value', $statut)))
-            ->with(['domaine', 'statut'])
+            ->with(['domaine', 'statut', 'reservation.prestataire.membre.user'])
             ->latest()
             ->paginate($parPage)
            ->withQueryString();
@@ -33,8 +33,20 @@ class DemandeServiceRepository implements DemandeServiceRepositoryInterface
         return DemandeService::query()
             ->where('membre_id', $membreId)
             ->where('uuid', $uuid)
-            ->with(['domaine', 'statut'])
+            ->with(['domaine', 'statut', 'reservation.prestataire.membre.user'])
             ->firstOrFail();
+    }
+
+    public function compterParStatut(int $membreId): array
+    {
+        return DemandeService::query()
+            ->where('demandes_service.membre_id', $membreId)
+            ->join('code_lists', 'code_lists.id', '=', 'demandes_service.statut_id')
+            ->groupBy('code_lists.value')
+            ->selectRaw('code_lists.value as statut, count(*) as total')
+            ->pluck('total', 'statut')
+            ->map(fn ($n) => (int) $n)
+            ->all();
     }
 
     public function modifier(DemandeService $demande, array $donnees): DemandeService

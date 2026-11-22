@@ -25,5 +25,8 @@ interface ReservationRepositoryInterface
  
     public function trouverPourPrestataire(string $uuid, int $profilId): Reservation;
 
+
+    public function compterParStatut(string $colonne, int $id): array;
+
     public function modifier(Reservation $reservation, array $donnees): Reservation;
 }

@@ -18,7 +18,10 @@ use Illuminate\Validation\ValidationException;
 
 class ReservationService
 {
-    private const RELATIONS = ['statut', 'demande', 'details.service', 'client.user', 'prestataire.membre.user'];
+    private const RELATIONS = [
+        'statut', 'demande', 'details.service', 'client.user', 'prestataire.membre.user',
+        'rapport.statut', 'paiements.statut', 'paiements.mode', 'avis',
+    ];
 
     public function __construct(
         private ReservationRepositoryInterface $reservations,
@@ -87,7 +90,18 @@ class ReservationService
         return $this->reservations->pourClient($client->id, $statut);
     }
 
-   
+    /** Compteurs par statut pour les onglets : réservations faites par le membre. */
+    public function compteursClient(Membre $client): array
+    {
+        return $this->reservations->compterParStatut('membre_id', $client->id);
+    }
+
+    /** Compteurs par statut pour les onglets : réservations reçues par le prestataire. */
+    public function compteursRecues(Membre $membre): array
+    {
+        return $this->reservations->compterParStatut('profil_professionnel_id', $this->profilDe($membre)->id);
+    }
+
     public function reservationsRecues(Membre $membre, ?string $statut = null): LengthAwarePaginator
     {
         return $this->reservations->pourPrestataire($this->profilDe($membre)->id, $statut);

@@ -20,9 +20,10 @@ class DemandeController extends Controller
             'statut' => 'nullable|in:EN_ATTENTE,ACCEPTEE,REFUSEE,ANNULEE,EXPIREE,CONCLUE',
         ]);
 
-        return DemandeResource::collection(
-            $this->demandes->mesDemandes($request->user()->membre, $request->query('statut'))
-        );
+        $membre = $request->user()->membre;
+
+        return DemandeResource::collection($this->demandes->mesDemandes($membre, $request->query('statut')))
+            ->additional(['compteurs' => $this->demandes->compteurs($membre)]);
     }
 
     // POST /api/demandes  → publier une demande de service

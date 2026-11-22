@@ -21,6 +21,12 @@ export default function useTempsReel() {
       .listen('.notification.creee', ({ notification, non_lues }) => {
         client.setQueryData(['non-lues', 'notifications'], non_lues)
         client.invalidateQueries({ queryKey: ['notifications'] })
+        // une notification de réservation (confirmée, rapport, paiement…) : on recharge les réservations affichées
+        if (notification?.lien?.startsWith('/reservations')) {
+          client.invalidateQueries({ queryKey: ['reservations'] })
+          client.invalidateQueries({ queryKey: ['reservation'] })
+          client.invalidateQueries({ queryKey: ['espace', 'resume'] })
+        }
         prevenir('jefnet:notification', notification)
       })
       .listen('.message.envoye', ({ conversation_uuid: uuid, message, non_lus_total }) => {

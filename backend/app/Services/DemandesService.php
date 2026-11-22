@@ -26,6 +26,11 @@ class DemandesService
     }
 
 
+    public function compteurs(Membre $membre): array
+    {
+        return $this->demandes->compterParStatut($membre->id);
+    }
+
     public function mesDemandes(Membre $membre, ?string $statut = null): LengthAwarePaginator
 {
     return $this->demandes->pourMembre($membre->id, $statut);

@@ -59,7 +59,7 @@ function Compteur({ valeur }) {
 }
 
 // En-tête du profil : photo (+ statut), identité, boutons, chiffres, biographie, prix
-export default function EnteteProfil({ profil, nbRealisations, statut, statutVu, onOuvrirStatut, lienConnexion }) {
+export default function EnteteProfil({ profil, nbRealisations, statut, statutVu, onOuvrirStatut, lienConnexion, lienReserver = lienConnexion, estMoi = false }) {
   const { prestataire: u } = profil
   const m = u.membre
   const [copie, setCopie] = useState(false)
@@ -90,7 +90,7 @@ export default function EnteteProfil({ profil, nbRealisations, statut, statutVu,
         </p>
 
         <div className="mt-5 flex flex-wrap justify-center gap-2.5 lg:justify-start">
-          <Link to={lienConnexion} className={`${btn} bg-gradient-to-r from-[#0174ab] to-[#1a8fd0] text-white shadow-[0_12px_26px_-12px_rgba(1,116,171,.9)] hover:-translate-y-0.5`}>Réserver</Link>
+          {!estMoi && <Link to={lienReserver} className={`${btn} bg-gradient-to-r from-[#0174ab] to-[#1a8fd0] text-white shadow-[0_12px_26px_-12px_rgba(1,116,171,.9)] hover:-translate-y-0.5`}>Réserver</Link>}
           <BoutonEcrire uuidPrestataire={profil.id} lienConnexion={lienConnexion}
             className={`${btn} bg-[#e3f1fa] text-slate-900 hover:bg-[#d3eafa] dark:bg-white/10 dark:text-white`} />
           <button type="button" onClick={partager} title="Partager le profil"
@@ -128,9 +128,9 @@ export default function EnteteProfil({ profil, nbRealisations, statut, statutVu,
           <small className="text-white/85">À partir de</small>
           <b className="mt-0.5 block text-3xl font-black">{prix(profil.prix_min)}</b>
           <small className="text-white/85">Wave · Orange Money · carte</small>
-          <Link to={lienConnexion} className="mt-4 block rounded-xl bg-white py-3 text-center text-sm font-extrabold text-[#0174ab] transition hover:-translate-y-0.5">
+          {!estMoi && <Link to={lienReserver} className="mt-4 block rounded-xl bg-white py-3 text-center text-sm font-extrabold text-[#0174ab] transition hover:-translate-y-0.5">
             Réserver ce prestataire
-          </Link>
+          </Link>}
         </div>
       )}
     </section>

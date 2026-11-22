@@ -63,7 +63,7 @@ function Vignette({ pub, epinglee, onOuvrir }) {
 }
 
 // Onglets : Réalisations · Services · Avis · À propos
-export default function OngletsProfil({ profil, publications, avis, lienConnexion, onOuvrirPublication }) {
+export default function OngletsProfil({ profil, publications, avis, lienConnexion, lienService, onOuvrirPublication }) {
   const [onglet, setOnglet] = useState('realisations')
   const barre = useRef(null)
   const [curseur, setCurseur] = useState({ left: 0, width: 0 })
@@ -127,7 +127,7 @@ export default function OngletsProfil({ profil, publications, avis, lienConnexio
                 <div className="sm:text-right">
                   <b className="block text-xl font-black text-[#0174ab] dark:text-[#7dd3fc]">{prix(s.prix)}</b>
                   <small className="text-slate-500 dark:text-slate-400">{[s.unite_tarif, duree(s.duree)].filter(Boolean).join(' · ')}</small>
-                  <Link to={lienConnexion} className="mt-2 block w-fit rounded-xl bg-gradient-to-r from-[#0174ab] to-[#1a8fd0] px-5 py-2 text-sm font-bold text-white sm:ml-auto">Réserver</Link>
+                  {lienService !== null && <Link to={lienService ? lienService(s.id) : lienConnexion} className="mt-2 block w-fit rounded-xl bg-gradient-to-r from-[#0174ab] to-[#1a8fd0] px-5 py-2 text-sm font-bold text-white sm:ml-auto">Réserver</Link>}
                 </div>
               </div>
             ))}

@@ -19,6 +19,11 @@ const EspaceClient = lazy(() => import('../pages/membre/EspaceClient'))
 const DevenirPrestataire = lazy(() => import('../pages/membre/DevenirPrestataire'))
 const Notifications = lazy(() => import('../pages/membre/Notifications'))
 const Messages = lazy(() => import('../pages/membre/Messages'))
+const Reserver = lazy(() => import('../pages/membre/Reserver'))
+const Reservations = lazy(() => import('../pages/membre/Reservations'))
+const Reservation = lazy(() => import('../pages/membre/Reservation'))
+const Demandes = lazy(() => import('../pages/membre/Demandes'))
+const NouvelleDemande = lazy(() => import('../pages/membre/NouvelleDemande'))
 const PageIntrouvable = lazy(() => import('../pages/erreurs/PageIntrouvable'))
 
 export const routeur = createBrowserRouter([
@@ -77,6 +82,11 @@ export const routeur = createBrowserRouter([
               { path: '/notifications', element: <Notifications /> },
               { path: '/messages', element: <Messages /> },
               { path: '/messages/:uuid', element: <Messages /> },
+              { path: '/prestataires/:id/reserver', element: <Reserver /> },
+              { path: '/reservations', element: <Reservations /> },
+              { path: '/reservations/:uuid', element: <Reservation /> },
+              { path: '/demandes', element: <Demandes /> },
+              { path: '/demandes/nouvelle', element: <NouvelleDemande /> },
             ],
           },
         ],

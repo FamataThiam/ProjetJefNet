@@ -19,6 +19,10 @@ class ReservationRepository implements ReservationRepositoryInterface
         'details.service',
         'client.user',
         'prestataire.membre.user',
+        'rapport.statut',
+        'paiements.statut',
+        'paiements.mode',
+        'avis',
     ];
 
     public function creerAvecDetails(array $donnees, array $details): Reservation
@@ -81,6 +85,18 @@ class ReservationRepository implements ReservationRepositoryInterface
             ->where('profil_professionnel_id', $profilId)
             ->with(self::RELATIONS)
             ->firstOrFail();
+    }
+
+    public function compterParStatut(string $colonne, int $id): array
+    {
+        return Reservation::query()
+            ->where("reservations.{$colonne}", $id)
+            ->join('code_lists', 'code_lists.id', '=', 'reservations.statut_id')
+            ->groupBy('code_lists.value')
+            ->selectRaw('code_lists.value as statut, count(*) as total')
+            ->pluck('total', 'statut')
+            ->map(fn ($n) => (int) $n)
+            ->all();
     }
 
     public function modifier(Reservation $reservation, array $donnees): Reservation

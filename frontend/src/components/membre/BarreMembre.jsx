@@ -10,6 +10,7 @@ const IC = {
   fil: <path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" />,
   carte: <><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z" /><path d="M9 4v14M15 6v14" /></>,
   reservations: <><rect x="3" y="4" width="18" height="17" rx="3" /><path d="M3 9h18M8 2v4M16 2v4" /></>,
+  demandes: <><path d="M4 10v4a1 1 0 0 0 1 1h3l6 4V5L8 9H5a1 1 0 0 0-1 1z" /><path d="M18 9a4 4 0 0 1 0 6" /></>,
   messages: <path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z" />,
   notifications: <path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10 21h4" />,
 }
@@ -24,7 +25,7 @@ function Onglet({ to, icone, libelle, nombre }) {
   )
 }
 
-// Barre du haut d'un membre connecté
+
 export default function BarreMembre() {
   const { user, fermer } = useSession()
   const { notifications, messages } = useNonLus()
@@ -41,7 +42,7 @@ export default function BarreMembre() {
     return () => document.removeEventListener('pointerdown', dehors)
   }, [ouvert])
 
-  // Ctrl + K (ou ⌘ + K) ouvre la recherche
+  
   useEffect(() => {
     const raccourci = (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); setRecherche(true) } }
     addEventListener('keydown', raccourci)
@@ -63,6 +64,7 @@ export default function BarreMembre() {
           <Onglet to="/fil" icone="fil" libelle="Fil" />
           <Onglet to="/carte" icone="carte" libelle="Carte" />
           <Onglet to="/reservations" icone="reservations" libelle="Réservations" />
+          <Onglet to="/demandes" icone="demandes" libelle="Demandes" />
           <Onglet to="/messages" icone="messages" libelle="Messages" nombre={messages} />
           <Onglet to="/notifications" icone="notifications" libelle="Notifications" nombre={notifications} />
           <div className="moi-mb" ref={zone}>
@@ -73,7 +75,7 @@ export default function BarreMembre() {
             {ouvert && (
               <div className="menu-moi">
                 {user?.est_prestataire ? (
-                  // un prestataire a deux espaces : celui de client et celui de prestataire
+              
                   <>
                     <Link to="/espace" onClick={() => setOuvert(false)}>Mon espace client</Link>
                     <Link to="/espace-prestataire" onClick={() => setOuvert(false)}>Mon espace prestataire</Link>

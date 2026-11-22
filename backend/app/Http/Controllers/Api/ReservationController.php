@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservation\MotifRequest;
 use App\Http\Requests\Reservation\ReserverRequest;
 use App\Http\Resources\ReservationResource;
+use App\Services\PrestataireService;
 use App\Services\ReservationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,7 +15,10 @@ class ReservationController extends Controller
 {
     private const STATUTS = 'nullable|in:EN_ATTENTE,CONFIRMEE,EN_COURS,TERMINEE,ANNULEE,REFUSEE';
 
-    public function __construct(private ReservationService $reservations) {}
+    public function __construct(
+        private ReservationService $reservations,
+        private PrestataireService $prestataires,
+    ) {}
 
     
 
@@ -23,15 +27,19 @@ class ReservationController extends Controller
     {
         $request->validate(['statut' => self::STATUTS]);
 
-        return ReservationResource::collection(
-            $this->reservations->mesReservations($request->user()->membre, $request->query('statut'))
-        );
+        $membre = $request->user()->membre;
+
+        return ReservationResource::collection($this->reservations->mesReservations($membre, $request->query('statut')))
+            ->additional(['compteurs' => $this->reservations->compteursClient($membre)]);
     }
 
     
     public function store(ReserverRequest $request): JsonResponse
     {
-        $reservation = $this->reservations->reserver($request->user()->membre, $request->validated());
+        $donnees = $request->validated();
+        $donnees['profil_id'] ??= $this->prestataires->idDepuisUuid($donnees['prestataire_uuid']);
+
+        $reservation = $this->reservations->reserver($request->user()->membre, $donnees);
 
         return response()->json([
             'message' => 'Réservation envoyée : le prestataire doit la confirmer.',
@@ -46,9 +54,10 @@ class ReservationController extends Controller
     {
         $request->validate(['statut' => self::STATUTS]);
 
-        return ReservationResource::collection(
-            $this->reservations->reservationsRecues($request->user()->membre, $request->query('statut'))
-        );
+        $membre = $request->user()->membre;
+
+        return ReservationResource::collection($this->reservations->reservationsRecues($membre, $request->query('statut')))
+            ->additional(['compteurs' => $this->reservations->compteursRecues($membre)]);
     }
 
     

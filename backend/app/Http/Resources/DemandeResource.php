@@ -30,6 +30,12 @@ class DemandeResource extends JsonResource
             'expire_le'   => $statut === 'EN_ATTENTE'
                 ? $this->created_at?->copy()->addDays(DemandesService::DUREE_VALIDITE_JOURS)->toIso8601String()
                 : null,
+            
+            'reservation' => $this->whenLoaded('reservation', fn () => $this->reservation ? [
+                'id'          => $this->reservation->uuid,
+                'prestataire' => trim(($this->reservation->prestataire?->membre?->user?->prenom ?? '') . ' '
+                    . mb_substr($this->reservation->prestataire?->membre?->user?->nom ?? '', 0, 1) . '.'),
+            ] : null),
         ];
     }
 }

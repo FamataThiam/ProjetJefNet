@@ -8,6 +8,9 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 interface DemandeServiceRepositoryInterface
 {
     public function creer(array $donnees): DemandeService;
+
+
+    public function compterParStatut(int $membreId): array;
     public function pourMembre(int $membreId, ?string $statut = null, int $parPage = 10): LengthAwarePaginator;
 
         public function trouverPourMembre(int $membreId, string $uuid): DemandeService;

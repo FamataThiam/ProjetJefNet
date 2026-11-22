@@ -1,0 +1,71 @@
+
+.mb .dm-domaines { display:flex; flex-wrap:wrap; gap:8px }
+.mb .dm-dom { padding:10px 16px; border-radius:30px; border:1.5px solid var(--ligne); background:var(--carte); font:700 13.5px Inter,sans-serif; color:var(--doux); cursor:pointer; transition:.2s }
+.mb .dm-dom:hover { color:var(--texte); border-color:color-mix(in srgb,var(--bleu) 50%,transparent) }
+.mb .dm-dom.on { border-color:var(--bleu); color:var(--bleu); background:color-mix(in srgb,var(--bleu) 6%,var(--carte)) }
+.dark .mb .dm-dom.on { color:#7dd3fc }
+.mb .dm-lbl { display:block; font-size:13px; font-weight:700; margin:14px 0 8px }
+.mb .dm-lbl.haut { margin-top:0 }
+.mb .dm-grille { display:grid; grid-template-columns:1fr 1fr; gap:12px }
+.mb .dm-compte { display:flex; justify-content:space-between; gap:10px }
+
+/* carte pour placer le point */
+.mb .dm-carte { position:relative; margin-top:14px; border-radius:20px; overflow:hidden; cursor:crosshair }
+.mb .dm-carte .leaflet-container { cursor:crosshair }
+.mb .dm-outils { position:absolute; left:12px; bottom:12px; z-index:500; display:flex; gap:8px; align-items:center; flex-wrap:wrap }
+.mb .dm-outils button { height:40px; padding:0 15px; border-radius:12px; border:0; background:#fff; color:#0174ab; font:800 13px Inter,sans-serif; box-shadow:0 8px 20px -10px rgba(0,0,0,.4); cursor:pointer }
+.mb .dm-outils span { font-size:12px; padding:8px 12px; border-radius:11px; background:rgba(255,255,255,.9); color:#334155; font-weight:600 }
+.mb .dm-epingle { display:block; width:32px; height:32px; border-radius:50% 50% 50% 0; transform:rotate(-45deg) translate(-2px,2px); background:linear-gradient(140deg,#38b4ea,#0174ab); box-shadow:0 8px 16px -6px #0174ab; animation:dm-tombe .5s cubic-bezier(.5,1.6,.4,1) }
+.mb .dm-epingle::after { content:''; position:absolute; left:10px; top:10px; width:12px; height:12px; border-radius:50%; background:#fff }
+@keyframes dm-tombe { from { transform:rotate(-45deg) translate(30px,-30px); opacity:0 } }
+.mb .dm-etat-pos { margin-top:10px; font-size:13px; font-weight:600; color:#15803d }
+.dark .mb .dm-etat-pos { color:#6ee7b7 }
+
+/* aperçu à droite */
+.mb .dm-eti { font-size:11.5px; font-weight:800; color:var(--doux); text-transform:uppercase; letter-spacing:.6px }
+.mb .dm-fiche { margin-top:12px; border-radius:20px; border:1px solid var(--ligne); background:var(--carte); padding:18px }
+.mb .dm-fiche h4 { font-size:16px; font-weight:800; margin-bottom:6px; overflow-wrap:anywhere }
+.mb .dm-fiche p { font-size:13.5px; color:var(--doux); line-height:1.5; overflow-wrap:anywhere }
+.mb .dm-fiche .vide { color:#94a3b8; font-style:italic }
+.mb .dm-puces { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:10px }
+.mb .dm-puce { font-size:11.5px; font-weight:800; color:var(--bleu); background:var(--pale); border-radius:20px; padding:4px 10px }
+.dark .mb .dm-puce { color:#7dd3fc }
+.mb .dm-puce.gris { color:var(--doux); background:color-mix(in srgb,var(--doux) 12%,transparent) }
+.mb .dm-etapes { margin:18px 0; display:grid; gap:12px }
+.mb .dm-etapes div { display:flex; gap:12px; font-size:13.5px; line-height:1.45; color:var(--doux) }
+.mb .dm-etapes b { color:var(--texte) }
+.mb .dm-etapes i { font-style:normal; width:26px; height:26px; border-radius:9px; background:var(--pale); color:var(--bleu); font-weight:900; font-size:12.5px; display:grid; place-items:center; flex-shrink:0 }
+
+/* listes */
+.mb .dm-cartes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px }
+.mb .dm-carte-d { padding:20px 22px; display:flex; flex-direction:column; animation:rs-monte .4s ease both; min-width:0 }
+.mb .dm-carte-d .dm-puces .rs-st, .mb .dm-carte-d .dm-puces .dm-dist { margin-left:auto }
+.mb .dm-carte-d h4 { font-size:17px; font-weight:800; overflow-wrap:anywhere }
+.mb .dm-carte-d p { font-size:13.5px; color:var(--doux); line-height:1.55; margin-top:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; overflow-wrap:anywhere }
+.mb .dm-meta { display:flex; flex-wrap:wrap; gap:6px 16px; font-size:12.5px; color:var(--doux); font-weight:600; margin-top:14px }
+.mb .dm-meta b { color:var(--texte) }
+.mb .dm-jauge { height:6px; border-radius:6px; background:var(--ligne); margin-top:14px; overflow:hidden }
+.mb .dm-jauge i { display:block; height:100%; border-radius:6px; background:linear-gradient(90deg,#38b4ea,#0174ab); transition:width .6s }
+.mb .dm-jauge.fin i { background:linear-gradient(90deg,#f59e0b,#ea580c) }
+.mb .dm-actions { display:flex; gap:8px; margin-top:auto; padding-top:16px; flex-wrap:wrap }
+.mb .dm-dist { font-size:22px; font-weight:900; color:var(--bleu); line-height:1; white-space:nowrap }
+.dark .mb .dm-dist { color:#7dd3fc }
+.mb .dm-dist small { font-size:12px; font-weight:700; color:var(--doux); margin-left:2px }
+.mb .rs-st.exp { background:#eef1f4; color:#6b7280 }
+.dark .mb .rs-st.exp { background:rgba(255,255,255,.08); color:#cbd5e1 }
+.mb .dm-desc { background:var(--pale); border-radius:16px; padding:14px 16px; font-size:14px; line-height:1.6; white-space:pre-line; overflow-wrap:anywhere }
+.mb .dm-select { appearance:none; cursor:pointer; background-image:linear-gradient(45deg,transparent 50%,var(--doux) 50%),linear-gradient(135deg,var(--doux) 50%,transparent 50%); background-position:calc(100% - 22px) 50%,calc(100% - 16px) 50%; background-size:6px 6px; background-repeat:no-repeat; padding-right:40px }
+.mb .dm-prix { position:relative }
+.mb .dm-prix span { position:absolute; right:16px; top:50%; transform:translateY(-50%); color:var(--doux); font-weight:700; font-size:13px }
+
+@media (max-width:980px) { .mb .dm-cartes { grid-template-columns:1fr } }
+.mb .dm-droite { margin-left:auto; display:flex; gap:12px; align-items:center; flex-wrap:wrap }
+.mb .dm-droite .rs-bascule { margin-left:0 }
+.mb .dm-droite .rs-bascule button { white-space:nowrap }
+
+@media (max-width:640px) {
+  .mb .dm-grille { grid-template-columns:1fr }
+  .mb .dm-droite { width:100%; margin-left:0 }
+  .mb .dm-droite > * { flex:1 }
+  .mb .dm-droite .rs-bascule button { padding:10px 8px }
+}

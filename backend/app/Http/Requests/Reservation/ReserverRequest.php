@@ -14,7 +14,9 @@ class ReserverRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'profil_id'            => ['required', 'integer'],
+       
+            'prestataire_uuid'     => ['required_without:profil_id', 'uuid'],
+            'profil_id'            => ['required_without:prestataire_uuid', 'integer'],
             'services'             => ['required', 'array', 'min:1', 'max:10'],
             'services.*'           => ['integer', 'distinct'],
             'date_prevue'          => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],

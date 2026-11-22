@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAvisPrestataire, usePrestataire, usePublicationsPrestataire } from '../../api/visiteur'
 import ColonneProfil from '../../components/profil/ColonneProfil'
 import EnteteProfil from '../../components/profil/EnteteProfil'
@@ -7,6 +7,7 @@ import OngletsProfil from '../../components/profil/OngletsProfil'
 import Visionneuse from '../../components/profil/Visionneuse'
 import { duree, ilYA, initiales, medias, prix, recente } from '../../components/profil/format'
 import '../../components/profil/profil.css'
+import useSession from '../../hooks/useSession'
 
 // une publication → les écrans de la visionneuse (une photo ou vidéo = un écran)
 const ecrans = (pub, heure) => {
@@ -50,6 +51,16 @@ export default function ProfilPrestataire() {
   const avis = useAvisPrestataire(id)
   const [vue, setVue] = useState(null) // { type: 'statut' } | { type: 'pub', i }
   const [statutVu, setStatutVu] = useState(false)
+  const { user } = useSession()
+  const { hash } = useLocation()
+  const navigate = useNavigate()
+  const membre = Boolean(user?.profil_complete)
+  const estMoi = user?.id === id
+
+  // les anciens liens « …#reserver » (fil, statuts, carte) mènent directement à la page de réservation
+  useEffect(() => {
+    if (hash === '#reserver' && membre && !estMoi) navigate(`/prestataires/${id}/reserver`, { replace: true })
+  }, [hash, membre, estMoi, id, navigate])
 
   const pubs = useMemo(() => publications.data?.pages.flatMap((p) => p.data) ?? [], [publications.data])
 
@@ -63,6 +74,9 @@ export default function ProfilPrestataire() {
   const p = profil.data
   const u = p.prestataire
   const lienConnexion = `/connexion?suite=${encodeURIComponent(`/prestataires/${id}#reserver`)}`
+  // connecté : la page de réservation ; visiteur : la connexion, puis retour vers la réservation
+  const lienReserver = membre ? `/prestataires/${id}/reserver` : `/connexion?suite=${encodeURIComponent(`/prestataires/${id}/reserver`)}`
+  const lienService = estMoi ? null : (sid) => (membre ? `${lienReserver}?service=${sid}` : lienReserver)
   const totalPubs = publications.data?.pages[0]?.meta.total ?? 0
 
   const auteur = (
@@ -78,13 +92,13 @@ export default function ProfilPrestataire() {
       <main className="relative isolate mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-7 sm:pt-10">
         <Fond />
         <EnteteProfil profil={p} nbRealisations={totalPubs} statut={statut} statutVu={statutVu}
-          onOuvrirStatut={() => setVue({ type: 'statut' })} lienConnexion={lienConnexion} />
+          onOuvrirStatut={() => setVue({ type: 'statut' })} lienConnexion={lienConnexion} lienReserver={lienReserver} estMoi={estMoi} />
 
         {/* services en vedette */}
         {p.services?.length > 0 && (
           <section className="mt-5 grid gap-3.5 md:grid-cols-3">
             {p.services.slice(0, 3).map((s, k) => (
-              <Link key={s.id} to={lienConnexion} className="verre-profil apparait flex items-center gap-3.5 rounded-[22px] px-[18px] py-4 transition hover:-translate-y-1"
+              <Link key={s.id} to={lienService ? lienService(s.id) : `/prestataires/${id}`} className="verre-profil apparait flex items-center gap-3.5 rounded-[22px] px-[18px] py-4 transition hover:-translate-y-1"
                 style={{ animationDelay: `${k * 80}ms` }}>
                 <span className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-[14px] bg-gradient-to-br from-[#0174ab] to-[#38b4ea] font-black text-white">{k + 1}</span>
                 <span className="min-w-0">
@@ -98,20 +112,20 @@ export default function ProfilPrestataire() {
         )}
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_310px]">
-          <OngletsProfil profil={p} publications={publications} avis={avis} lienConnexion={lienConnexion}
+          <OngletsProfil profil={p} publications={publications} avis={avis} lienConnexion={lienConnexion} lienService={lienService}
             onOuvrirPublication={(_, i) => setVue({ type: 'pub', i })} />
           <ColonneProfil profil={p} avis={avis} />
         </div>
       </main>
 
       {vue?.type === 'statut' && ecransStatut.length > 0 && (
-        <Visionneuse elements={ecransStatut} lienReserver={lienConnexion}
+        <Visionneuse elements={ecransStatut} lienReserver={lienReserver}
           auteur={auteur} nom={nomAuteur}
           onFermer={() => { setVue(null); setStatutVu(true) }} />
       )}
 
       {vue?.type === 'pub' && pubs[vue.i] && (
-        <Visionneuse key={pubs[vue.i].id} elements={ecrans(pubs[vue.i], pubs[vue.i].il_y_a)} lienReserver={lienConnexion}
+        <Visionneuse key={pubs[vue.i].id} elements={ecrans(pubs[vue.i], pubs[vue.i].il_y_a)} lienReserver={lienReserver}
           auteur={auteur} nom={nomAuteur}
           onFermer={() => setVue(null)}
           onPrecedente={vue.i > 0 ? () => setVue({ type: 'pub', i: vue.i - 1 }) : undefined}
