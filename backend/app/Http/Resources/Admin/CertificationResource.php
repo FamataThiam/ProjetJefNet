@@ -14,6 +14,7 @@ class CertificationResource extends JsonResource
         return [
             'profil_id'              => $this->id,
             'prestataire'            => [
+                'uuid'      => $user?->uuid,   // lien vers le profil public
                 'nom'       => trim(($user?->prenom ?? '') . ' ' . ($user?->nom ?? '')),
                 'email'     => $user?->email,
                 'telephone' => $this->membre?->telephone,

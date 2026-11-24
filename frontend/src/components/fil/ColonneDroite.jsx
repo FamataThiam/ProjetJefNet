@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import Avatar from '../membre/Avatar'
 
+
+const LIENS_BAS = [['a-propos', 'À propos'], ['aide', 'Aide'], ['compte', 'Conditions'], ['confidentialite', 'Confidentialité']]
 const POSITIONS = [[22, 28], [70, 22], [62, 66], [30, 70], [80, 50], [15, 55]]
 
-// Colonne de droite : à découvrir + près de chez toi
+
 export default function ColonneDroite({ recommandations }) {
   const liste = recommandations?.recommandations ?? []
   return (
@@ -32,7 +34,12 @@ export default function ColonneDroite({ recommandations }) {
           <small>Voir les prestataires sur la carte →</small>
         </Link>
       </div>
-      <p className="liens-bas apparait" style={{ animationDelay: '.2s' }}>À propos · Aide · Conditions · Confidentialité<br />JefNet © {new Date().getFullYear()}</p>
+      <p className="liens-bas apparait" style={{ animationDelay: '.2s' }}>
+        {LIENS_BAS.map(([ancre, libelle], i) => (
+          <span key={ancre}>{i > 0 && ' · '}<Link to={`/conditions#${ancre}`}>{libelle}</Link></span>
+        ))}
+        <br />JefNet © {new Date().getFullYear()}
+      </p>
     </aside>
   )
 }

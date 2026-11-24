@@ -1,0 +1,174 @@
+/* ================= Espace d'administration ================= */
+.mb.adm { --perso:#0174ab; --perso-doux:color-mix(in srgb,#0174ab 12%,transparent); --perso-degrade:linear-gradient(100deg,#0174ab,#38b4ea);
+  display:grid; grid-template-columns:250px minmax(0,1fr); min-height:100vh; background:linear-gradient(90deg,#0b1b33 250px,var(--fond) 250px) }
+
+/* menu de gauche */
+.mb .adm-menu { position:sticky; top:0; height:100vh; overflow-y:auto; background:#0b1b33; color:#cbd5e1; padding:22px 16px 16px; display:flex; flex-direction:column; gap:3px; z-index:60 }
+.mb .adm-logo { display:flex; align-items:center; gap:10px; padding:0 8px 16px }
+.mb .adm-logo b { width:38px; height:38px; border-radius:11px; background:linear-gradient(140deg,#38b4ea,#0174ab); color:#fff; display:grid; place-items:center; font-weight:900; font-size:18px }
+.mb .adm-logo span { color:#fff; font-weight:900; font-size:19px; line-height:1.1 }
+.mb .adm-logo small { display:block; font-size:11px; font-weight:800; color:#7dd3fc; text-transform:uppercase; letter-spacing:1px }
+.mb .adm-menu .grp { font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:1px; padding:16px 12px 6px }
+.mb .adm-menu > a { display:flex; align-items:center; justify-content:space-between; padding:11px 12px; border-radius:12px; font-size:14px; font-weight:700; color:#cbd5e1; transition:background .2s,color .2s }
+.mb .adm-menu > a:hover { background:rgba(255,255,255,.06); color:#fff }
+.mb .adm-menu > a.active { background:linear-gradient(120deg,#0174ab,#1a8fd0); color:#fff; box-shadow:0 10px 20px -12px #0174ab }
+.mb .adm-menu > a i { font-style:normal; font-size:11.5px; font-weight:800; background:#f59e0b; color:#1f1300; border-radius:20px; padding:2px 8px }
+.mb .adm-bas { margin-top:auto; padding-top:16px; display:grid; gap:10px }
+.mb .adm-moi { display:flex; align-items:center; gap:10px; padding:12px; border-radius:14px; background:rgba(255,255,255,.06) }
+.mb .adm-moi b { display:block; color:#fff; font-size:13.5px } .mb .adm-moi small { font-size:11.5px; color:#7dd3fc; font-weight:800 }
+.mb .adm-outils { display:flex; align-items:center; justify-content:space-between; gap:10px }
+.mb .adm-outils > button { border:0; background:none; color:#fca5a5; font:700 13px Inter,sans-serif; cursor:pointer; padding:8px }
+.mb .adm-page { min-width:0; position:relative; z-index:1 }
+.mb .adm-barre-tel { display:none }
+.mb .adm-voile { display:none }
+
+/* contenu */
+.mb .adm-contenu { padding:30px 32px 60px; max-width:1400px }
+.mb .adm-tete { display:flex; align-items:flex-end; flex-wrap:wrap; gap:14px; margin-bottom:18px }
+.mb .adm-tete h1 { font-size:26px; font-weight:900; letter-spacing:-.02em }
+.mb .adm-tete p { color:var(--doux); font-size:14px; margin-top:3px; max-width:720px }
+.mb .adm-tete .droite { margin-left:auto; display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+.mb .adm-recherche { width:300px; min-height:44px; padding:10px 14px }
+.mb .adm-carte { background:var(--carte); backdrop-filter:blur(18px); border:1px solid var(--bord); border-radius:22px; box-shadow:var(--ombre) }
+.mb .adm-alerte { background:#fff8eb; border-color:#fde3b0 } .mb .adm-alerte b { color:#b45309 }
+.dark .mb .adm-alerte { background:rgba(245,158,11,.12); border-color:rgba(245,158,11,.3) } .dark .mb .adm-alerte b { color:#fbbf24 }
+.mb .adm-vide { padding:40px 24px; text-align:center; color:var(--doux); font-size:14px }
+.mb .adm-vide b { display:block; color:var(--texte); font-size:17px; margin-bottom:6px }
+.mb .adm-note { font-size:13px; color:#8a4b00; background:#fff8eb; border:1px solid #fde3b0; border-radius:14px; padding:12px 16px; margin-bottom:14px }
+.dark .mb .adm-note { background:rgba(245,158,11,.12); color:#fcd38d; border-color:rgba(245,158,11,.3) }
+.mb .adm-gris { color:var(--doux) }
+
+.mb .adm-filtres { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap }
+.mb .adm-filtres button { padding:8px 15px; border-radius:30px; font:700 13px Inter,sans-serif; background:var(--carte); border:1px solid var(--ligne); color:var(--doux); cursor:pointer }
+.mb .adm-filtres button.on { background:var(--texte); color:var(--fond); border-color:var(--texte) }
+.mb .adm-filtres button i { font-style:normal; margin-left:6px; opacity:.7; font-size:12px }
+.mb .adm-filtres-ligne { display:flex; gap:20px; flex-wrap:wrap }
+
+.mb .adm-pastille { display:inline-block; font-size:11.5px; font-weight:800; padding:4px 10px; border-radius:20px; white-space:nowrap }
+.mb .adm-pastille.ok { background:#e5f7ee; color:#18794e } .mb .adm-pastille.att { background:#fff4dc; color:#a66300 }
+.mb .adm-pastille.ko { background:#fdecec; color:#c53030 } .mb .adm-pastille.gris { background:#eef1f4; color:#6b7280 }
+.mb .adm-pastille.bleu { background:#e3f1fa; color:#0174ab }
+.dark .mb .adm-pastille { background:rgba(255,255,255,.08) }
+.dark .mb .adm-pastille.ok { color:#6ee7b7 } .dark .mb .adm-pastille.att { color:#fbbf24 } .dark .mb .adm-pastille.ko { color:#fca5a5 } .dark .mb .adm-pastille.bleu { color:#7dd3fc } .dark .mb .adm-pastille.gris { color:#cbd5e1 }
+.mb .adm-mini { height:34px; padding:0 12px; border-radius:10px; border:0; font:800 12.5px Inter,sans-serif; cursor:pointer; background:var(--pale); color:var(--texte); white-space:nowrap }
+.mb .adm-mini.bleu { background:#e3f1fa; color:#0174ab } .mb .adm-mini.rouge { background:#fdecec; color:#c53030 } .mb .adm-mini.vert { background:#e5f7ee; color:#18794e }
+.dark .mb .adm-mini.bleu { background:rgba(1,116,171,.2); color:#7dd3fc } .dark .mb .adm-mini.rouge { background:rgba(197,48,48,.18); color:#fca5a5 } .dark .mb .adm-mini.vert { background:rgba(24,121,78,.2); color:#6ee7b7 }
+.mb .adm-mini:disabled { opacity:.5; cursor:default }
+
+/* tableau de bord */
+.mb .adm-g2 { display:grid; grid-template-columns:minmax(0,1fr) 380px; gap:16px; margin-top:16px }
+.mb .adm-g3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin-top:16px }
+.mb .adm-barres { display:grid; gap:9px; margin-top:12px }
+.mb .adm-barres .br { display:grid; grid-template-columns:130px 1fr 64px; gap:10px; align-items:center; font-size:13px; font-weight:600 }
+.mb .adm-barres .br > span:first-child { overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.mb .adm-barres .b { height:18px; border-radius:6px; background:var(--ligne); overflow:hidden }
+.mb .adm-barres .b i { display:block; height:100%; background:linear-gradient(90deg,#38b4ea,#0174ab); border-radius:6px }
+.mb .adm-barres em { font-style:normal; text-align:right; color:var(--doux); font-size:12px }
+.mb .adm-besoins { margin-top:14px; display:grid; gap:3px; font-size:12.5px; color:var(--doux) }
+.mb .adm-besoins b { color:var(--texte); font-size:13px }
+.mb .adm-rang { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--ligne); font-size:13.5px }
+.mb .adm-rang:last-child { border:0 }
+.mb .adm-rang .r { width:22px; font-weight:900; color:var(--bleu) }
+.mb .adm-rang .n { min-width:0; flex:1 } .mb .adm-rang .n b { display:block } .mb .adm-rang .n small { color:var(--doux); font-size:12px }
+.mb .adm-rang .m { white-space:nowrap }
+
+/* tableaux */
+.mb .adm-table { padding:6px 8px; overflow-x:auto }
+.mb .adm-table table { width:100%; border-collapse:collapse; font-size:13.5px; min-width:760px }
+.mb .adm-table th { text-align:left; font-size:11.5px; color:var(--doux); font-weight:800; text-transform:uppercase; letter-spacing:.5px; padding:12px 14px; border-bottom:1px solid var(--ligne) }
+.mb .adm-table td { padding:11px 14px; border-bottom:1px solid var(--ligne); vertical-align:middle }
+.mb .adm-table tr:last-child td { border:0 }
+.mb .adm-table tbody tr:not(.fixe) { cursor:pointer } .mb .adm-table tbody tr:not(.fixe):hover td { background:var(--pale) }
+.mb .adm-table td.act { text-align:right }
+.mb .adm-qui { display:flex; align-items:center; gap:10px; min-width:0 }
+.mb .adm-qui b { display:block } .mb .adm-qui small { color:var(--doux); font-size:12px }
+.mb .adm-code { font-family:ui-monospace,Menlo,monospace; font-size:12.5px; background:var(--pale); border-radius:8px; padding:3px 8px }
+
+/* certifications */
+.mb .adm-cert { display:grid; grid-template-columns:380px minmax(0,1fr); gap:16px; align-items:start }
+.mb .adm-liste-c { padding:8px }
+.mb .adm-ci { width:100%; display:flex; gap:12px; align-items:center; padding:12px; border-radius:16px; border:0; background:none; text-align:left; color:inherit; font:inherit; cursor:pointer }
+.mb .adm-ci:hover { background:var(--pale) }
+.mb .adm-ci.on { background:var(--perso-doux); box-shadow:inset 0 0 0 1.5px var(--bleu) }
+.mb .adm-ci .t { min-width:0; flex:1 } .mb .adm-ci b { display:block; font-size:14px } .mb .adm-ci small { font-size:12px; color:var(--doux) }
+.mb .adm-dossier { padding:24px 26px; position:sticky; top:16px }
+.mb .adm-dossier .tete { display:flex; gap:16px; align-items:center; padding-bottom:16px; border-bottom:1px solid var(--ligne) }
+.mb .adm-dossier .tete .t { flex:1; min-width:0 }
+.mb .adm-dossier h2 { font-size:20px; font-weight:900 } .mb .adm-dossier .tete p { color:var(--doux); font-size:13.5px; overflow-wrap:anywhere }
+.mb .adm-infos { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin:16px 0 }
+.mb .adm-infos > div { background:var(--pale); border-radius:14px; padding:12px 14px; min-width:0 }
+.mb .adm-infos small { display:block; font-size:11.5px; color:var(--doux); font-weight:700 } .mb .adm-infos b { font-size:14.5px; overflow-wrap:anywhere }
+.mb .adm-justif { position:relative; height:380px; border-radius:16px; border:1px solid var(--ligne); background:#fff; overflow:hidden }
+.mb .adm-justif iframe, .mb .adm-justif img { width:100%; height:100%; border:0; object-fit:contain; display:block }
+.mb .adm-justif .ouvrir { position:absolute; top:10px; right:10px }
+.mb .adm-actions { display:flex; gap:10px; margin-top:16px } .mb .adm-actions > * { flex:1 }
+
+/* fiche membre */
+.mb .adm-stats { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; margin:14px 0 }
+.mb .adm-stats > div { border:1px solid var(--ligne); border-radius:14px; padding:12px 14px }
+.mb .adm-stats b { display:block; font-size:22px; font-weight:900 } .mb .adm-stats small { font-size:12px; color:var(--doux) }
+
+/* modération */
+.mb .adm-mods { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px }
+.mb .adm-mod { overflow:hidden; padding:0 }
+.mb .adm-mod .img, .mb .adm-dom .img { position:relative; height:170px; background:var(--perso-doux) }
+.mb .adm-mod .img img, .mb .adm-mod .img video, .mb .adm-dom .img img { width:100%; height:100%; object-fit:cover; display:block }
+.mb .adm-mod .img .sans { position:absolute; inset:0; display:grid; place-items:center; color:var(--doux); font-weight:700; font-size:13px }
+.mb .adm-mod .img em { position:absolute; left:10px; top:10px; font-style:normal; font-size:11.5px; font-weight:800; background:rgba(0,0,0,.55); color:#fff; border-radius:20px; padding:4px 10px }
+.mb .adm-mod .img .masq { position:absolute; inset:0; background:rgba(11,27,51,.6); display:grid; place-items:center; color:#fff; font-weight:800; font-size:13px }
+.mb .adm-mod .t, .mb .adm-dom .t { padding:14px 16px }
+.mb .adm-mod .t b { display:block; font-size:14.5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap } .mb .adm-mod .t small { font-size:12px; color:var(--doux) }
+.mb .adm-mod .acts, .mb .adm-dom .acts { display:flex; gap:8px; margin-top:12px }
+.mb .adm-medias { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:8px }
+.mb .adm-medias img, .mb .adm-medias video { width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:12px }
+.mb .adm-com { display:flex; gap:12px; align-items:flex-start; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--ligne); font-size:13.5px }
+.mb .adm-com.rep { padding-left:24px }
+.mb .adm-com small { color:var(--doux); font-size:12px } .mb .adm-com p { margin-top:2px; overflow-wrap:anywhere }
+.mb .adm-com .conf { display:flex; gap:6px }
+
+/* domaines */
+.mb .adm-doms { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px }
+.mb .adm-dom { overflow:hidden; padding:0 }
+.mb .adm-dom.off .img, .mb .adm-dom.off .t > :not(.acts) { opacity:.55 }
+.mb .adm-dom .img { height:120px; background:linear-gradient(135deg,#b9dcf0,#0174ab) }
+.mb .adm-dom .img .lettre { position:absolute; inset:0; display:grid; place-items:center; font-size:46px; font-weight:900; color:rgba(255,255,255,.85) }
+.mb .adm-dom .img .adm-pastille { position:absolute; right:10px; top:10px }
+.mb .adm-dom .t b { font-size:15px } .mb .adm-dom .t p { font-size:12.5px; color:var(--doux); margin-top:4px; line-height:1.45; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden }
+.mb .adm-dom .stats { display:flex; flex-wrap:wrap; gap:4px 12px; font-size:12px; font-weight:700; color:var(--doux); margin-top:10px }
+.mb .adm-image { display:flex; align-items:center; gap:14px }
+.mb .adm-image .vignette { width:140px; height:90px; border-radius:14px; border:1.5px dashed var(--ligne); background:var(--pale); overflow:hidden; cursor:pointer; color:var(--doux); font:600 12.5px Inter,sans-serif; padding:0 }
+.mb .adm-image .vignette img { width:100%; height:100%; object-fit:cover }
+
+/* listes de valeurs */
+.mb .adm-cls { display:grid; grid-template-columns:260px minmax(0,1fr); gap:16px; align-items:start }
+.mb .adm-types { padding:8px; display:grid; gap:2px }
+.mb .adm-types button { display:flex; justify-content:space-between; gap:8px; padding:11px 14px; border-radius:12px; border:0; background:none; font:700 13.5px Inter,sans-serif; color:var(--doux); cursor:pointer; text-align:left }
+.mb .adm-types button:hover { background:var(--pale) }
+.mb .adm-types button.on { background:var(--perso-doux); color:var(--bleu); box-shadow:inset 0 0 0 1.5px var(--bleu) }
+.mb .adm-types button i { font-style:normal; font-size:12px; opacity:.75 }
+
+/* écrans moyens et téléphone */
+@media (max-width:1200px) {
+  .mb .adm-g2, .mb .adm-cert { grid-template-columns:1fr }
+  .mb .adm-g3 { grid-template-columns:1fr 1fr }
+  .mb .adm-doms { grid-template-columns:repeat(3,minmax(0,1fr)) }
+  .mb .adm-dossier { position:static }
+}
+@media (max-width:860px) {
+  .mb.adm { grid-template-columns:1fr; background:var(--fond) }
+  .mb .adm-menu { position:fixed; left:0; top:0; bottom:0; width:260px; transform:translateX(-100%); transition:transform .3s; z-index:90 }
+  .mb .adm-menu.ouvert { transform:none }
+  .mb .adm-voile { display:block; position:fixed; inset:0; background:rgba(6,22,40,.45); z-index:80 }
+  .mb .adm-barre-tel { display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:50; padding:12px 16px; background:var(--carte); backdrop-filter:blur(18px); border-bottom:1px solid var(--ligne) }
+  .mb .adm-barre-tel button { height:38px; padding:0 14px; border-radius:11px; border:0; background:#0b1b33; color:#fff; font:800 13px Inter,sans-serif; cursor:pointer }
+  .mb .adm-contenu { padding:20px 16px 50px }
+  .mb .adm-g3, .mb .adm-cls { grid-template-columns:1fr }
+  .mb .adm-mods, .mb .adm-doms { grid-template-columns:repeat(2,minmax(0,1fr)) }
+  .mb .adm-recherche { width:100% }
+  .mb .adm-tete .droite { margin-left:0; width:100% }
+}
+@media (max-width:560px) {
+  .mb .adm-mods, .mb .adm-doms { grid-template-columns:1fr }
+  .mb .adm-infos { grid-template-columns:1fr 1fr }
+  .mb .adm-actions { flex-direction:column }
+}

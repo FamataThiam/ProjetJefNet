@@ -12,6 +12,7 @@ import { medias as triees } from '../../components/profil/format'
 import Visionneuse from '../../components/profil/Visionneuse'
 import useSession from '../../hooks/useSession'
 import '../../components/profil/profil.css'
+import RaccourciPublier from '../../components/espace-pro/RaccourciPublier'
 
 const ONGLETS = [['pour-vous', 'Pour vous'], ['mes-prestataires', 'Mes prestataires'], ['pres', 'Près de moi']]
 
@@ -96,6 +97,7 @@ export default function Fil() {
 
         <section className="col-c">
           <BandeStatuts stories={stories} />
+          <RaccourciPublier />
 
           <div ref={barre} className="bloc onglets-fil apparait" style={{ animationDelay: '.06s' }}>
             <span className="glisseur" style={glisseur} />

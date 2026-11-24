@@ -33,7 +33,7 @@ export default function ColonneGauche({ user }) {
   const m = user.membre
   const presta = Boolean(user.est_prestataire)
   const liens = presta
-    ? [['/prestataire', 'tableau', 'Mon tableau de bord'], [`/prestataires/${user.id}`, 'profil', 'Mon profil public'], ['/prestataire/publications', 'plus', 'Publier une réalisation'], ['/prestataire/demandes', 'reservations', 'Demandes disponibles']]
+    ? [['/espace-prestataire', 'tableau', 'Mon tableau de bord'], [`/prestataires/${user.id}`, 'profil', 'Mon profil public'], ['/espace-prestataire?onglet=realisations&publier=1', 'plus', 'Publier une réalisation'], ['/demandes?vue=a-prendre', 'reservations', 'Demandes disponibles']]
     : [['/reservations', 'reservations', 'Mes réservations'], ['/demandes/nouvelle', 'plus', 'Publier une demande'], ['/carte', 'carte', 'Carte des prestataires'], ['/devenir-prestataire', 'outil', 'Devenir prestataire']]
 
   return (

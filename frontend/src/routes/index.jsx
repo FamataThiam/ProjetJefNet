@@ -4,6 +4,7 @@ import Racine from '../layouts/Racine'
 import LayoutMembre from '../layouts/LayoutMembre'
 import LayoutVisiteur from '../layouts/LayoutVisiteur'
 import LayoutSelonSession from '../layouts/LayoutSelonSession'
+import LayoutAdmin from '../layouts/LayoutAdmin'
 import { RouteInvite, RouteMembre, RouteProfilIncomplet } from './gardes'
 
 const Accueil = lazy(() => import('../pages/visiteur/Accueil'))
@@ -24,6 +25,14 @@ const Reservations = lazy(() => import('../pages/membre/Reservations'))
 const Reservation = lazy(() => import('../pages/membre/Reservation'))
 const Demandes = lazy(() => import('../pages/membre/Demandes'))
 const NouvelleDemande = lazy(() => import('../pages/membre/NouvelleDemande'))
+const EspacePrestataire = lazy(() => import('../pages/membre/EspacePrestataire'))
+const AdminTableau = lazy(() => import('../pages/admin/AdminTableau'))
+const AdminCertifications = lazy(() => import('../pages/admin/AdminCertifications'))
+const AdminMembres = lazy(() => import('../pages/admin/AdminMembres'))
+const AdminModeration = lazy(() => import('../pages/admin/AdminModeration'))
+const AdminDomaines = lazy(() => import('../pages/admin/AdminDomaines'))
+const AdminListes = lazy(() => import('../pages/admin/AdminListes'))
+const Conditions = lazy(() => import('../pages/visiteur/Conditions'))
 const PageIntrouvable = lazy(() => import('../pages/erreurs/PageIntrouvable'))
 
 export const routeur = createBrowserRouter([
@@ -58,6 +67,9 @@ export const routeur = createBrowserRouter([
       // retour de Google / GitHub / Facebook (sans navbar)
       { path: '/auth/callback', element: <AuthCallback /> },
 
+      // conditions d'utilisation, confidentialité et aide : ouvertes à tous
+      { path: '/conditions', element: <Conditions /> },
+
       // connecté mais profil pas encore complété
       {
         element: <RouteProfilIncomplet />,
@@ -87,8 +99,22 @@ export const routeur = createBrowserRouter([
               { path: '/reservations/:uuid', element: <Reservation /> },
               { path: '/demandes', element: <Demandes /> },
               { path: '/demandes/nouvelle', element: <NouvelleDemande /> },
+              { path: '/espace-prestataire', element: <EspacePrestataire /> },
             ],
           },
+        ],
+      },
+
+      // espace d'administration (le layout vérifie que l'utilisateur est administrateur)
+      {
+        element: <LayoutAdmin />,
+        children: [
+          { path: '/admin', element: <AdminTableau /> },
+          { path: '/admin/certifications', element: <AdminCertifications /> },
+          { path: '/admin/membres', element: <AdminMembres /> },
+          { path: '/admin/moderation', element: <AdminModeration /> },
+          { path: '/admin/domaines', element: <AdminDomaines /> },
+          { path: '/admin/listes', element: <AdminListes /> },
         ],
       },
 

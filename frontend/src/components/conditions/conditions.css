@@ -1,0 +1,63 @@
+/* ---------- Page /conditions (préfixe cg-) ---------- */
+.mb .cg-haut { position:relative; z-index:2; height:64px; background:var(--carte); backdrop-filter:blur(20px); border-bottom:1px solid var(--ligne) }
+.mb .cg-haut > div { max-width:1180px; margin:auto; height:64px; display:flex; align-items:center; gap:14px; padding:0 24px }
+.mb .cg-haut .bouton-mode { margin-left:auto }
+.mb .cg-retour { height:42px; padding:0 16px; border-radius:13px; font-weight:800; font-size:14px; color:var(--bleu); background:var(--carte); border:1.5px solid var(--ligne); cursor:pointer; transition:transform .2s }
+.mb .cg-retour:hover { transform:translateY(-1px) }
+.dark .mb .cg-retour { color:#7dd3fc }
+
+.mb .cg-page { position:relative; z-index:1; max-width:1180px; margin:auto; padding:28px 24px 60px }
+.mb .cg-ban { border-radius:28px; padding:40px 44px; color:#fff; position:relative; overflow:hidden;
+  background:linear-gradient(120deg,#015a86,#0174ab 45%,#38b4ea); box-shadow:0 30px 60px -36px #01395a }
+.mb .cg-ban::after { content:''; position:absolute; right:-80px; top:-90px; width:320px; height:320px; border-radius:50%; background:rgba(255,255,255,.1) }
+.mb .cg-ban small { font-weight:800; font-size:12px; letter-spacing:1.2px; text-transform:uppercase; opacity:.8 }
+.mb .cg-ban h1 { font-family:Montserrat,Inter,sans-serif; font-size:34px; font-weight:900; margin:8px 0 10px; letter-spacing:-.5px }
+.mb .cg-ban p { max-width:620px; line-height:1.6; opacity:.92; font-size:15px; position:relative; z-index:1 }
+.mb .cg-maj { display:inline-block; margin-top:18px; background:rgba(255,255,255,.18); border-radius:30px; padding:7px 14px; font-size:12.5px; font-weight:700 }
+
+.mb .cg-grille { display:grid; grid-template-columns:270px 1fr; gap:24px; align-items:start; margin-top:26px }
+.mb .cg-verre { background:var(--carte); backdrop-filter:blur(22px); border:1px solid var(--bord); box-shadow:var(--ombre); border-radius:24px }
+
+.mb .cg-sommaire { padding:20px; position:sticky; top:20px }
+.mb .cg-sommaire .eti { font-size:11.5px; font-weight:800; color:var(--doux); text-transform:uppercase; letter-spacing:.7px; margin:4px 8px 10px }
+.mb .cg-sommaire button { width:100%; display:flex; gap:10px; align-items:center; padding:10px 12px; border-radius:13px; font-size:14px; font-weight:600; color:var(--texte); text-align:left; cursor:pointer; background:none; border:0; transition:background .2s }
+.mb .cg-sommaire button:hover { background:var(--pale) }
+.mb .cg-sommaire button i { font-style:normal; font-size:11.5px; font-weight:900; color:var(--doux); width:22px; flex-shrink:0 }
+.mb .cg-sommaire button.on { background:var(--pale); color:var(--bleu) }
+.mb .cg-sommaire button.on i { color:var(--bleu) }
+.dark .mb .cg-sommaire button.on, .dark .mb .cg-sommaire button.on i { color:#7dd3fc }
+.mb .cg-sommaire hr { border:0; border-top:1px solid var(--ligne); margin:10px 8px }
+
+.mb .cg-contenu { padding:10px 40px 36px; min-width:0 }
+.mb .cg-section { padding:28px 0; border-bottom:1px solid var(--ligne); scroll-margin-top:20px }
+.mb .cg-section:last-child { border:0 }
+.mb .cg-num { font-size:12px; font-weight:900; color:var(--bleu); letter-spacing:.8px }
+.dark .mb .cg-num { color:#7dd3fc }
+.mb .cg-section h2 { font-family:Montserrat,Inter,sans-serif; font-size:21px; font-weight:800; margin:4px 0 12px }
+.mb .cg-section p, .mb .cg-section li { font-size:14.5px; line-height:1.7; color:var(--doux) }
+.mb .cg-section p + p, .mb .cg-section ul + p { margin-top:10px }
+.mb .cg-section b { color:var(--texte) }
+.mb .cg-section ul { margin:10px 0 0 20px; display:grid; gap:6px; list-style:disc }
+.mb .cg-encadre { margin-top:14px; border-radius:16px; background:var(--pale); border:1px solid var(--ligne); padding:14px 18px; font-size:14px; line-height:1.6; color:var(--texte) }
+
+.mb .cg-faq { margin-top:12px; display:grid; gap:10px }
+.mb .cg-faq details { border:1px solid var(--ligne); border-radius:16px; background:var(--carte); padding:14px 18px }
+.mb .cg-faq summary { display:flex; justify-content:space-between; gap:12px; font-weight:700; font-size:14.5px; cursor:pointer; list-style:none }
+.mb .cg-faq summary::-webkit-details-marker { display:none }
+.mb .cg-faq summary::after { content:'+'; color:var(--bleu); font-weight:900; transition:transform .2s }
+.mb .cg-faq details[open] summary::after { transform:rotate(45deg) }
+.mb .cg-faq details p { margin-top:8px; font-size:14px }
+
+.mb .cg-pied { text-align:center; color:var(--doux); font-size:13px; margin-top:24px }
+
+@media (max-width:800px) {
+  .mb .cg-haut > div { padding:0 16px }
+  .mb .cg-page { padding:16px 16px 40px }
+  .mb .cg-ban { padding:28px 24px } .mb .cg-ban h1 { font-size:26px }
+  .mb .cg-grille { grid-template-columns:1fr; gap:16px; margin-top:16px }
+  .mb .cg-sommaire { position:sticky; top:8px; z-index:3; display:flex; overflow-x:auto; gap:6px; padding:8px; scrollbar-width:none }
+  .mb .cg-sommaire .eti, .mb .cg-sommaire hr, .mb .cg-sommaire button i { display:none }
+  .mb .cg-sommaire button { width:auto; white-space:nowrap; padding:9px 12px }
+  .mb .cg-section { scroll-margin-top:80px }
+  .mb .cg-contenu { padding:0 20px 20px }
+}

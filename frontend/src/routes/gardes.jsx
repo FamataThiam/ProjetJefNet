@@ -41,6 +41,8 @@ export function RouteMembre() {
   const lieu = useLocation()
   if (chargement) return <Attente />
   if (!user) return <Navigate to={`/connexion?suite=${encodeURIComponent(lieu.pathname + lieu.search)}`} replace />
-  if (!user.profil_complete && !user.est_administrateur) return <Navigate to="/completer-profil" replace />
+  // un administrateur n'a pas de profil membre : il reste dans son espace
+  if (user.est_administrateur) return <Navigate to="/admin" replace />
+  if (!user.profil_complete) return <Navigate to="/completer-profil" replace />
   return <Outlet />
 }

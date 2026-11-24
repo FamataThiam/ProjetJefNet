@@ -20,6 +20,9 @@ class MonProfilProResource extends JsonResource
             'statut_certification'   => $this->statutCertification?->value,
             'justificatif_envoye'    => $this->cv !== null,
             'note_moyenne'           => (float) $this->note_moyenne,
+
+            'latitude'               => $this->latitude !== null ? (float) $this->latitude : null,
+            'longitude'              => $this->longitude !== null ? (float) $this->longitude : null,
             'nombre_services_actifs' => $this->whenHas('nombre_services_actifs', fn ($n) => (int) $n),
             'cree_le'                => $this->created_at?->toIso8601String(),
         ];

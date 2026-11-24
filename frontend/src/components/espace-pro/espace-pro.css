@@ -1,0 +1,233 @@
+/* ================= Espace prestataire (complète espace.css) ================= */
+.mb .espace-grille.ep { max-width:1240px }
+.mb .ep-contenu { grid-column:1/-1; min-width:0 }
+.mb .ep-pastilles { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px }
+.mb .ep-pastilles span { font-size:12px; font-weight:800; padding:5px 11px; border-radius:20px; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.35) }
+.mb .ep-bientot { padding:44px 24px; text-align:center; color:var(--doux); font-size:14.5px }
+.mb .ep-bientot b { display:block; color:var(--texte); font-size:17px; margin-bottom:6px }
+.mb .ep-squelette { border-radius:22px; background:linear-gradient(90deg,var(--sq1),var(--sq2),var(--sq1)); background-size:200% 100%; animation:ep-brille 1.4s linear infinite }
+@keyframes ep-brille { to { background-position:-200% 0 } }
+@keyframes ep-monte { from { opacity:0; transform:translateY(10px) } }
+.mb .ep-vide { font-size:13.5px; color:var(--doux); padding:18px 0 4px; line-height:1.5 }
+
+.mb .ep-periode { display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 10px; margin:4px 0 12px }
+.mb .ep-periode h2 { font-size:18px; font-weight:900 }
+.mb .ep-periode small { color:var(--doux); font-size:13px }
+
+/* cartes chiffres clés */
+.mb .ep-kpis { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px }
+.mb .ep-kpi { padding:18px 18px 14px; animation:ep-monte .45s ease both; min-width:0 }
+.mb .ep-kpi small { font-size:12.5px; color:var(--doux); font-weight:700 }
+.mb .ep-kpi b { display:block; font-size:26px; font-weight:900; margin:6px 0 2px; letter-spacing:-.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.mb .ep-kpi b em { font-style:normal; font-size:13px; color:var(--doux); font-weight:700; margin-left:4px; letter-spacing:0 }
+.mb .ep-var { font-size:12px; font-weight:800; color:var(--doux) }
+.mb .ep-var.ok { color:#18794e } .mb .ep-var.ko { color:#c53030 }
+.dark .mb .ep-var.ok { color:#6ee7b7 } .dark .mb .ep-var.ko { color:#fca5a5 }
+.mb .ep-mini { display:block; width:100%; height:34px; margin-top:8px }
+.mb .ep-jauge { height:8px; border-radius:8px; background:var(--ligne); margin-top:20px; overflow:hidden }
+.mb .ep-jauge i { display:block; height:100%; border-radius:8px; background:var(--perso) }
+
+/* grille principale */
+.mb .ep-grille { display:grid; grid-template-columns:minmax(0,1fr) 370px; gap:18px; margin-top:18px; align-items:start }
+.mb .ep-col { display:grid; gap:18px; min-width:0 }
+.mb .ep-duo { display:grid; grid-template-columns:1fr 1fr; gap:18px }
+.mb .ep-duo > * { min-width:0 }
+.mb .ep-panneau { padding:22px 24px; animation:ep-monte .45s ease both }
+.mb .ep-panneau h3 { font-size:16px; font-weight:800; display:flex; align-items:baseline; gap:10px; flex-wrap:wrap }
+.mb .ep-panneau h3 small { margin-left:auto; font-weight:600; font-size:12.5px; color:var(--doux) }
+.mb .ep-legende { display:flex; gap:16px; font-size:12.5px; color:var(--doux); font-weight:600; margin:6px 0 4px }
+.mb .ep-legende i { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:-1px }
+.mb .ep-legende i.ca { background:var(--perso) } .mb .ep-legende i.pr { background:color-mix(in srgb,var(--perso) 35%,transparent) }
+
+/* évolution */
+.mb .ep-evolution { position:relative }
+.mb .ep-evolution svg { display:block; width:100%; height:auto; overflow:visible }
+.mb .ep-grille-l, .mb .ep-evolution .ep-grille { stroke:var(--ligne) }
+.mb .ep-axe { font:600 11px Inter,sans-serif; fill:var(--doux) }
+.mb .ep-barre { fill:color-mix(in srgb,var(--perso) 30%,transparent); transition:fill .2s }
+.mb .ep-barre.on { fill:color-mix(in srgb,var(--perso) 55%,transparent) }
+.mb .ep-point { fill:var(--carte); stroke:var(--perso); stroke-width:2.5 }
+.mb .ep-bulle { position:absolute; top:0; transform:translateX(-50%); background:var(--texte); color:var(--fond); border-radius:12px; padding:8px 12px; font-size:12px; white-space:nowrap; pointer-events:none; display:grid; gap:1px; box-shadow:0 10px 24px -12px rgba(0,0,0,.5) }
+.mb .ep-bulle b { font-size:12.5px; text-transform:capitalize }
+
+/* entonnoir */
+.mb .ep-entonnoir { display:grid; gap:8px; margin-top:14px }
+.mb .ep-et { display:grid; grid-template-columns:110px 1fr 34px; align-items:center; gap:10px; font-size:13px; font-weight:600 }
+.mb .ep-et b { text-align:right }
+.mb .ep-barre-h { height:22px; border-radius:8px; background:var(--ligne); overflow:hidden }
+.mb .ep-barre-h i { display:block; height:100%; border-radius:8px; background:linear-gradient(90deg,color-mix(in srgb,var(--perso) 60%,#38b4ea),var(--perso)); transition:width .8s }
+
+/* carte de chaleur */
+.mb .ep-chaleur { display:grid; gap:3px; margin-top:14px; font-size:11px; color:var(--doux); font-weight:700 }
+.mb .ep-chaleur .ep-h { text-align:center; white-space:nowrap }
+.mb .ep-chaleur .ep-j { line-height:18px }
+.mb .ep-case { height:18px; border-radius:5px; background:color-mix(in srgb,var(--perso) 6%,transparent) }
+
+/* à faire, prochaines, avis */
+.mb .ep-faire { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--ligne); color:inherit }
+.mb .ep-faire:last-child { border:0; padding-bottom:0 }
+.mb .ep-faire .n { min-width:34px; height:34px; border-radius:11px; display:grid; place-items:center; font-weight:900; font-size:15px; background:#fff4dc; color:#a66300; flex-shrink:0 }
+.mb .ep-faire .n.b { background:var(--perso-doux); color:var(--perso) }
+.dark .mb .ep-faire .n { background:rgba(251,191,36,.15); color:#fbbf24 }
+.mb .ep-faire .t { min-width:0 }
+.mb .ep-faire b { display:block; font-size:14px } .mb .ep-faire small { font-size:12.5px; color:var(--doux); display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.mb .ep-faire .lien { margin-left:auto; font-size:13px; font-weight:800; color:var(--perso) }
+.mb .ep-faire:hover .lien { text-decoration:underline }
+.mb .ep-prochaine { display:flex; gap:12px; align-items:center; padding:10px 12px; border-radius:14px; background:var(--perso-doux); margin-top:10px; color:inherit; transition:transform .2s }
+.mb .ep-prochaine:hover { transform:translateX(3px) }
+.mb .ep-prochaine .d { width:44px; text-align:center; font-size:11px; font-weight:800; color:var(--perso); text-transform:uppercase; flex-shrink:0 }
+.mb .ep-prochaine .d b { display:block; font-size:19px; color:var(--texte) }
+.mb .ep-prochaine > span:last-child { font-size:13px; min-width:0 }
+.mb .ep-prochaine small { display:block; color:var(--doux); font-size:12px }
+.mb .ep-avis { padding:12px 0; border-bottom:1px solid var(--ligne); font-size:13.5px }
+.mb .ep-avis:last-child { border:0; padding-bottom:0 }
+.mb .ep-avis .etoiles { color:#f5b301; letter-spacing:1px } .mb .ep-avis .etoiles i { font-style:normal; color:var(--ligne) }
+.mb .ep-avis small { color:var(--doux); font-size:12px }
+.mb .ep-avis p { margin-top:4px; line-height:1.5 }
+
+
+/* ================= outils communs aux onglets ================= */
+.mb .ep-outils { display:flex; align-items:center; flex-wrap:wrap; gap:8px 14px; margin:4px 0 16px }
+.mb .ep-outils h2 { font-size:18px; font-weight:900 }
+.mb .ep-outils > span { color:var(--doux); font-size:13.5px }
+.mb .ep-outils > .rs-btn, .mb .ep-outils > .ep-nav-sem { margin-left:auto }
+.mb .ep-lbl { display:block; font-size:13px; font-weight:700; margin:14px 0 8px }
+.mb .ep-lbl.haut { margin-top:0 }
+.mb .ep-lbl small { font-weight:600; color:var(--doux); margin-left:6px }
+.mb .ep-trio { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px }
+.mb .rs-lien.rouge { color:#c53030 }
+
+/* ================= mes réalisations ================= */
+.mb .ep-pubs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px }
+.mb .ep-pub { padding:0; overflow:hidden; animation:ep-monte .4s ease both; min-width:0 }
+.mb .ep-pub .img { position:relative; height:190px; background:var(--perso-doux) }
+.mb .ep-pub .img img, .mb .ep-pub .img video { width:100%; height:100%; object-fit:cover; display:block }
+.mb .ep-pub .img .sans { position:absolute; inset:0; display:grid; place-items:center; color:var(--doux); font-size:13px; font-weight:700 }
+.mb .ep-pub .img em { position:absolute; left:12px; top:12px; font-style:normal; font-size:11.5px; font-weight:800; background:rgba(0,0,0,.55); color:#fff; border-radius:20px; padding:4px 10px }
+.mb .ep-pub .img strong { position:absolute; left:0; right:0; bottom:0; padding:8px 12px; background:rgba(197,48,48,.9); color:#fff; font-size:12px }
+.mb .ep-pub.masquee .img img, .mb .ep-pub.masquee .img video { filter:grayscale(1) opacity(.6) }
+.mb .ep-pub .txt { padding:16px 18px }
+.mb .ep-pub .txt b { display:block; font-size:15px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.mb .ep-pub .txt small { font-size:12.5px; color:var(--doux) }
+.mb .ep-pub .stats { display:flex; align-items:center; gap:14px; margin-top:12px; font-size:12.5px; font-weight:700; color:var(--doux) }
+.mb .ep-pub .stats .rs-lien:first-of-type { margin-left:auto }
+.mb .ep-medias { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px }
+.mb .ep-media { position:relative; aspect-ratio:1; margin:0; border-radius:16px; overflow:hidden; background:var(--perso-doux) }
+.mb .ep-media img, .mb .ep-media video { width:100%; height:100%; object-fit:cover; display:block }
+.mb .ep-media em { position:absolute; left:8px; bottom:8px; font-style:normal; font-size:11px; font-weight:800; background:rgba(0,0,0,.55); color:#fff; border-radius:20px; padding:3px 8px }
+.mb .ep-media > button { position:absolute; right:6px; top:6px; width:28px; height:28px; border-radius:50%; border:0; background:rgba(0,0,0,.6); color:#fff; font-size:18px; line-height:1; cursor:pointer }
+.mb .ep-media.ajout { border:2px dashed var(--ligne); background:transparent; color:var(--doux); font:700 13px Inter,sans-serif; cursor:pointer; display:grid; place-content:center; text-align:center; transition:border-color .2s }
+.mb .ep-media.ajout:hover { border-color:var(--bleu) }
+.mb .ep-media.ajout b { font-size:28px; color:var(--bleu); font-weight:500; line-height:1 }
+.mb .ep-media.ajout small { font-weight:600; font-size:11.5px }
+
+/* raccourci du fil */
+.mb .ep-raccourci { display:flex; align-items:center; gap:12px; padding:12px 14px; margin-bottom:14px }
+.mb .ep-raccourci .champ { flex:1; min-width:0; height:44px; border-radius:22px; border:1px solid var(--ligne); background:var(--fond); color:var(--doux); font:500 14px Inter,sans-serif; text-align:left; padding:0 16px; cursor:pointer; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.mb .ep-raccourci .champ:hover { border-color:var(--bleu) }
+.mb .ep-raccourci .publier { height:44px; padding:0 18px; border-radius:22px; border:0; background:linear-gradient(120deg,#0174ab,#1a8fd0); color:#fff; font:800 14px Inter,sans-serif; cursor:pointer }
+
+/* ================= mes services ================= */
+.mb .ep-svcs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px }
+.mb .ep-svc { padding:20px 22px; display:flex; flex-direction:column; animation:ep-monte .4s ease both; min-width:0 }
+.mb .ep-svc.off > :not(.acts) { opacity:.55 }
+.mb .ep-svc .haut { display:flex; align-items:center; gap:8px; margin-bottom:12px }
+.mb .ep-etat { margin-left:auto; font-size:12px; font-weight:800; padding:4px 10px; border-radius:20px; background:#eef1f4; color:#6b7280 }
+.mb .ep-etat.on { background:#e5f7ee; color:#18794e }
+.dark .mb .ep-etat { background:rgba(255,255,255,.08); color:#cbd5e1 } .dark .mb .ep-etat.on { color:#6ee7b7 }
+.mb .ep-svc h4 { font-size:16.5px; font-weight:800; overflow-wrap:anywhere }
+.mb .ep-svc p { font-size:13.5px; color:var(--doux); margin-top:6px; line-height:1.5; flex:1; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden }
+.mb .ep-svc .prix { font-size:22px; font-weight:900; color:var(--perso); margin-top:14px }
+.mb .ep-svc .prix small { font-size:12.5px; color:var(--doux); font-weight:700; margin-left:6px }
+.mb .ep-svc .acts { display:flex; gap:8px; margin-top:14px }
+.mb .ep-svc .acts > * { flex:1 }
+.mb .ep-svc-ajout { min-height:230px; border-radius:24px; border:2px dashed var(--ligne); background:color-mix(in srgb,var(--carte) 60%,transparent); color:var(--doux); font:700 14px Inter,sans-serif; cursor:pointer; display:grid; place-content:center; text-align:center; transition:border-color .2s }
+.mb .ep-svc-ajout:hover { border-color:var(--bleu) }
+.mb .ep-svc-ajout b { display:block; font-size:30px; color:var(--bleu); font-weight:500 }
+.mb .ep-svc-ajout small { display:block; font-weight:600; font-size:12px }
+
+/* ================= disponibilités : emploi du temps ================= */
+.mb .ep-nav-sem { display:flex; gap:8px }
+.mb .ep-nav-sem button { height:40px; min-width:40px; padding:0 14px; border-radius:12px; border:1px solid var(--ligne); background:var(--carte); color:var(--texte); font:800 13px Inter,sans-serif; cursor:pointer }
+.mb .ep-nav-sem button:disabled { opacity:.45; cursor:default }
+.mb .ep-legende-e { display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; font-size:12.5px; font-weight:700; color:var(--doux); margin:-4px 0 12px }
+.mb .ep-legende-e i { display:inline-block; width:12px; height:12px; border-radius:4px; margin-right:6px; vertical-align:-1px }
+.mb .ep-legende-e .l1 { background:color-mix(in srgb,var(--perso) 18%,transparent); border:1.5px solid var(--perso) }
+.mb .ep-legende-e .l2 { background:#ffe8c2; border:1.5px solid #e08a00 }
+.mb .ep-legende-e .l3 { border:1.5px dashed var(--perso) }
+.mb .ep-legende-e .astuce { margin-left:auto; font-weight:600 }
+.mb .ep-edt-cadre { padding:0; overflow-x:auto }
+.mb .ep-edt { min-width:760px }
+.mb .ep-edt-tete { display:grid; grid-template-columns:60px repeat(7,1fr); border-bottom:1px solid var(--ligne) }
+.mb .ep-edt-tete .tj { padding:12px 8px; text-align:center; border-left:1px solid var(--ligne) }
+.mb .ep-edt-tete .tj small { display:block; font-size:11.5px; font-weight:800; color:var(--doux); text-transform:uppercase }
+.mb .ep-edt-tete .tj b { display:grid; place-items:center; width:38px; height:38px; margin:2px auto; border-radius:50%; font-size:20px; font-weight:900 }
+.mb .ep-edt-tete .tj span { font-size:11.5px; color:var(--doux); font-weight:600 }
+.mb .ep-edt-tete .tj.auj b { color:#fff; background:var(--perso-degrade); font-size:17px }
+.mb .ep-edt-tete .tj.passe { opacity:.5 }
+.mb .ep-edt-corps { position:relative; display:grid; grid-template-columns:60px 1fr; margin:10px 0 14px }
+.mb .ep-edt-corps .heures { position:relative }
+.mb .ep-edt-corps .heures span { position:absolute; right:10px; font-size:11px; font-weight:700; color:var(--doux) }
+.mb .ep-edt-corps .grille-h { position:relative }
+.mb .ep-edt-corps .grille-h > i { position:absolute; left:0; right:0; height:1px; background:var(--ligne) }
+.mb .ep-edt-corps .cols { position:absolute; inset:0; display:grid; grid-template-columns:repeat(7,1fr) }
+.mb .ep-edt-corps .col { position:relative; border-left:1px solid var(--ligne); cursor:crosshair; touch-action:none }
+.mb .ep-edt-corps .col.auj { background:color-mix(in srgb,var(--perso) 4%,transparent) }
+.mb .ep-edt-corps .col.passe { cursor:default; background:repeating-linear-gradient(45deg,transparent 0 8px,color-mix(in srgb,var(--doux) 6%,transparent) 8px 16px) }
+.mb .ep-edt-corps .pl { position:absolute; left:4px; right:4px; border-radius:10px; padding:5px 8px; overflow:hidden; text-align:left; font:12px/1.25 Inter,sans-serif; border:0; cursor:pointer }
+.mb .ep-edt-corps .pl b { display:block; font-size:12px; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.mb .ep-edt-corps .pl small { display:block; font-size:11px; font-weight:600; opacity:.85; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.mb .ep-edt-corps .pl.dispo { background:color-mix(in srgb,var(--perso) 13%,var(--carte)); border-left:4px solid var(--perso); color:color-mix(in srgb,var(--perso) 70%,var(--texte)) }
+.mb .ep-edt-corps .pl.pris { background:#fff1d9; border-left:4px solid #e08a00; color:#8a4b00; z-index:2; box-shadow:0 6px 14px -8px rgba(224,138,0,.6) }
+.dark .mb .ep-edt-corps .pl.pris { background:#3b2a10; color:#fcd38d }
+.mb .ep-edt-corps .pl.fantome { border:1.5px dashed var(--perso); background:color-mix(in srgb,var(--perso) 8%,transparent); color:var(--perso); pointer-events:none; z-index:3 }
+.mb .ep-maintenant { position:absolute; left:0; right:0; height:2px; background:#e11d48; z-index:4; pointer-events:none }
+.mb .ep-maintenant::before { content:''; position:absolute; left:-5px; top:-4px; width:10px; height:10px; border-radius:50% ; background:#e11d48 }
+.mb .ep-modele { margin-top:16px; padding:18px 22px; display:flex; align-items:center; flex-wrap:wrap; gap:12px 14px }
+.mb .ep-modele p { font-size:13.5px; color:var(--doux); flex:1; min-width:260px }
+.mb .ep-modele b { color:var(--texte) }
+
+/* ================= profil pro et certification ================= */
+.mb .ep-pp { display:grid; grid-template-columns:minmax(0,1fr) 380px; gap:18px; align-items:start }
+.mb .ep-rayons { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px }
+.mb .ep-rayon { border:1.5px solid var(--ligne); border-radius:18px; padding:14px 8px; text-align:center; background:var(--carte); color:var(--texte); cursor:pointer; font:inherit; transition:.2s }
+.mb .ep-rayon b { display:block; font-size:13.5px } .mb .ep-rayon small { font-size:11.5px; color:var(--doux) }
+.mb .ep-rayon.on { border-color:var(--perso); background:var(--perso-doux) } .mb .ep-rayon.on b { color:var(--perso) }
+.mb .ep-certif { padding:24px; position:sticky; top:84px }
+.mb .ep-certif .badge { width:64px; height:64px; border-radius:20px; background:linear-gradient(140deg,#94a3b8,#64748b); color:#fff; display:grid; place-items:center; font-weight:900; font-size:26px; margin-bottom:14px }
+.mb .ep-certif.ok .badge { background:var(--perso-degrade); box-shadow:0 14px 26px -14px var(--perso) }
+.mb .ep-certif h3 { font-size:19px; font-weight:900 }
+.mb .ep-certif p { font-size:13.5px; color:var(--doux); line-height:1.55; margin:8px 0 6px }
+.mb .ep-etapes-c { display:grid; gap:10px; margin:16px 0 }
+.mb .ep-etapes-c div { display:flex; gap:10px; font-size:13px; color:var(--doux); align-items:center }
+.mb .ep-etapes-c i { font-style:normal; width:24px; height:24px; border-radius:50%; display:grid; place-items:center; font-size:11.5px; font-weight:900; background:#e5f7ee; color:#18794e; flex-shrink:0 }
+.mb .ep-etapes-c i.non { background:var(--ligne); color:var(--doux) }
+.mb .ep-depot { width:100%; border:1.5px dashed var(--ligne); border-radius:16px; padding:16px; background:transparent; font:13px Inter,sans-serif; color:var(--doux); text-align:center; cursor:pointer; transition:border-color .2s }
+.mb .ep-depot:hover, .mb .ep-depot.plein { border-color:var(--perso) }
+.mb .ep-depot b { color:var(--perso); overflow-wrap:anywhere } .mb .ep-depot small { display:block; margin-top:2px }
+
+@media (max-width:1080px) {
+  .mb .ep-pubs, .mb .ep-svcs { grid-template-columns:repeat(2,minmax(0,1fr)) }
+  .mb .ep-pp { grid-template-columns:1fr }
+  .mb .ep-certif { position:static }
+}
+@media (max-width:640px) {
+  .mb .ep-pubs, .mb .ep-svcs, .mb .ep-trio { grid-template-columns:1fr }
+  .mb .ep-rayons, .mb .ep-medias { grid-template-columns:repeat(2,minmax(0,1fr)) }
+  .mb .ep-outils > .rs-btn, .mb .ep-outils > .ep-nav-sem { margin-left:0 }
+  .mb .ep-legende-e .astuce { margin-left:0 }
+  .mb .ep-raccourci .publier { display:none }
+}
+
+@media (max-width:1080px) {
+  .mb .ep-kpis { grid-template-columns:repeat(2,minmax(0,1fr)) }
+  .mb .ep-grille { grid-template-columns:1fr }
+  .mb .ep-grille > .ep-col:last-child { order:-1 }   /* « À faire » en premier sur petit écran */
+}
+@media (max-width:640px) {
+  .mb .ep-duo { grid-template-columns:1fr }
+  .mb .ep-kpi { padding:14px }
+  .mb .ep-kpi b { font-size:21px }
+  .mb .ep-panneau { padding:18px }
+  .mb .onglets-espace { overflow-x:auto; scrollbar-width:none }
+}

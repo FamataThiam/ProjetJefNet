@@ -20,7 +20,11 @@ const COLONNES = [
   },
   {
     titre: 'Aide',
-    liens: [{ vers: '/#faq', libelle: 'Questions fréquentes' }],
+    liens: [
+      { vers: '/#faq', libelle: 'Questions fréquentes' },
+      { vers: '/conditions', libelle: "Conditions d'utilisation" },
+      { vers: '/conditions#confidentialite', libelle: 'Confidentialité' },
+    ],
   },
 ]
 
