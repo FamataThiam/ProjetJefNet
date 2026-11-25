@@ -24,9 +24,10 @@ export function ouvrirEcho() {
   echo = new Echo({
     broadcaster: 'reverb',
     key: cle,
-    wsHost: import.meta.env.VITE_REVERB_HOST ?? 'localhost',
-    wsPort: Number(import.meta.env.VITE_REVERB_PORT ?? 6001),
-    wssPort: Number(import.meta.env.VITE_REVERB_PORT ?? 443),
+    // sans réglage (version Docker), Reverb est joint par la même adresse que le site
+    wsHost: import.meta.env.VITE_REVERB_HOST || window.location.hostname,
+    wsPort: Number(import.meta.env.VITE_REVERB_PORT || window.location.port || 80),
+    wssPort: Number(import.meta.env.VITE_REVERB_PORT || window.location.port || 443),
     forceTLS: https,
     enabledTransports: ['ws', 'wss'],
     // les canaux privés sont autorisés par le backend avec le jeton Sanctum

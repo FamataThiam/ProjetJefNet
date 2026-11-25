@@ -1,0 +1,19 @@
+# Jenkins de JefNet. Lancement (depuis le dossier jenkins) : docker compose up -d --build
+# Puis ouvrir http://localhost:8090 (8090 pour ne pas gêner Reverb, qui utilise souvent 8080)
+name: jefnet-jenkins
+
+services:
+  jenkins:
+    build: .
+    image: jefnet-jenkins
+    restart: unless-stopped
+    # root : nécessaire pour utiliser le Docker de ton PC à travers docker.sock
+    user: root
+    ports:
+      - "8090:8080"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  jenkins_home:

@@ -1,0 +1,3 @@
+# les scripts lancés dans les conteneurs Linux doivent garder des fins de ligne Unix
+*.sh text eol=lf
+Jenkinsfile text eol=lf

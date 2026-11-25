@@ -61,6 +61,8 @@ class DemandeServiceSeeder extends Seeder
             'titre'       => $titre,
             'description' => $description,
             'adresse'     => fake()->numberBetween(1, 250) . ', ' . $membre->localite . ', ' . $membre->ville,
+            'ville'       => $membre->ville ?? 'Dakar',
+            'localite'    => $membre->localite,
             'latitude'    => $lat,
             'longitude'   => $lng,
             'statut_id'   => $this->codeLists->idOf('StatutDemande', $statut),
