@@ -69,10 +69,12 @@ pipeline {
         stage('Vérification') {
             steps {
                 // le site et l'API doivent répondre (10 essais, 3 s d'écart)
+                // 127.0.0.1 et pas « localhost » : dans le conteneur, localhost désigne d'abord l'adresse IPv6 (::1),
+                // sur laquelle nginx n'écoute pas
                 sh '''
                     for i in $(seq 1 10); do
-                      if $COMPOSE exec -T web wget -q -O /dev/null http://localhost/ \
-                         && $COMPOSE exec -T web wget -q -O /dev/null http://localhost/up; then
+                      if $COMPOSE exec -T web wget -q -O /dev/null http://127.0.0.1/ \
+                         && $COMPOSE exec -T web wget -q -O /dev/null http://127.0.0.1/up; then
                         echo "JefNet répond : site et API OK"; exit 0
                       fi
                       echo "Pas encore prêt, nouvel essai..."; sleep 3
